@@ -50,8 +50,18 @@
 #define baudRate 9600
 
 // Define the velocity and acceleration limits to be used for each move
-int velocityLimit = 100; // pulses per sec
-int accelerationLimit = 100; // pulses per sec^2
+int velocityLimit = 1000; // pulses per sec
+int accelerationLimit = 200; // pulses per sec^2
+
+
+// Define Distance per Pulses
+double inchPerPulse = 0.000146; // inches per pulse
+double mmPerPulse = 0.0037; // mm per pulse
+
+int pulsesToMoveInches;
+int pulsesToMoveMM;
+double distanceToMoveInches;
+double distanceToMoveMM;
 
 // Declares our user-defined helper function, which is used to command moves to
 // the motor. The definition/implementation of this function is at the  bottom
@@ -102,20 +112,46 @@ void setup() {
 }
 
 void loop() {
-    // Put your main code here, it will run repeatedly:
 
-    // Move to +10000 counts (positive direction), then wait 2000ms
-    MoveAbsolutePosition(6000);
-    delay(50);
-    // Move back to "home", then wait 2000ms
-    MoveAbsolutePosition(0);
-    delay(2000);
-    MoveAbsolutePosition(2500);
-    delay(20);
-    MoveAbsolutePosition(2200);
-    delay(20);
-    MoveAbsolutePosition(0);
-    delay(50);
+      // 800 Pulses per revolution
+
+      // 2.96 mm per revolution
+
+      // 0.0037mm per pulse
+
+      // 0.000146 inches per pulse
+
+      Serial.println("Enter distance to move in millimeters.");
+      while (!Serial.available()){
+        distanceToMoveMM = Serial.parseInt();
+      }
+
+      //distanceToMoveMM = 100;
+      
+      pulsesToMoveMM = distanceToMoveMM / mmPerPulse;
+
+
+      MoveAbsolutePosition(pulsesToMoveMM);
+      delay(100);
+      MoveAbsolutePosition(0);
+      delay(100);
+
+      
+//    // Put your main code here, it will run repeatedly:
+//
+//    // Move to +10000 counts (positive direction), then wait 2000ms
+//    MoveAbsolutePosition(6000);
+//    delay(50);
+//    // Move back to "home", then wait 2000ms
+//    MoveAbsolutePosition(0);
+//    delay(2000);
+//    MoveAbsolutePosition(2500);
+//    delay(20);
+//    MoveAbsolutePosition(2200);
+//    delay(20);
+//    MoveAbsolutePosition(0);
+//    delay(50);
+
 }
 
 /*------------------------------------------------------------------------------
