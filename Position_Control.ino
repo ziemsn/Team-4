@@ -80,9 +80,7 @@ void loop() {
   pulsesToMoveMM = distanceToMoveMM / mmPerPulse;
 
   MoveAbsolutePosition(pulsesToMoveMM);
-  delay(500);
-  MoveAbsolutePosition(0);
-  delay(500);
+  delay(1000);
 
 }
 
@@ -131,6 +129,9 @@ bool MoveAbsolutePosition(int position) {
         return false;
     }
 
+    motor.EnableRequest(false);
+    delay(100);
+    motor.EnableRequest(true);
     Serial.print("Moving to absolute position: ");
     Serial.println(position);
 
