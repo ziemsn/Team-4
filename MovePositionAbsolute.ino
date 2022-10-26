@@ -50,13 +50,13 @@
 #define baudRate 9600
 
 // Define the velocity and acceleration limits to be used for each move
-int velocityLimit = 1000; // pulses per sec
-int accelerationLimit = 200; // pulses per sec^2
+int velocityLimit = 1500; // pulses per sec
+int accelerationLimit = 500; // pulses per sec^2
 
 
 // Define Distance per Pulses
 double inchPerPulse = 0.000146; // inches per pulse
-double mmPerPulse = 0.0037; // mm per pulse
+double mmPerPulse = 0.00375096184; // mm per pulse
 
 int pulsesToMoveInches;
 int pulsesToMoveMM;
@@ -133,8 +133,8 @@ void loop() {
 
       MoveAbsolutePosition(pulsesToMoveMM);
       delay(100);
-      MoveAbsolutePosition(0);
-      delay(100);
+      //MoveAbsolutePosition(0);
+      //delay(100);
 
       
 //    // Put your main code here, it will run repeatedly:
