@@ -1,5 +1,3 @@
-
-
 #include "ClearCore.h"
 
 // Specifies which motor to move.
@@ -10,8 +8,8 @@
 #define baudRate 9600
 
 // Define the velocity and acceleration limits to be used for each move
-int velocityLimit = 2000; // pulses per sec
-int accelerationLimit = 500; // pulses per sec^2
+int velocityLimit = 8000; // pulses per sec
+int accelerationLimit = 16000; // pulses per sec^2
 
 // Define Distance per Pulses
 double inchPerPulse = 0.000147675662992126; // inches per pulse
@@ -28,10 +26,25 @@ double distanceToMoveMM;
 // of the example
 bool MoveAbsolutePosition(int32_t position);
 
+//Define an interrupt pin
+#define interruptPin DI6
+
+// Declare the signature for our interrupt service routine (ISR). The function
+// is defined below
+void Motorstop();
 
 void setup() {
   // put your setup code here, to run once:
+  // Set up the interrupt pin in digital input mode.
+  pinMode(interruptPin, INPUT);
 
+  // Set an ISR to be called when the state of the interrupt pin goes from
+  // true to false.
+  attachInterrupt(digitalPinToInterrupt(interruptPin), Motorstop, RISING);
+
+  // Enable digital interrupts.
+  interrupts();
+    
   // Sets the input clocking rate. This normal rate is ideal for ClearPath
   // step and direction applications.
   MotorMgr.MotorInputClocking(MotorManager::CLOCK_RATE_NORMAL);
@@ -96,7 +109,7 @@ double PositionInputPrompt() {
   double positionMM = positionString.toDouble();    // convert input string to integer
 
   // comparison check if input is integer
-  if (positionMM == 0) {
+  if (positionMM == 0){// || positionMM > 290 || positionMM < 10) {
     Serial.println("Invalid Entry, please enter a valid integer.");
     PositionInputPrompt();
   }
@@ -129,9 +142,7 @@ bool MoveAbsolutePosition(int position) {
         return false;
     }
 
-    motor.EnableRequest(false);
-    delay(100);
-    motor.EnableRequest(true);
+    
     Serial.print("Moving to absolute position: ");
     Serial.println(position);
 
@@ -146,5 +157,11 @@ bool MoveAbsolutePosition(int position) {
 
     Serial.println("Move Done");
     return true;
+}
+
+void Motorstop() {
+    motor.MoveStopAbrupt();
+    //motor.PositionRefSet(0);  //resets home position
+    
 }
 //------------------------------------------------------------------------------
