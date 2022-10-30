@@ -109,7 +109,7 @@ double PositionInputPrompt() {
   double positionMM = positionString.toDouble();    // convert input string to integer
 
   // comparison check if input is integer
-  if (positionMM < 0 || positionMM > 290) {
+  if (positionMM < 0 || positionMM > 280) {
     Serial.println("Out of range. Range is 0 mm to 290 mm");
     PositionInputPrompt();
   }
@@ -162,7 +162,7 @@ bool MoveAbsolutePosition(int position) {
 void Motorstop() {
     motor.MoveStopAbrupt();
     motor.PositionRefSet(0);  //resets home position
-    motor.Move(100, MotorDriver::MOVE_TARGET_ABSOLUTE);
+    motor.Move(200, MotorDriver::MOVE_TARGET_ABSOLUTE);
     
 }
 //------------------------------------------------------------------------------
