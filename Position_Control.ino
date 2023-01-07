@@ -1,6 +1,13 @@
+//Adapted from Teknic's libraries for the ClearCore and ClearPath software
+//Nathan Ziems, Oscar Reyes-Sanchez, Joshua Osuala
+//University of Indianapolis
+//R.B.Annis School of Engineering
+//ENGR 296-298
+
+//Teknic's library for controlling motors
 #include "ClearCore.h"
 
-// Specifies which motor to move.
+// Specifies which port to use for motor control
 // Options are: ConnectorM0, ConnectorM1, ConnectorM2, or ConnectorM3.
 #define motor ConnectorM0
 
@@ -8,12 +15,16 @@
 #define baudRate 9600
 
 // Define the velocity and acceleration limits to be used for each move
+// Declared in pulses per second
 int velocityLimit = 8000; // pulses per sec
 int accelerationLimit = 16000; // pulses per sec^2
 
 // Define Distance per Pulses
 double inchPerPulse = 0.000147675662992126; // inches per pulse
 double mmPerPulse = 0.00375096184; // mm per pulse
+//For reference,
+// 6771.596482037 pulses to move the carriage one inch
+// 266.5982866944 pulses to move the carriage one millimeter
 
 //Declare variables used in position calculation
 int pulsesToMoveInches;
@@ -26,25 +37,25 @@ double distanceToMoveMM;
 // of the example
 bool MoveAbsolutePosition(int32_t position);
 
-//Define an interrupt pin
-#define interruptPin DI6
+//Define an interrupt pin, DI6 is a port on the clearcore connected to a limit switch
+#define LimSwitch DI6
 
 // Declare the signature for our interrupt service routine (ISR). The function
-// is defined below
+// is defined below. It is to be called whenever the LimSwitch changes
 void Motorstop();
 
 void setup() {
   // put your setup code here, to run once:
   // Set up the interrupt pin in digital input mode.
-  pinMode(interruptPin, INPUT);
+  pinMode(LimSwitch, INPUT);
 
   // Set an ISR to be called when the state of the interrupt pin goes from
   // true to false.
-  attachInterrupt(digitalPinToInterrupt(interruptPin), Motorstop, RISING);
+  attachInterrupt(digitalPinToInterrupt(LimSwitch), Motorstop, RISING);
 
   // Enable digital interrupts.
   interrupts();
-    
+
   // Sets the input clocking rate. This normal rate is ideal for ClearPath
   // step and direction applications.
   MotorMgr.MotorInputClocking(MotorManager::CLOCK_RATE_NORMAL);
@@ -70,7 +81,7 @@ void setup() {
   uint32_t timeout = 5000;
   uint32_t startTime = millis();
   while (!Serial && millis() - startTime < timeout) {
-      continue;
+    continue;
   }
 
   // Enables the motor; homing will begin automatically if enabled
@@ -78,9 +89,10 @@ void setup() {
   Serial.println("Motor Enabled");
 
   // Waits for HLFB to assert (waits for homing to complete if applicable)
+  //HLFB (Home Limit Feedback)
   Serial.println("Waiting for HLFB...");
   while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-      continue;
+    continue;
   }
   Serial.println("Motor Ready");
 }
@@ -98,71 +110,98 @@ void loop() {
 }
 
 double PositionInputPrompt() {
-  // Ask for a position in MM to move slider to
-  Serial.println("Enter desired position in MM:");
-  while (Serial.available() == 0){}   // wait for input from user
-  String positionString = Serial.readString();    // read in a value from user
-  positionString.trim();
-  Serial.print("Your entered position is ");
-  Serial.print(positionString);
-  Serial.println(" MM.");
-  double positionMM = positionString.toDouble();    // convert input string to integer
+  /*
+  Optimized input prompting and validation
+  */
+  bool isValidNumber = true;
+  double positionMM = 0;
+  
+  //Until the user enters a valid value (A number), continue prompting for a valid value
+  while (true)
+  {
+  // Ask for a position in millimeters to move slider to
+  Serial.println("Enter desired position in millimeters:");
 
-  // comparison check if input is integer
-  if (positionMM < 0 || positionMM > 280) {
+  //Read User input from serial monitor
+  String positionString = Serial.readStringUntil('\n');
+  positionString.trim();
+
+  //Checking that the string is actually a number so the rest of the function works properly
+  for (int i = 0; i < positionString.length(); i++) {
+    if (!isDigit(positionString[i])) {
+      isValidNumber = false;
+      break;
+    }
+  }
+
+  if (!isValidNumber) { // positionString is not a valid number
+    Serial.println("Invalid input. Please enter a valid number ");
+    continue;
+  }
+  
+  //Display user's input to them
+  Serial.print("You entered " + positionString + ".");
+
+  positionMM = positionString.toDouble();    // convert input string to integer
+
+  // comparison check to verify input is integer
+  if (positionMM < 0 || positionMM > 290) {
     Serial.println("Out of range. Range is 0 mm to 290 mm");
-    PositionInputPrompt();
+    continue;
   }
-  else{
-    Serial.print("Moving to "); 
-    Serial.print(positionMM);
-    Serial.println(" MM.");
-    return positionMM;
+
+  // If the input is valid and within range, exit the loop
+  break;
   }
+  
+  return positionMM;
 }
 
 /*------------------------------------------------------------------------------
- * MoveAbsolutePosition
- *
- *    Command step pulses to move the motor's current position to the absolute
- *    position specified by "position"
- *    Prints the move status to the USB serial port
- *    Returns when HLFB asserts (indicating the motor has reached the commanded
- *    position)
- *
- * Parameters:
- *    int position  - The absolute position, in step pulses, to move to
- *
- * Returns: True/False depending on whether the move was successfully triggered.
- */
+   MoveAbsolutePosition
+
+      Command step pulses to move the motor's current position to the absolute
+      position specified by "position"
+      Prints the move status to the USB serial port
+      Returns when HLFB asserts (indicating the motor has reached the commanded
+      position)
+
+   Parameters:
+      int position  - The absolute position, in step pulses, to move to
+
+   Returns: True/False depending on whether the move was successfully triggered.
+*/
 bool MoveAbsolutePosition(int position) {
-    // Check if an alert is currently preventing motion
-    if (motor.StatusReg().bit.AlertsPresent) {
-        Serial.println("Motor status: 'In Alert'. Move Canceled.");
-        return false;
-    }
+  // Check if an alert is currently preventing motion
+  if (motor.StatusReg().bit.AlertsPresent) {
+    Serial.println("Motor status: 'In Alert'. Move Canceled.");
+    return false;
+  }
 
-    
-    Serial.print("Moving to absolute position: ");
-    Serial.println(position);
 
-    // Command the move of absolute distance
-    motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
+  Serial.print("Moving to absolute position: ");
+  Serial.println(position);
 
-    // Waits for HLFB to assert (signaling the move has successfully completed)
-    Serial.println("Moving.. Waiting for HLFB");
-    while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
+  // Command the move of absolute distance
+  motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
 
-    Serial.println("Move Done");
-    return true;
+  // Waits for HLFB to assert (signaling the move has successfully completed)
+  Serial.println("Moving.. Waiting for HLFB");
+  while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+    continue;
+  }
+
+  Serial.println("Move Done");
+  return true;
 }
 
+
+
 void Motorstop() {
-    motor.MoveStopAbrupt();
-    motor.PositionRefSet(0);  //resets home position
-    motor.Move(200, MotorDriver::MOVE_TARGET_ABSOLUTE);
-    
+  motor.MoveStopAbrupt();
+  // To be used for homing
+  //motor.PositionRefSet(0);  //resets home position
+  //motor.Move(800, MotorDriver::MOVE_TARGET_ABSOLUTE);
+
 }
 //------------------------------------------------------------------------------
