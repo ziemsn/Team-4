@@ -21,14 +21,14 @@ Genie genie;
 #define motor ConnectorM0
 
 // The containers for our motor objects.
-char motorConnectorNames[1][6] = { "Motor"};
+char motorConnectorNames[1][6] = {"Motor"};
 
 // ClearCore Baud Rate, for 4D Display
 #define baudRate 115200
 
 // Define the velocity and acceleration limits to be used for each move
 int velocityLimit = 5000; // pulses per sec
-int accelerationLimit = 16000; // pulses per sec^2
+int accelerationLimit = 10000; // pulses per sec^2
 
 int i, k;
 int loops = 0;                        // Used for the Form0 animation sequence
@@ -114,12 +114,12 @@ int AxisFormTorqueGenieNum = 5;
 int AxisFormFaultLEDGenieNum = 0;
 
 int AxisFormClrFaultGenieNum = 6;
-int AxisFormContModeGenieNum = 9;
+int AxisFormContModeGenieNum = 7;
 int AxisFormBackGenieNum = 3;
-int AxisFormDistEditGenieNum = 6;
-int AxisFormVelEditGenieNum = 7;
-int AxisFormAccelEditGenieNum = 8;
-int AxisFormDwellEditGenieNum = 9;
+int AxisFormDistEditGenieNum = 4;
+int AxisFormVelEditGenieNum = 5;
+int AxisFormAccelEditGenieNum = 6;
+int AxisFormDwellEditGenieNum = 7;
 
 char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
@@ -187,6 +187,7 @@ void setup() {
 }
 
 void loop() {
+  
   static unsigned long waitPeriod = millis();
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
@@ -230,11 +231,9 @@ void loop() {
 
       /********************************** Motor Forms ******************************************/
       //If the current form is an Axis form, Calculate the motor index from the CurrentForm
-      case 2:
-      case 3:
       case 4:
-        i = CurrentForm - 2;
-
+      case 3:
+      case 2:
         AxisCurrentPos = constrain(motor.PositionRefCommanded(), 0, 65535);
 
         if (motor.StatusReg().bit.StepsActive) // Running Status
@@ -318,7 +317,7 @@ void loop() {
         }
 
         // if the move is a position move, only command motion after the dwell timeout time has elapsed
-        else {
+//        else {
           if (AxisStartedDwell && millis() >= AxisDwellTimeout)
           {
             AxisStartedDwell = 0;
@@ -334,7 +333,7 @@ void loop() {
           }
           // command the position move (see function definition below)
           MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position
-        }
+//        }
       }
 
 
@@ -395,20 +394,11 @@ bool MoveAbsolutePosition(int position) {
         return false;
     }
 
-    
     Serial.print("Moving to absolute position: ");
     Serial.println(position);
 
     // Command the move of absolute distance
     motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
-
-    // Waits for HLFB to assert (signaling the move has successfully completed)
-    Serial.println("Moving.. Waiting for HLFB");
-    while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
-
-    Serial.println("Move Done");
     return true;
 }
 
