@@ -48,13 +48,13 @@ int motorTemp[10000][2];
 int dataIndex = 0;
 
 // resistance at 25 degrees C, 100kOhms
-const THERMISTORNOMINAL 100000      
+#define THERMISTORNOMINAL 100000      
 // temp. for nominal resistance (almost always 25 C)
-const TEMPERATURENOMINAL 25
+#define TEMPERATURENOMINAL 25
 // The beta coefficient of the thermistor (usually 3000-4000)
-const BCOEFFICIENT 3950
+#define BCOEFFICIENT 3950
 // the value of the 'other' resistor
-const SERIESRESISTOR 10000
+#define SERIESRESISTOR 10000
 
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
