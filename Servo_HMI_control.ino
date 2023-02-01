@@ -1,3 +1,35 @@
+/*
+Authors: Nathan Ziems, Oscar Reyes-Sanchez, Joshua Osuala
+ENGR 298
+University of Indianapolis
+R.B. Annis School of Engineering
+
+This is the most up-to-date version of the program that controls the ClearCore, Clearpath, and 4DSystems display.
+Controls display interactions and user I/O
+Controls servo motion
+Processes user input to move a bolt clamp according to the requested cut length
+
+This program is intended for testing only
+Setup:
+  Using Arduino IDE, compile and upload this program onto a Teknic Clearcore. 
+  ***Make sure to have the Teknic libraries and board installed through their respective managers.
+  Physical requirements:
+    Clearcore Controller
+    Clearpath Motor
+    Appropriate power and data cables
+    Respective power supplies (24VDC for Clearcore, 75VDC for Clearpath)
+  
+  ***Before attempting to run this program, make sure the motor has been tuned to the load it will move
+  ***This requires a programming cable and the ClearPath MSP software
+  
+  Connect motor to port labelled "M0" on the Clearcore
+  4D systems display to COM1
+
+
+
+
+
+*/
 #include "ClearCore.h"
 #include <genieArduinoDEV.h>
 
