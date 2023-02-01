@@ -1,0 +1,789 @@
+﻿Version     0.0
+Platform    Gen4-uLCD-32DCT-CLB-L
+PlatRes     240x320
+Depends
+end
+Options
+    Genie
+    Speed                        200000
+    Checksum                     No
+    ResponseSize                 2
+    Multidrop                    No
+    Destination                  1
+    DestBank                     0
+    MainForm                     0
+    SndBuf                       0
+    ButtonDisable                No
+    SignedDigits                 No
+    MaxString                    75
+    ComPort                      0
+    ComTX1pinIdx                 0
+    ComRX1pinIdx                 0
+    FileSystem                   FATfs
+    FlashEraseOption             Optimal
+    SPIenable                    0
+    SPIsdo                       3
+    SPIsdi                       2
+    SPIsck                       1
+    FlashForceLT16MB             No
+end
+Form
+    Name                         Form0
+    Alias                        Form0
+    Bgtype                       Color
+    Color                        BLACK
+    Image                        (None)
+    Source.Height                0
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 0
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+WinButton
+    Name                         Winbutton0
+    Alias                        Winbutton0
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Go To Form 1'
+    Color                        clGray
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   [Bold]
+    Height                       51
+    Left                         228
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          184
+    Width                        89
+    OnChanged                    'Report Message'
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+StaticText
+    Name                         Statictext0
+    Alias                        Statictext0
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      Form0
+    Color                        BLACK
+    Font.Color                   SILVER
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       19
+    Left                         0
+    Top                          0
+    Transparent                  Yes
+    Width                        46
+    WordWrap                     Yes
+end
+iMediaPanel
+    Name                         IMediaPanel4
+    Alias                        IMediaPanel4
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       50
+    Left                         4
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               -1
+    PanelGradSunken              Yes
+    RadBottomLeft                18
+    RadBottomRight               9
+    RadTopLeft                   18
+    RadTopRight                  9
+    ShowPanel                    Yes
+    Top                          185
+    Width                        222
+end
+Coolgauge
+    Name                         Coolgauge0
+    Alias                        Coolgauge0
+    Arc.Color                    0xFFEFE0
+    Arc.Opacity                  200
+    Arc.StartAngle               135
+    Arc.StopAngle                405
+    Threshold.Center             25
+    Threshold.Color              0xFFD0AF
+    Threshold.EndValue           100
+    Threshold.Opacity            200
+    Threshold.Span               25
+    Threshold.StartAngle         135
+    Threshold.StartValue         0
+    Threshold.SweepAngle         270
+    Threshold.ThresholdKind      Angle
+    Arc.Width                    0.03
+    CircleEndValue               360
+    CircleStartValue             0
+    DialText                     ''
+    Digit.Alignment              Center
+    Digit.BackGroundColor        0x04445F
+    Digit.BackGroundOpacity      30
+    Digit.Color                  0x39BFF8
+    Digit.Visible                Yes
+    DivisionColor                0xE4EAE4
+    DivisionCount                10
+    DivisionWidth                5
+    EqualDimensions              Yes
+    Font.Color                   clYellow
+    Font.Effects                 []
+    Font.Name                    'Arial Rounded MT Bold'
+    Font.Size                    12
+    Font.Style                   [Bold]
+    Height                       182
+    Innercircle.Color            BLACK
+    Gloss.Color                  clWhite
+    Gloss.Opacity                72
+    Innercircle.Opacity          150
+    Left                         68
+    Logarithmic                  No
+    LogarithmicBase              10
+    MaximumValue                 100
+    MinimumValue                 0
+    Needle.Color                 0x3784F8
+    Needle.InnerCenterColor      0xA0C5FB
+    Needle.InnerCenterColorTo    0x0757CC
+    Needle.InnerCenterOpacity    255
+    Needle.OuterCenterColor      0x0757CC
+    Needle.OuterCenterColorTo    0x064AAE
+    Needle.OuterCenterOpacity    255
+    Needle.ShineColor            0xA0C5FB
+    Needle.ShineColorTo          0x0757CC
+    OuterCircle.Color            0xCECECE
+    OuterCircle.Opacity          100
+    OuterCircle.Width            0.03
+    OuterRim.Color               0x908070
+    OuterRim.Opacity             255
+    OuterRim.Width               2
+    ShowValues                   Yes
+    SubDivisionColor             0x39BFF8
+    SubDivisionCount             3
+    SubDivisionWidth             2
+    TextRendering                ClearType
+    Top                          0
+    ValueFont.Color              SILVER
+    ValueFont.Effects            []
+    ValueFont.Name               Arial
+    ValueFont.Size               10
+    ValueFont.Style              [Italic]
+    ValueFormat                  0
+    Width                        182
+    OnChanged                    ''
+end
+Strings
+    Name                         Strings0
+    Alias                        Strings0
+    Alignment                    Left
+    BGcolor                      BLACK
+    Height                       28
+    FGcolor                      SILVER
+    Font.Bold                    No
+    Font.CharSet                 ANSI
+    Font.Italic                  No
+    Font.Name                    '4D Font3 (8x12)'
+    Font.Opaque                  Yes
+    Font.Size                    -12
+    Font.Strikethrough           No
+    Font.Underline               No
+    Left                         18
+    Strings                      ''
+    StringsStyle                 Message
+    Top                          194
+    Width                        200
+    OnChanged                    ''
+end
+Form
+    Name                         Form1
+    Alias                        Form1
+    Bgtype                       Color
+    Color                        BLACK
+    Image                        (None)
+    Source.Height                0
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 0
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+iLabelB
+    Name                         ILabelB0
+    Alias                        ILabelB0
+    Alignment                    Left
+    BGcolor                      BLACK
+    Buffer                       80
+    Caption                      ''
+    Font                         FONT3
+    FontColor                    0xCECECE
+    FontSize                     1
+    Height                       24
+    Left                         151
+    Margin                       2
+    Top                          18
+    Width                        141
+end
+iMediaPanel
+    Name                         IMediaPanel6
+    Alias                        IMediaPanel6
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       22
+    Left                         4
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               -1
+    PanelGradSunken              No
+    RadBottomLeft                11
+    RadBottomRight               11
+    RadTopLeft                   11
+    RadTopRight                  11
+    ShowPanel                    Yes
+    Top                          4
+    Width                        116
+end
+iMediaPanel
+    Name                         IMediaPanel7
+    Alias                        IMediaPanel7
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       131
+    Left                         128
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               -1
+    PanelGradSunken              No
+    RadBottomLeft                15
+    RadBottomRight               15
+    RadTopLeft                   15
+    RadTopRight                  15
+    ShowPanel                    Yes
+    Top                          4
+    Width                        188
+end
+iMediaPanel
+    Name                         IMediaPanel8
+    Alias                        IMediaPanel8
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       97
+    Left                         128
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               -1
+    PanelGradSunken              No
+    RadBottomLeft                15
+    RadBottomRight               15
+    RadTopLeft                   15
+    RadTopRight                  15
+    ShowPanel                    Yes
+    Top                          138
+    Width                        188
+end
+iMediaPanel
+    Name                         IMediaPanel5
+    Alias                        IMediaPanel5
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       206
+    Left                         4
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               -1
+    PanelGradSunken              No
+    RadBottomLeft                15
+    RadBottomRight               15
+    RadTopLeft                   15
+    RadTopRight                  15
+    ShowPanel                    Yes
+    Top                          28
+    Width                        116
+end
+StaticText
+    Name                         Statictext1
+    Alias                        Statictext1
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      Form1
+    Color                        BLACK
+    Font.Color                   SILVER
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    9
+    Font.Style                   []
+    Height                       14
+    Left                         44
+    Top                          8
+    Transparent                  Yes
+    Width                        34
+    WordWrap                     Yes
+end
+GSlider
+    Name                         Slider0
+    Alias                        Slider0
+    Bevel.BorderColor            clBtnFace
+    Bevel.BorderWidth            0
+    Bevel.InnerColor             BLACK
+    Bevel.InnerHighlight         clBtnHighlight
+    Bevel.InnerOutline           None
+    Bevel.InnerShadow            clBtnShadow
+    Bevel.InnerSpace             1
+    Bevel.InnerStyle             Lowered
+    Bevel.Innerwidth             2
+    Bevel.OuterColor             clBtnFace
+    Bevel.OuterHighlight         clBtnHighlight
+    Bevel.OuterOutline           Outer
+    Bevel.OuterShadow            clBtnShadow
+    Bevel.OuterSpace             0
+    Bevel.OuterStyle             Raised
+    Bevel.Outerwidth             1
+    Bevel.Visible                Yes
+    BorderColor                  clBtnFace
+    BorderWidth                  1
+    Color                        BLACK
+    Height                       114
+    Left                         32
+    Maxvalue                     15
+    Minvalue                     1
+    Orientation                  Vertical
+    Palette.High                 clLime
+    Palette.Low                  0x005100
+    Spacing                      1
+    SolidFill                    Yes
+    TickWidth                    1
+    Top                          36
+    Width                        35
+    OnChanged                    ''
+    OnChanging                   'Report Message'
+end
+StaticText
+    Name                         Statictext3
+    Alias                        Statictext3
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      Brightness
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    9
+    Font.Style                   []
+    Height                       14
+    Left                         36
+    Top                          154
+    Transparent                  Yes
+    Width                        56
+    WordWrap                     Yes
+end
+iLedDigits
+    Name                         ILedDigits0
+    Alias                        ILedDigits0
+    ColorActive                  SLATEBLUE
+    ColorInactive                0x181818
+    DecimalPlace                 0
+    Digits                       2
+    DPisComma                    No
+    Format                       Int16
+    LeadingZero                  Yes
+    Left                         38
+    ShowDP                       No
+    Signed                       No
+    Size                         2
+    Spacing                      0
+    Top                          176
+    OnChanged                    ''
+end
+iScale
+    Name                         IScale0
+    Alias                        IScale0
+    BackGroundColor              BLACK
+    CentreGap                    0
+    Font                         FONT1
+    FontColor                    0xCECECE
+    Left                         89
+    Length                       113
+    Maximum                      15
+    Minimum                      1
+    Orientation                  Vertical
+    ScaleEndAlign                No
+    ScaleLoc                     Center
+    ShowZero                     Yes
+    TickColor                    0x9F9F9F
+    TickLength                   5
+    TickLengthMinor              2
+    TickMarks                    TopLeft
+    Ticks                        2
+    TicksMinor                   5
+    Top                          36
+end
+iMediaPanel
+    Name                         IMediaPanel9
+    Alias                        IMediaPanel9
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       40
+    Left                         142
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               0
+    PanelGradSunken              No
+    RadBottomLeft                15
+    RadBottomRight               15
+    RadTopLeft                   15
+    RadTopRight                  15
+    ShowPanel                    Yes
+    Top                          12
+    Width                        160
+end
+LedDigits
+    Name                         Leddigits0
+    Alias                        Leddigits0
+    Color                        BLACK
+    Decimals                     1
+    Digits                       3
+    Height                       67
+    LeadingZero                  Yes
+    Left                         140
+    OutlineColor                 BLACK
+    Palette.High                 clLime
+    Palette.Low                  0x005100
+    Top                          60
+    Width                        170
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+iMediaPanel
+    Name                         IMediaPanel10
+    Alias                        IMediaPanel10
+    BevelColour                  0x3A3A3A
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       40
+    Left                         136
+    Outerwidth                   2
+    PanelColour                  BLACK
+    PanelGradLevel               0
+    PanelGradSunken              No
+    RadBottomLeft                15
+    RadBottomRight               15
+    RadTopLeft                   15
+    RadTopRight                  15
+    ShowPanel                    Yes
+    Top                          168
+    Width                        100
+end
+4Dbutton
+    Name                         4Dbutton0
+    Alias                        4Dbutton0
+    Height                       64
+    Left                         240
+    Matrix                       -1
+    Momentary                    Yes
+    Size                         64x64
+    Style                        Red
+    Top                          156
+    Type                         Button01
+    Width                        64
+    OnChanged                    'Report Message'
+end
+StaticText
+    Name                         Statictext2
+    Alias                        Statictext2
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'Go To Form2'
+    Color                        BLACK
+    Font.Color                   SILVER
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    11
+    Font.Style                   []
+    Height                       18
+    Left                         142
+    Top                          180
+    Transparent                  Yes
+    Width                        88
+    WordWrap                     No
+end
+Form
+    Name                         Form2
+    Alias                        Form2
+    Bgtype                       Color
+    Color                        WHITE
+    Image                        (None)
+    Source.Height                0
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 0
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+iMediaGauge
+    Name                         IMediaGauge0
+    Alias                        IMediaGauge0
+    Bezel                        BezelEnable
+    BezelBackground              BezelInnerBackground
+    BezelColor                   BLACK
+    BezelGradient                BzMediumGradient
+    BezelInnerGradient           InLowGradient
+    DialColor                    BLACK
+    DialGradient                 ArMediumGradient
+    Font                         FONT1
+    FontMagnification            1
+    GaugeEndAngle                360
+    GaugeStartAngle              270
+    Height                       135
+    HighColor                    RED
+    InnerBezelColor              BLACK
+    Innerwidth                   4
+    LabelOffset                  26
+    Left                         4
+    LowColor                     BLACK
+    LowPercent                   50
+    MedColor                     BLACK
+    MedPercent                   25
+    MeterCaption                 ''
+    NeedleColor                  RED
+    Outerwidth                   8
+    RangeHigh                    100
+    RangeLow                     0
+    Scale                        ScaleEnable
+    ScaleDivisor                 0
+    ShineLevel                   0
+    Style                        SquareTopRight
+    TextColor                    SILVER
+    TextEnd                      ''
+    TextStart                    ''
+    TickColor                    WHITE
+    Ticks                        5
+    Top                          36
+    Width                        135
+    OnChanged                    ''
+end
+Video
+    Name                         Video0
+    Alias                        Video0
+    Frames.First                 0
+    Frames.Last                  49
+    Frames.FrameDelay            100
+    Height                       135
+    Left                         140
+    Source.Height                270
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 180
+    Top                          36
+    Video                        flip-digit-cropped.gif
+    Width                        90
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Video
+    Name                         Video1
+    Alias                        Video1
+    Frames.First                 0
+    Frames.Last                  49
+    Frames.FrameDelay            100
+    Height                       135
+    Left                         230
+    Source.Height                270
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 180
+    Top                          36
+    Video                        flip-digit-cropped2.gif
+    Width                        90
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+iMediaPanel
+    Name                         IMediaPanel0
+    Alias                        IMediaPanel0
+    BevelColour                  0xE4EAE4
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       35
+    Left                         0
+    Outerwidth                   2
+    PanelColour                  WHITE
+    PanelGradLevel               30
+    PanelGradSunken              Yes
+    RadBottomLeft                1
+    RadBottomRight               1
+    RadTopLeft                   1
+    RadTopRight                  1
+    ShowPanel                    Yes
+    Top                          0
+    Width                        320
+end
+iMediaPanel
+    Name                         IMediaPanel1
+    Alias                        IMediaPanel1
+    BevelColour                  0xCECECE
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       28
+    Left                         120
+    Outerwidth                   2
+    PanelColour                  0x585858
+    PanelGradLevel               0
+    PanelGradSunken              Yes
+    RadBottomLeft                5
+    RadBottomRight               5
+    RadTopLeft                   5
+    RadTopRight                  5
+    ShowPanel                    Yes
+    Top                          3
+    Width                        80
+end
+StaticText
+    Name                         Statictext4
+    Alias                        Statictext4
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'Form 2'
+    Color                        0x585858
+    Font.Color                   SILVER
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    12
+    Font.Style                   []
+    Height                       19
+    Left                         134
+    Top                          6
+    Transparent                  No
+    Width                        51
+    WordWrap                     No
+end
+iMediaPanel
+    Name                         IMediaPanel2
+    Alias                        IMediaPanel2
+    BevelColour                  0xE4EAE4
+    BevelGradLevel               20
+    BevelGradSunken              No
+    Height                       64
+    Left                         0
+    Outerwidth                   2
+    PanelColour                  WHITE
+    PanelGradLevel               30
+    PanelGradSunken              No
+    RadBottomLeft                1
+    RadBottomRight               1
+    RadTopLeft                   1
+    RadTopRight                  1
+    ShowPanel                    Yes
+    Top                          176
+    Width                        320
+end
+iMediaPanel
+    Name                         IMediaPanel3
+    Alias                        IMediaPanel3
+    BevelColour                  0xE4EAE4
+    BevelGradLevel               20
+    BevelGradSunken              Yes
+    Height                       40
+    Left                         12
+    Outerwidth                   2
+    PanelColour                  0x585858
+    PanelGradLevel               -1
+    PanelGradSunken              Yes
+    RadBottomLeft                5
+    RadBottomRight               5
+    RadTopLeft                   5
+    RadTopRight                  5
+    ShowPanel                    Yes
+    Top                          185
+    Width                        167
+end
+iLabelB
+    Name                         ILabelB1
+    Alias                        ILabelB1
+    Alignment                    Center
+    BGcolor                      0x585858
+    Buffer                       80
+    Caption                      ''
+    Font                         FONT3
+    FontColor                    SILVER
+    FontSize                     1
+    Height                       21
+    Left                         36
+    Margin                       2
+    Top                          196
+    Width                        116
+end
+iMediaButton
+    Name                         IMediaButton0
+    Alias                        IMediaButton0
+    BackGroundColor              0x818181
+    Font                         FONT3
+    FontMagnification            1
+    Height                       46
+    InnerGradColor               0x7E7E7E
+    LedOffColor                  SILVER
+    LedOnColor                   LIGHTSTEELBLUE
+    Left                         192
+    Matrix                       -1
+    Momentary                    Yes
+    OuterGradColor               0x585858
+    OuterGradWidth               3
+    RingWidth                    2
+    Style                        'Square Sunken Raised'
+    Symbol                       Text
+    SymbolColor                  0xCECECE
+    Text                         'Form 0'
+    Top                          182
+    Width                        115
+    OnChanged                    'Report Message'
+end
