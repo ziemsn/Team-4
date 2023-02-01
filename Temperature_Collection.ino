@@ -13,14 +13,21 @@ int pulsesToMoveMM = 66650;
 
 bool MoveAbsolutePosition(int32_t position);
 
-#define thermistor DI6
-
-int temperature_data[10000][2]
+#define thermistor A12
+int motorTemp[10000][2];
 int dataIndex = 0;
+
+// resistance at 25 degrees C
+#define THERMISTORNOMINAL 100000      
+// temp. for nominal resistance (almost always 25 C)
+#define TEMPERATURENOMINAL 25
+// The beta coefficient of the thermistor (usually 3000-4000)
+#define BCOEFFICIENT 3950
+// the value of the 'other' resistor
+#define SERIESRESISTOR 10000
 
 
 void setup() {
-  // put your setup code here, to run once:
 
   // Sets the input clocking rate. This normal rate is ideal for ClearPath
   // step and direction applications.
@@ -59,17 +66,43 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
   // oscillate position
   MoveAbsolutePosition(pulsesToMoveMM);
-  delay(1000);
   MoveAbsolutePosition(0);
-  delay(1000);
+
 
   // record temperature and time stamp
-  temperature_data[dataIndex][0] = analogRead(thermistor);
-  temperature_data[dataIndex][1] = millis();
-  dataIndex++;
+  motorTemp[dataIndex][0] = analogRead(thermistor);
+  motorTemp[dataIndex][1] = millis();
 
+  //convert voltage reading to resistance
+  motorTemp[dataIndex][0] = (1023 / motorTemp[dataIndex][0])  - 1;
+
+  //convert resistance to temperature
+  float steinhart;
+  steinhart = motorTemp[dataIndex][0] / THERMISTORNOMINAL;  // (R/Ro)
+  steinhart = log(steinhart);                               // ln(R/Ro)
+  steinhart /= BCOEFFICIENT;                                // 1/B * ln(R/Ro)
+  steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15);         // + (1/To)
+  steinhart = 1.0 / steinhart;                              // Invert
+  motorTemp[dataIndex][0] = steinhart - 273.15;             // convert absolute temp to C
+  
+  Serial.print("Temperature "); 
+  Serial.print(motorTemp[dataIndex][0]);
+  Serial.print(" *C ");
+  Serial.println(motorTemp[dataIndex][1]);
+  dataIndex++;
+  delay(5000);
+
+}
+
+bool MoveAbsolutePosition(int position) {
+
+  // Command the move of absolute distance
+  motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
+  Serial.print("Moving to absolute position: ");
+  Serial.println(position);
+  return true;
+  
 }
