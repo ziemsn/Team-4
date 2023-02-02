@@ -16,6 +16,7 @@ Setup:
   Physical requirements:
     Clearcore Controller
     Clearpath Motor
+    4D Systems Display
     Appropriate power and data cables
     Respective power supplies (24VDC for Clearcore, 75VDC for Clearpath)
   
