@@ -53,8 +53,8 @@ int dataIndex = 0;
 #define TEMPERATURENOMINAL 25
 // The beta coefficient of the thermistor (usually 3000-4000)
 #define BCOEFFICIENT 3950
-// the value of the 'other' resistor
-#define SERIESRESISTOR 10000
+// the value of the 'other' resistor, 100kOhms
+#define SERIESRESISTOR 
 
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
