@@ -31,8 +31,8 @@ Setup:
 
 #define baudRate 9600
 
-int velocityLimit = 5000; //pulses per second
-int accelerationLimit = 16000; 
+int velocityLimit = 3000; //pulses per second
+int accelerationLimit = 8000; //pulses per second per second
 
 //Needs to be adjusted according to the system the servo is attached to
 //This is the linear movement (mm) per rotational step (pulse)

@@ -26,10 +26,6 @@ Setup:
   Connect motor to port labelled "M0" on the Clearcore
   4D systems display to COM1
 
-
-
-
-
 */
 #include "ClearCore.h"
 #include <genieArduinoDEV.h>
