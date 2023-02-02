@@ -146,6 +146,7 @@ bool MoveAbsolutePosition(int position) {
   motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
   Serial.print("Moving to absolute position: ");
   Serial.println(position);
+  //Wait until finished moving
   while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
       continue;
   }
