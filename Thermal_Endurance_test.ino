@@ -3,10 +3,8 @@ Authors: Nathan Ziems, Oscar Reyes-Sanchez, Joshua Osuala
 ENGR 298
 University of Indianapolis
 R.B. Annis School of Engineering
-
 This program will command the connected servo motor to move the full length available and back to zero forever. 
 It collects temperature data every few minutes to determine thermal overhead of the servo system.
-
 This program is intended for testing only
 Setup:
   Using Arduino IDE, compile and upload this program onto a Teknic Clearcore. 
@@ -23,7 +21,6 @@ Setup:
   Connect motor to port labelled "M0" on the Clearcore
   Connect thermistor to port A12
   Make sure everything is appropriately powered and cable-managed
-
   */
 #include "ClearCore.h"
 
@@ -32,7 +29,7 @@ Setup:
 #define baudRate 9600
 
 int velocityLimit = 3000; //pulses per second
-int accelerationLimit = 8000; //pulses per second per second
+int accelerationLimit = 16000; //pulses per second per second
 
 //Needs to be adjusted according to the system the servo is attached to
 //This is the linear movement (mm) per rotational step (pulse)
@@ -48,17 +45,17 @@ int motorTemp[10000][2];
 int dataIndex = 0;
 
 // resistance at 25 degrees C, 100kOhms
-#define THERMISTORNOMINAL 100000      
+#define THERMISTORNOMINAL 10000      
 // temp. for nominal resistance (almost always 25 C)
 #define TEMPERATURENOMINAL 25
 // The beta coefficient of the thermistor (usually 3000-4000)
 #define BCOEFFICIENT 3950
-// the value of the 'other' resistor, 100kOhms
-#define SERIESRESISTOR 
+// the value of the 'other' resistor
+#define SERIESRESISTOR 10000
 
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
-const int interval = 300000;  // 5 minutes in milliseconds
+const int interval = 3000;  // 5 minutes in milliseconds
 
 
 void setup() {
@@ -114,11 +111,12 @@ void loop() {
     previousTime = currentTime;
     
     // record temperature and time stamp 
-    motorTemp[dataIndex][0] = analogRead(thermistor);
+//    motorTemp[dataIndex][0] = analogRead(thermistor);
+    Serial.println(motorTemp[dataIndex][0] = 1000);
     motorTemp[dataIndex][1] = millis();
 
     //convert voltage reading to resistance
-    motorTemp[dataIndex][0] = (1023 / motorTemp[dataIndex][0])  - 1;
+    Serial.println(motorTemp[dataIndex][0] = (1023 / motorTemp[dataIndex][0])  - 1);
 
     //convert resistance to temperature
     float steinhart;
