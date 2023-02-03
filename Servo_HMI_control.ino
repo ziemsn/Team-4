@@ -259,7 +259,7 @@ void loop() {
         break;
 
       /********************************** Motor Forms ******************************************/
-      //If the current form is an Axis form, Calculate the motor index from the CurrentForm
+      
       case 4:
       case 3:
       case 2:
@@ -329,8 +329,8 @@ void loop() {
 
       /************* MOTOR ***************/
 
-      // Commands motion when the start button is pushed, using either:
-      //  - a continuous velocity move, or
+      //Dwell is going to be removed
+      // Commands motion when the start button is pushed, using 
       //  - a reciprocating absolute position move between 0 and an end position, with a dwell at each end
       if (AxisStopRun  && !AxisFault)
       {
@@ -429,6 +429,38 @@ bool MoveAbsolutePosition(int position) {
     // Command the move of absolute distance
     motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
     return true;
+}
+
+void UserSeeksHome(void){
+    // Commands a speed of 5000 pulses/sec towards the hardstop for 2 seconds
+    SerialPort.SendLine("Homing . . . Waiting for motor to finish");
+    motor.MoveVelocity(5000);
+    Delay_ms(2000);
+    // Then slows down to 1000 pulses/sec until clamping into the hard stop
+    motor.MoveVelocity(1000);
+    // Delay so HLFB has time to deassert
+    Delay_ms(10);
+    // Waits for HLFB to assert again, meaning the hardstop has been reached
+    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+        continue;
+    }
+    // Stop the velocity move now that the hardstop is reached
+    motor.MoveStopAbrupt();
+    // Move away from the hard stop. Any move away from the hardstop will
+    // conclude the homing sequence.
+    motor.Move(-1000);
+    // Delay so HLFB has time to deassert
+    Delay_ms(10);
+    // Waits for HLFB to assert, meaning homing is complete
+    SerialPort.SendLine("Moving away from hardstop... Waiting for motor");
+    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+        continue;
+    }
+    SerialPort.SendLine("Homing Complete. Motor Ready.");
+    // Zero the motor's reference position after homing to allow for accurate
+    // absolute position moves
+    motor.PositionRefSet(0);
+    return;
 }
 
 void myGenieEventHandler(void)

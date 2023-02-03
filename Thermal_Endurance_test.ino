@@ -41,7 +41,7 @@ bool MoveAbsolutePosition(int32_t position);
 
 //Connect thermistor to port A12 (Analog pin 12)
 #define thermistor A12
-int motorTemp[10000][2];
+float motorTemp[10000][2];
 int dataIndex = 0;
 
 // resistance at 25 degrees C, 100kOhms
@@ -109,9 +109,42 @@ void loop() {
   if (currentTime - previousTime >= interval) //if more than or equal to five minutes have passed
   {
     previousTime = currentTime;
+    /*This is the code to try on friday. Comes from a clearcore example on reading from the analog ports
     
+    //////Have this at the very top
+    #define adcResolution 12
+
+
+    //////This part specifically needs to go in setup()
+    // Since analog inputs default to analog input mode, there's no need to
+    // call Mode().
+    // Set the resolution of the ADC to 12-bit
+    AdcMgr.AdcResolution(adcResolution);
+
+
+    // Read the analog input (A-9 through A-12 may be configured as analog
+    // inputs).
+    int16_t adcResult = ConnectorA12.State();
+    // Convert the reading to a voltage.
+    float inputVoltage = 10.0 * adcResult / ((1 << adcResolution) - 1); //10 times result, divided by maximum 12-bit value
+    // Display the voltage reading to the serial port.
+    SerialPort.Send("A-12 input voltage: ");
+    SerialPort.Send(inputVoltage);
+    SerialPort.SendLine("V.");
+
+    //convert voltage to resistance, then to temperature in Celcius
+    float resistance = SERIESRESISTOR / ( (inputVoltage / 24) - 1 )
+    motorTemp[dataIndex][0] = 1 / ( log(resistance / THERMISTORNOMINAL) / BCOEFFICIENT + 1 / (TEMPERATURENOMINAL + 273.15)) - 273.15
+    motorTemp[dataIndex][1] = millis();
+    
+    Serial.print("Temperature ", motorTemp[dataIndex][0], " *C at ", motorTemp[dataIndex][1], " milliseconds"); 
+    dataIndex++;
+    
+    */
+
+
     // record temperature and time stamp 
-//    motorTemp[dataIndex][0] = analogRead(thermistor);
+    //    motorTemp[dataIndex][0] = analogRead(thermistor);
     Serial.println(motorTemp[dataIndex][0] = 1000);
     motorTemp[dataIndex][1] = millis();
 
@@ -124,7 +157,7 @@ void loop() {
     steinhart = log(steinhart);                               // ln(R/Ro)
     steinhart /= BCOEFFICIENT;                                // 1/B * ln(R/Ro)
     steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15);         // + (1/To)
-    steinhart = 1.0 / steinhart;                              // Invert
+    steinhart = 1.0 / steinhart;                              // Invert, now it's in Kelvin
     motorTemp[dataIndex][0] = steinhart - 273.15;             // convert absolute temp to C
     
     Serial.print("Temperature "); 
