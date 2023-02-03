@@ -41,17 +41,20 @@ bool MoveAbsolutePosition(int32_t position);
 
 //Connect thermistor to port A12 (Analog pin 12)
 #define thermistor A12
+
 float motorTemp[10000][2];
 int dataIndex = 0;
 
+// Resolution of analog measurement, can be 8, 10, or 12 bits
+#define adcResolution 12
 // resistance at 25 degrees C, 100kOhms
-#define THERMISTORNOMINAL 10000      
+#define THERMISTORNOMINAL 100000      
 // temp. for nominal resistance (almost always 25 C)
 #define TEMPERATURENOMINAL 25
 // The beta coefficient of the thermistor (usually 3000-4000)
 #define BCOEFFICIENT 3950
 // the value of the 'other' resistor
-#define SERIESRESISTOR 10000
+#define SERIESRESISTOR 100000
 
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
@@ -59,6 +62,11 @@ const int interval = 3000;  // 5 minutes in milliseconds
 
 
 void setup() {
+
+  // Since analog inputs default to analog input mode, there's no need to
+  // call Mode().
+  // Set the resolution of the ADC to 12-bit
+  AdcMgr.AdcResolution(adcResolution);
 
   // Sets the input clocking rate. This normal rate is ideal for ClearPath
   // step and direction applications.
@@ -85,10 +93,10 @@ void setup() {
 
     // Enables the motor; homing will begin automatically if enabled
   motor.EnableRequest(true);
-  Serial.println("Motor Enabled");
+  Serial.println("Motor Enabling...");
 
   // Waits for HLFB to assert (waits for homing to complete if applicable)
-  Serial.println("Waiting for HLFB...");
+  Serial.println("Waiting for motor...");
   while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
       continue;
   }
@@ -109,38 +117,44 @@ void loop() {
   if (currentTime - previousTime >= interval) //if more than or equal to five minutes have passed
   {
     previousTime = currentTime;
-    /*This is the code to try on friday. Comes from a clearcore example on reading from the analog ports
-    
-    //////Have this at the very top
-    #define adcResolution 12
-
-
-    //////This part specifically needs to go in setup()
-    // Since analog inputs default to analog input mode, there's no need to
-    // call Mode().
-    // Set the resolution of the ADC to 12-bit
-    AdcMgr.AdcResolution(adcResolution);
-
 
     // Read the analog input (A-9 through A-12 may be configured as analog
     // inputs).
     int16_t adcResult = ConnectorA12.State();
+    Serial.print(adcResult);
     // Convert the reading to a voltage.
-    float inputVoltage = 10.0 * adcResult / ((1 << adcResolution) - 1); //10 times result, divided by maximum 12-bit value
+    double inputVoltage = 10.0 * adcResult / ((1 << adcResolution) - 1); //10 times result, divided by maximum 12-bit value
     // Display the voltage reading to the serial port.
-    SerialPort.Send("A-12 input voltage: ");
-    SerialPort.Send(inputVoltage);
-    SerialPort.SendLine("V.");
+    Serial.print("A-12 input voltage: ");
+    Serial.print(inputVoltage);//good    
+    Serial.println("V. ");
 
-    //convert voltage to resistance, then to temperature in Celcius
-    float resistance = SERIESRESISTOR / ( (inputVoltage / 24) - 1 )
-    motorTemp[dataIndex][0] = 1 / ( log(resistance / THERMISTORNOMINAL) / BCOEFFICIENT + 1 / (TEMPERATURENOMINAL + 273.15)) - 273.15
+    //convert voltage to resistance
+    float resistance = SERIESRESISTOR / ( (24 / inputVoltage) - 1 );
+    Serial.println(resistance);//good
+    //convert resistance to temperature
+    float steinhart;
+    steinhart = resistance / THERMISTORNOMINAL;               // (R/Ro
+    Serial.println(steinhart);//good
+    steinhart = log(steinhart);                               // ln(R/Ro)
+    Serial.println(steinhart);//good
+    steinhart /= BCOEFFICIENT;                                // 1/B * ln(R/Ro) //BCoefficient is wrong
+    Serial.println(steinhart);//technically good, but wrong, and very small
+    steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15);         // + (1/To)
+    Serial.println(steinhart);
+    steinhart = 1.0 / steinhart;                              // Invert, now it's in Kelvin
+    Serial.println(steinhart);
+    motorTemp[dataIndex][0] = steinhart - 273.15;             // convert absolute temp to C
     motorTemp[dataIndex][1] = millis();
     
-    Serial.print("Temperature ", motorTemp[dataIndex][0], " *C at ", motorTemp[dataIndex][1], " milliseconds"); 
+    Serial.print("Temperature "); 
+    Serial.print(motorTemp[dataIndex][0]);
+    Serial.print(" *C, at ");
+    Serial.print(motorTemp[dataIndex][1]); 
+    Serial.println (" milliseconds");   
     dataIndex++;
     
-    */
+    /*original code
 
 
     // record temperature and time stamp 
@@ -165,6 +179,7 @@ void loop() {
     Serial.print(" *C ");
     Serial.println(motorTemp[dataIndex][1]);
     dataIndex++;
+    */
   }
    
 
@@ -177,10 +192,12 @@ bool MoveAbsolutePosition(int position) {
   motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
   Serial.print("Moving to absolute position: ");
   Serial.println(position);
-  //Wait until finished moving
-  while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-      continue;
+  // Waits for HLFB to assert (signaling the move has successfully completed)
+  Serial.println("Moving.. Waiting for motor");
+  while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+        continue;
   }
+  Serial.println("Done moving.");
   return true;
   
 }
