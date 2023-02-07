@@ -28,14 +28,15 @@ Setup:
 
 #define baudRate 9600
 
-int velocityLimit = 3000; //pulses per second
-int accelerationLimit = 16000; //pulses per second per second
+int velocityLimit = 4500; //pulses per second
+int accelerationLimit = 64000; //pulses per second per second
+int pulsesToMoveMM = 3200; //for testing
+int dwell = 0.1; //seconds to wait after a move
 
 //Needs to be adjusted according to the system the servo is attached to
 //This is the linear movement (mm) per rotational step (pulse)
 double mmPerPulse = 0.00375096184; 
 //How many pulses does it take to move by a millimeter
-int pulsesToMoveMM = 66650;
 
 bool MoveAbsolutePosition(int32_t position);
 
@@ -54,7 +55,7 @@ int dataIndex = 0;
 // The beta coefficient of the thermistor (usually 3000-4000)
 #define BCOEFFICIENT 3950
 // the value of the 'other' resistor
-#define SERIESRESISTOR 100000
+#define SERIESRESISTOR 98000
 
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
@@ -108,9 +109,9 @@ void loop() {
 
   // oscillate position
   MoveAbsolutePosition(pulsesToMoveMM);
-  delay(2000);
+  delay(dwell*1000);
   MoveAbsolutePosition(0);
-  delay(2000);
+  delay(dwell*1000);
 
   //Record the time and temperature every five minutes
   currentTime = millis();
@@ -120,18 +121,14 @@ void loop() {
 
     // Read the analog input (A-9 through A-12 may be configured as analog
     // inputs).
-    int16_t adcResult = ConnectorA12.State();
-    Serial.print(adcResult);
-    // Convert the reading to a voltage.
-    double inputVoltage = 10.0 * adcResult / ((1 << adcResolution) - 1); //10 times result, divided by maximum 12-bit value
-    // Display the voltage reading to the serial port.
+    double inputVoltage = ConnectorA12.AnalogVoltage();
     Serial.print("A-12 input voltage: ");
     Serial.print(inputVoltage);//good    
     Serial.println("V. ");
 
     //convert voltage to resistance
-    float resistance = SERIESRESISTOR / ( (24 / inputVoltage) - 1 );
-    Serial.println(resistance);//good
+    float resistance = SERIESRESISTOR * ( (5 / inputVoltage) - 1 );
+    Serial.println(resistance);//good should be about 130k ohms
     //convert resistance to temperature
     float steinhart;
     steinhart = resistance / THERMISTORNOMINAL;               // (R/Ro
@@ -148,7 +145,7 @@ void loop() {
     motorTemp[dataIndex][1] = millis();
     
     Serial.print("Temperature "); 
-    Serial.print(motorTemp[dataIndex][0]);
+    Serial.print(motorTemp[dataIndex][0]); //should be about 20 c
     Serial.print(" *C, at ");
     Serial.print(motorTemp[dataIndex][1]); 
     Serial.println (" milliseconds");   
@@ -193,11 +190,11 @@ bool MoveAbsolutePosition(int position) {
   Serial.print("Moving to absolute position: ");
   Serial.println(position);
   // Waits for HLFB to assert (signaling the move has successfully completed)
-  Serial.println("Moving.. Waiting for motor");
+  //Serial.println("Moving.. Waiting for motor");
   while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
   }
-  Serial.println("Done moving.");
+  //Serial.println("Done moving.");
   return true;
   
 }
