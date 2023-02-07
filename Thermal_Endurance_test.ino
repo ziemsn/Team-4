@@ -127,7 +127,7 @@ void loop() {
     Serial.println("V. ");
 
     //convert voltage to resistance
-    float resistance = SERIESRESISTOR * ( (5 / inputVoltage) - 1 );
+    float resistance = SERIESRESISTOR * ( (2.0 / inputVoltage) - 1 );
     Serial.println(resistance);//good should be about 130k ohms
     //convert resistance to temperature
     float steinhart;
@@ -152,16 +152,12 @@ void loop() {
     dataIndex++;
     
     /*original code
-
-
     // record temperature and time stamp 
     //    motorTemp[dataIndex][0] = analogRead(thermistor);
     Serial.println(motorTemp[dataIndex][0] = 1000);
     motorTemp[dataIndex][1] = millis();
-
     //convert voltage reading to resistance
     Serial.println(motorTemp[dataIndex][0] = (1023 / motorTemp[dataIndex][0])  - 1);
-
     //convert resistance to temperature
     float steinhart;
     steinhart = motorTemp[dataIndex][0] / THERMISTORNOMINAL;  // (R/Ro)
