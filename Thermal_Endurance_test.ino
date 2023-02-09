@@ -23,15 +23,15 @@ Setup:
   Make sure everything is appropriately powered and cable-managed
   */
 #include "ClearCore.h"
+#include <SD.h>
 
 #define motor ConnectorM0
-
+const int chipSelect = 4; //Select SD card slot
 #define baudRate 9600
 
-int velocityLimit = 4500; //pulses per second
+int velocityLimit = 64000; //pulses per second
 int accelerationLimit = 64000; //pulses per second per second
-int pulsesToMoveMM = 3200; //for testing
-int dwell = 0.1; //seconds to wait after a move
+int dwell = 1; //seconds to wait after a move
 
 //Needs to be adjusted according to the system the servo is attached to
 //This is the linear movement (mm) per rotational step (pulse)
@@ -43,8 +43,9 @@ bool MoveAbsolutePosition(int32_t position);
 //Connect thermistor to port A12 (Analog pin 12)
 #define thermistor A12
 
-float motorTemp[10000][2];
+double motorTemp[10000][2];
 int dataIndex = 0;
+double inputVoltage;
 
 // Resolution of analog measurement, can be 8, 10, or 12 bits
 #define adcResolution 12
@@ -103,14 +104,22 @@ void setup() {
   }
   Serial.println("Motor Ready");
 
+  // Initialize the SD card.
+  if (!SD.begin(chipSelect)) {
+    Serial.println("SD card initialization failed.");
+    return;
+  }
+
+  
+
 }
 
 void loop() {
 
   // oscillate position
-  MoveAbsolutePosition(pulsesToMoveMM);
+  MoveAbsolutePosition(500000);
   delay(dwell*1000);
-  MoveAbsolutePosition(0);
+  MoveAbsolutePosition(100000);
   delay(dwell*1000);
 
   //Record the time and temperature every five minutes
@@ -121,26 +130,26 @@ void loop() {
 
     // Read the analog input (A-9 through A-12 may be configured as analog
     // inputs).
-    double inputVoltage = ConnectorA12.AnalogVoltage();
+    inputVoltage = ConnectorA12.AnalogVoltage();
     Serial.print("A-12 input voltage: ");
     Serial.print(inputVoltage);//good    
     Serial.println("V. ");
 
     //convert voltage to resistance
     float resistance = SERIESRESISTOR * ( (2.0 / inputVoltage) - 1 );
-    Serial.println(resistance);//good should be about 130k ohms
+    // Serial.println(resistance);//good should be about 130k ohms
     //convert resistance to temperature
     float steinhart;
     steinhart = resistance / THERMISTORNOMINAL;               // (R/Ro
-    Serial.println(steinhart);//good
+    //Serial.println(steinhart);//good
     steinhart = log(steinhart);                               // ln(R/Ro)
-    Serial.println(steinhart);//good
+    // Serial.println(steinhart);//good
     steinhart /= BCOEFFICIENT;                                // 1/B * ln(R/Ro) //BCoefficient is wrong
-    Serial.println(steinhart);//technically good, but wrong, and very small
+    // Serial.println(steinhart);//technically good, but wrong, and very small
     steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15);         // + (1/To)
-    Serial.println(steinhart);
+    // Serial.println(steinhart);
     steinhart = 1.0 / steinhart;                              // Invert, now it's in Kelvin
-    Serial.println(steinhart);
+    // Serial.println(steinhart);
     motorTemp[dataIndex][0] = steinhart - 273.15;             // convert absolute temp to C
     motorTemp[dataIndex][1] = millis();
     
@@ -150,6 +159,23 @@ void loop() {
     Serial.print(motorTemp[dataIndex][1]); 
     Serial.println (" milliseconds");   
     dataIndex++;
+    
+    // Open a file for writing.
+    File dataFile = SD.open("data.txt", FILE_WRITE);
+      if (!dataFile) {
+        Serial.println("Error opening file for writing.");
+        return;
+      }
+    // Write some data to the file. Formatted as csv with Voltage, Temperature, Time
+    dataFile.print(inputVoltage); 
+    dataFile.print(",");
+    dataFile.print(steinhart - 273.15);
+    dataFile.print(",");
+    dataFile.println(millis());
+
+    // Close the file.
+    dataFile.close();
+    Serial.println("Data written to SD card.");
     
     /*original code
     // record temperature and time stamp 
@@ -186,11 +212,11 @@ bool MoveAbsolutePosition(int position) {
   Serial.print("Moving to absolute position: ");
   Serial.println(position);
   // Waits for HLFB to assert (signaling the move has successfully completed)
-  //Serial.println("Moving.. Waiting for motor");
+  Serial.println("Moving.. Waiting for motor");
   while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
   }
-  //Serial.println("Done moving.");
+  Serial.println("Done moving.");
   return true;
   
 }
