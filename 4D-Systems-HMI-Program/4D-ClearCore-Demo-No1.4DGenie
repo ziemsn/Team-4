@@ -1377,15 +1377,15 @@ Video
     Frames.First                 0
     Frames.Last                  59
     Frames.FrameDelay            30
-    Height                       60
-    Left                         216
+    Height                       55
+    Left                         212
     Source.Height                165
     Source.Left                  0
     Source.Top                   0
     Source.Width                 165
     Top                          36
     Video                        'ezgif.com-gif-maker (4).gif'
-    Width                        67
+    Width                        58
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -1789,18 +1789,18 @@ StaticText
     Alias                        Statictext27
     Alignment                    Left
     AutoSize                     Yes
-    Caption                      Clear\nFault
+    Caption                      Reset
     Color                        BLACK
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
     Font.Size                    11
     Font.Style                   []
-    Height                       36
+    Height                       18
     Left                         288
-    Top                          4
+    Top                          20
     Transparent                  Yes
-    Width                        32
+    Width                        37
     WordWrap                     Yes
 end
 4Dbutton
@@ -1907,19 +1907,52 @@ StaticText
     Alias                        Statictext42
     Alignment                    Left
     AutoSize                     Yes
-    Caption                      'In Motion'
+    Caption                      Motion
     Color                        BLACK
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
     Font.Size                    11
     Font.Style                   []
-    Height                       36
+    Height                       18
     Left                         220
     Top                          20
     Transparent                  Yes
     Width                        43
     WordWrap                     No
+end
+4Dbutton
+    Name                         4Dbutton11
+    Alias                        4Dbutton11
+    Height                       48
+    Left                         412
+    Matrix                       -1
+    Momentary                    Yes
+    Size                         48x48
+    Style                        Red
+    Top                          132
+    Type                         Button01
+    Width                        48
+    OnChanged                    ''
+end
+StaticText
+    Name                         Statictext43
+    Alias                        Statictext43
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      Undo
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    11
+    Font.Style                   []
+    Height                       18
+    Left                         416
+    Top                          108
+    Transparent                  Yes
+    Width                        34
+    WordWrap                     Yes
 end
 Form
     Name                         Form4
