@@ -60,7 +60,7 @@ double inputVoltage;
 
 unsigned long currentTime = millis();
 unsigned long previousTime = 0;
-const int interval = 3000;  // 5 minutes in milliseconds
+const int interval = 10000;  // Time between data measurements, in milliseconds
 
 
 void setup() {
@@ -110,7 +110,9 @@ void setup() {
     return;
   }
 
-  
+    // Zero the motor's reference position after homing to allow for accurate
+    // absolute position moves
+    motor.PositionRefSet(0);
 
 }
 
@@ -119,7 +121,7 @@ void loop() {
   // oscillate position
   MoveAbsolutePosition(500000);
   delay(dwell*1000);
-  MoveAbsolutePosition(100000);
+  MoveAbsolutePosition(200000);
   delay(dwell*1000);
 
   //Record the time and temperature every five minutes
@@ -166,12 +168,12 @@ void loop() {
         Serial.println("Error opening file for writing.");
         return;
       }
-    // Write some data to the file. Formatted as csv with Voltage, Temperature, Time
-    dataFile.print(inputVoltage); 
+    // Write some data to the file. Formatted as csv with Time, Temperature, Voltage
+    dataFile.print(millis() / 1000); 
     dataFile.print(",");
     dataFile.print(steinhart - 273.15);
     dataFile.print(",");
-    dataFile.println(millis());
+    dataFile.println(inputVoltage);
 
     // Close the file.
     dataFile.close();
@@ -205,8 +207,7 @@ void loop() {
 
 }
 
-bool MoveAbsolutePosition(int position) {
-
+bool MoveAbsolutePosition(int position) {    
   // Command the move of absolute distance
   motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
   Serial.print("Moving to absolute position: ");
@@ -214,6 +215,26 @@ bool MoveAbsolutePosition(int position) {
   // Waits for HLFB to assert (signaling the move has successfully completed)
   Serial.println("Moving.. Waiting for motor");
   while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+        
+          if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
+          {
+            Serial.println("Faulted. Attempting to clear");
+            if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
+            {
+              motor.EnableRequest(false);
+              delay(10);
+              motor.EnableRequest(true);                               // Cycle the enable to clear the motor fault
+            }
+            motor.ClearAlerts();  // Clear the Alert
+            if (position < 300000)
+            {
+              motor.PositionRefSet(0);
+            }else if (position >= 300000)
+            {
+              motor.PositionRefSet(700000);
+              }
+          }
+        
         continue;
   }
   Serial.println("Done moving.");
