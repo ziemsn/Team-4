@@ -5,6 +5,7 @@ University of Indianapolis
 R.B. Annis School of Engineering
 This program will command the connected servo motor to move the full length available and back to zero forever. 
 It collects temperature data every few minutes to determine thermal overhead of the servo system.
+.txt files are opened and closed every loop to prevent data loss
 This program is intended for testing only
 Setup:
   Using Arduino IDE, compile and upload this program onto a Teknic Clearcore. 
@@ -20,6 +21,7 @@ Setup:
   
   Connect motor to port labelled "M0" on the Clearcore
   Connect thermistor to port A12
+  Insert SD card
   Make sure everything is appropriately powered and cable-managed
   */
 #include "ClearCore.h"
@@ -133,9 +135,6 @@ void loop() {
     // Read the analog input (A-9 through A-12 may be configured as analog
     // inputs).
     inputVoltage = ConnectorA12.AnalogVoltage();
-    Serial.print("A-12 input voltage: ");
-    Serial.print(inputVoltage);//good    
-    Serial.println("V. ");
 
     //convert voltage to resistance
     float resistance = SERIESRESISTOR * ( (2.0 / inputVoltage) - 1 );
@@ -154,12 +153,24 @@ void loop() {
     // Serial.println(steinhart);
     motorTemp[dataIndex][0] = steinhart - 273.15;             // convert absolute temp to C
     motorTemp[dataIndex][1] = millis();
-    
-    Serial.print("Temperature "); 
-    Serial.print(motorTemp[dataIndex][0]); //should be about 20 c
-    Serial.print(" *C, at ");
-    Serial.print(motorTemp[dataIndex][1]); 
-    Serial.println (" milliseconds");   
+
+    // Open a file for writing.
+    File debugFile = SD.open("debug.txt", FILE_WRITE);
+      if (!debugFile) {
+        Serial.println("Error opening file for writing.");
+        return;
+      }
+    debugFile.print("A-12 input voltage: ");
+    debugFile.print(inputVoltage);//good    
+    debugFile.println("V. ");
+    debugFile.print("Temperature "); 
+    debugFile.print(motorTemp[dataIndex][0]); //should be about 20 c
+    debugFile.print(" *C, at ");
+    debugFile.print(motorTemp[dataIndex][1]); 
+    debugFile.println (" milliseconds"); 
+    // Close the file.
+    debugFile.close();
+    Serial.println("Debug written to SD card.");  
     dataIndex++;
     
     // Open a file for writing.
@@ -179,46 +190,29 @@ void loop() {
     dataFile.close();
     Serial.println("Data written to SD card.");
     
-    /*original code
-    // record temperature and time stamp 
-    //    motorTemp[dataIndex][0] = analogRead(thermistor);
-    Serial.println(motorTemp[dataIndex][0] = 1000);
-    motorTemp[dataIndex][1] = millis();
-    //convert voltage reading to resistance
-    Serial.println(motorTemp[dataIndex][0] = (1023 / motorTemp[dataIndex][0])  - 1);
-    //convert resistance to temperature
-    float steinhart;
-    steinhart = motorTemp[dataIndex][0] / THERMISTORNOMINAL;  // (R/Ro)
-    steinhart = log(steinhart);                               // ln(R/Ro)
-    steinhart /= BCOEFFICIENT;                                // 1/B * ln(R/Ro)
-    steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15);         // + (1/To)
-    steinhart = 1.0 / steinhart;                              // Invert, now it's in Kelvin
-    motorTemp[dataIndex][0] = steinhart - 273.15;             // convert absolute temp to C
-    
-    Serial.print("Temperature "); 
-    Serial.print(motorTemp[dataIndex][0]);
-    Serial.print(" *C ");
-    Serial.println(motorTemp[dataIndex][1]);
-    dataIndex++;
-    */
   }
-   
-
-
 }
 
 bool MoveAbsolutePosition(int position) {    
   // Command the move of absolute distance
   motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
-  Serial.print("Moving to absolute position: ");
-  Serial.println(position);
+  
+  // Open a file for writing.
+    File debugFile = SD.open("debug.txt", FILE_WRITE);
+      if (!debugFile) {
+        Serial.println("Error opening file for writing.");
+        return true;
+      }
+  debugFile.print(millis() / 1000); 
+  debugFile.print("Moving to absolute position: ");
+  debugFile.println(position);
   // Waits for HLFB to assert (signaling the move has successfully completed)
-  Serial.println("Moving.. Waiting for motor");
+  debugFile.println("Moving.. Waiting for motor");
   while (!motor.StepsComplete() || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         
           if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
           {
-            Serial.println("Faulted. Attempting to clear");
+            debugFile.println("Faulted. Attempting to clear");
             if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
             {
               motor.EnableRequest(false);
@@ -229,6 +223,7 @@ bool MoveAbsolutePosition(int position) {
             if (position < 300000)
             {
               motor.PositionRefSet(0);
+              
             }else if (position >= 300000)
             {
               motor.PositionRefSet(700000);
@@ -237,7 +232,10 @@ bool MoveAbsolutePosition(int position) {
         
         continue;
   }
-  Serial.println("Done moving.");
+  debugFile.println("Done moving.");
+  // Close the file.
+  debugFile.close();
+  Serial.println("Debug written to SD card.");
   return true;
   
 }
