@@ -236,9 +236,6 @@ void loop() {
         {
           for (i = 0; i < 30; i++) // Play the 30 frames of each of the GIF files
           {
-            genie.WriteObject(GENIE_OBJ_VIDEO, 0, i); // 4D Systems
-            genie.WriteObject(GENIE_OBJ_VIDEO, 1, i); // and
-            genie.WriteObject(GENIE_OBJ_VIDEO, 2, i); // Teknic
             genie.WriteObject(GENIE_OBJ_VIDEO, 3, i); // ClearCore Demo #1
             delay(25);
           }
