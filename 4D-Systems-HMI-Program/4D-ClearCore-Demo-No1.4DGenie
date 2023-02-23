@@ -1243,18 +1243,18 @@ StaticText
     Alias                        Statictext17
     Alignment                    Left
     AutoSize                     Yes
-    Caption                      'Test Screen'
+    Caption                      'Main Screen'
     Color                        BLACK
     Font.Color                   WHITE
     Font.Effects                 [Underline]
     Font.Name                    Tahoma
-    Font.Size                    18
+    Font.Size                    20
     Font.Style                   []
-    Height                       58
-    Left                         9
-    Top                          4
+    Height                       30
+    Left                         160
+    Top                          16
     Transparent                  Yes
-    Width                        175
+    Width                        144
     WordWrap                     No
 end
 StaticText
@@ -1267,13 +1267,13 @@ StaticText
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    11
+    Font.Size                    12
     Font.Style                   []
-    Height                       18
+    Height                       19
     Left                         8
     Top                          41
     Transparent                  Yes
-    Width                        101
+    Width                        114
     WordWrap                     No
 end
 LedDigits
@@ -1282,14 +1282,14 @@ LedDigits
     Color                        BLACK
     Decimals                     3
     Digits                       6
-    Height                       35
+    Height                       40
     LeadingZero                  Yes
     Left                         12
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x002B00
     Top                          64
-    Width                        170
+    Width                        185
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -1301,14 +1301,14 @@ LedDigits
     Color                        BLACK
     Decimals                     3
     Digits                       6
-    Height                       35
+    Height                       40
     LeadingZero                  Yes
     Left                         12
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x002B00
-    Top                          128
-    Width                        170
+    Top                          156
+    Width                        185
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -1330,9 +1330,9 @@ WinButton
     Font.Color                   clWindowText
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    8
+    Font.Size                    10
     Font.Style                   []
-    Height                       32
+    Height                       33
     Left                         192
     Matrix                       -1
     Momentary                    Yes
@@ -1355,7 +1355,7 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          129
+    Top                          160
     Width                        63
     OnChanged                    'Report Message'
     OnTouchMoving                ''
@@ -1372,13 +1372,13 @@ StaticText
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    11
+    Font.Size                    12
     Font.Style                   []
-    Height                       36
+    Height                       19
     Left                         12
-    Top                          104
+    Top                          132
     Transparent                  Yes
-    Width                        101
+    Width                        106
     WordWrap                     No
 end
 StaticText
@@ -1440,9 +1440,9 @@ iSwitch
     BevelShadowColor             BLACK
     ContainerBevel               4
     FontSize                     1
-    Font                         FONT1
+    Font                         FONT3
     Height                       30
-    Left                         375
+    Left                         350
     OFFColor                     DARKRED
     OFFLabel                     Miliimeters
     OFFLabelColor                WHITE
@@ -1451,8 +1451,8 @@ iSwitch
     ONLabelColor                 WHITE
     Orientation                  Horizontal
     SwitchBevel                  3
-    Top                          132
-    Width                        105
+    Top                          156
+    Width                        130
     OnChanged                    ''
 end
 WinButton
@@ -1471,10 +1471,10 @@ WinButton
     Font.Color                   clWindowText
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    8
+    Font.Size                    10
     Font.Style                   []
-    Height                       50
-    Left                         375
+    Height                       55
+    Left                         350
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -1497,7 +1497,7 @@ WinButton
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
     Top                          0
-    Width                        105
+    Width                        130
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -1519,10 +1519,10 @@ WinButton
     Font.Color                   clWindowText
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    8
+    Font.Size                    10
     Font.Style                   []
-    Height                       50
-    Left                         375
+    Height                       55
+    Left                         350
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -1544,8 +1544,8 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          52
-    Width                        105
+    Top                          56
+    Width                        130
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -1565,7 +1565,7 @@ StaticText
     Font.Style                   []
     Height                       18
     Left                         312
-    Top                          140
+    Top                          164
     Transparent                  Yes
     Width                        32
     WordWrap                     Yes
@@ -1586,7 +1586,7 @@ WinButton
     Font.Color                   clWindowText
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    8
+    Font.Size                    10
     Font.Style                   []
     Height                       39
     Left                         375
@@ -1634,9 +1634,9 @@ WinButton
     Font.Color                   clWindowText
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    18
+    Font.Size                    16
     Font.Style                   []
-    Height                       70
+    Height                       59
     Left                         0
     Matrix                       -1
     Momentary                    Yes
@@ -1659,8 +1659,8 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          202
-    Width                        180
+    Top                          213
+    Width                        158
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
