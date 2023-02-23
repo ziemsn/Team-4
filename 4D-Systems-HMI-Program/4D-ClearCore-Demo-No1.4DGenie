@@ -1262,18 +1262,18 @@ StaticText
     Alias                        Statictext18
     Alignment                    Left
     AutoSize                     Yes
-    Caption                      'Current Position (INCHES)'
+    Caption                      'Current Position'
     Color                        BLACK
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
     Font.Size                    11
     Font.Style                   []
-    Height                       36
+    Height                       18
     Left                         8
     Top                          41
     Transparent                  Yes
-    Width                        174
+    Width                        101
     WordWrap                     No
 end
 LedDigits
@@ -1303,61 +1303,13 @@ LedDigits
     Digits                       6
     Height                       35
     LeadingZero                  Yes
-    Left                         112
+    Left                         12
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x002B00
-    Top                          112
+    Top                          128
     Width                        170
     OnChanged                    ''
-    OnTouchMoving                ''
-    OnTouchPressed               ''
-    OnTouchReleased              ''
-end
-WinButton
-    Name                         Winbutton8
-    Alias                        Winbutton8
-    Appearance.Alignment         Center
-    Appearance.Layout            Left
-    Appearance.PictureAlignment  Right
-    Appearance.SimpleLayout      No
-    Appearance.Spacing           3
-    AutoSizeToPicture            No
-    Bevel                        Yes
-    BevelColor                   clWhite
-    Caption                      BACK
-    Color                        0xA85869
-    Font.Color                   clWindowText
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    12
-    Font.Style                   [Bold]
-    Height                       35
-    Left                         392
-    Matrix                       -1
-    Momentary                    Yes
-    Picture                      (None)
-    StatusWhenOff.BGcolor        RED
-    StatusWhenOff.Caption        ''
-    StatusWhenOff.Glow           Yes
-    StatusWhenOff.Color          WHITE
-    StatusWhenOff.Effects        []
-    StatusWhenOff.Name           Tahoma
-    StatusWhenOff.Size           8
-    StatusWhenOff.Style          []
-    StatusWhenOff.Visible        Yes
-    StatusWhenOn.BGcolor         RED
-    StatusWhenOn.Caption         ''
-    StatusWhenOn.Glow            Yes
-    StatusWhenOn.Color           WHITE
-    StatusWhenOn.Effects         []
-    StatusWhenOn.Name            Tahoma
-    StatusWhenOn.Size            8
-    StatusWhenOn.Style           []
-    StatusWhenOn.Visible         Yes
-    Top                          232
-    Width                        82
-    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -1380,8 +1332,8 @@ WinButton
     Font.Name                    Tahoma
     Font.Size                    8
     Font.Style                   []
-    Height                       29
-    Left                         284
+    Height                       32
+    Left                         192
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -1403,8 +1355,8 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          116
-    Width                        44
+    Top                          129
+    Width                        63
     OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -1423,63 +1375,11 @@ StaticText
     Font.Size                    11
     Font.Style                   []
     Height                       36
-    Left                         8
-    Top                          111
+    Left                         12
+    Top                          104
     Transparent                  Yes
     Width                        101
     WordWrap                     No
-end
-StaticText
-    Name                         Statictext21
-    Alias                        Statictext21
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      (INCHES)
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    11
-    Font.Style                   []
-    Height                       18
-    Left                         8
-    Top                          127
-    Transparent                  Yes
-    Width                        63
-    WordWrap                     Yes
-end
-StaticText
-    Name                         Statictext27
-    Alias                        Statictext27
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      Reset
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    11
-    Font.Style                   []
-    Height                       17
-    Left                         284
-    Top                          248
-    Transparent                  Yes
-    Width                        37
-    WordWrap                     Yes
-end
-4Dbutton
-    Name                         4Dbutton8
-    Alias                        4Dbutton8
-    Height                       48
-    Left                         336
-    Matrix                       -1
-    Momentary                    Yes
-    Size                         48x48
-    Style                        Red
-    Top                          224
-    Type                         Button01
-    Width                        48
-    OnChanged                    'Report Message'
 end
 StaticText
     Name                         Statictext28
@@ -1494,8 +1394,8 @@ StaticText
     Font.Size                    11
     Font.Style                   []
     Height                       21
-    Left                         160
-    Top                          240
+    Left                         340
+    Top                          248
     Transparent                  Yes
     Width                        31
     WordWrap                     Yes
@@ -1503,7 +1403,7 @@ end
 UserLed
     Name                         Userled1
     Alias                        Userled1
-    Active                       No
+    Active                       Yes
     Bevel.BorderColor            clBtnFace
     Bevel.BorderWidth            0
     Bevel.InnerColor             clBtnFace
@@ -1521,111 +1421,16 @@ UserLed
     Bevel.OuterStyle             Raised
     Bevel.Outerwidth             1
     Bevel.Visible                Yes
-    Height                       25
-    Left                         196
+    Height                       30
+    Left                         375
     OutlineColor                 BLACK
     OutlineWidth                 0
     PaletteEx.High1              clRed
-    PaletteEx.High2              0x4D4EFF
+    PaletteEx.High2              clRed
     PaletteEx.Low1               0x000051
     PaletteEx.Low2               BLACK
-    Top                          240
-    Width                        47
-    OnChanged                    ''
-end
-StaticText
-    Name                         Statictext43
-    Alias                        Statictext43
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      Undo
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    11
-    Font.Style                   []
-    Height                       18
-    Left                         160
-    Top                          156
-    Transparent                  Yes
-    Width                        34
-    WordWrap                     Yes
-end
-4Dbutton
-    Name                         4Dbutton10
-    Alias                        4Dbutton10
-    Height                       48
-    Left                         336
-    Matrix                       -1
-    Momentary                    Yes
-    Size                         48x48
-    Style                        Blue
-    Top                          156
-    Type                         Button01
-    Width                        48
-    OnChanged                    ''
-end
-StaticText
-    Name                         Statictext19
-    Alias                        Statictext19
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      ' Loading Postion'
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    11
-    Font.Style                   []
-    Height                       18
-    Left                         220
-    Top                          168
-    Transparent                  Yes
+    Top                          242
     Width                        105
-    WordWrap                     Yes
-end
-StaticText
-    Name                         Statictext22
-    Alias                        Statictext22
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      Start
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    11
-    Font.Style                   []
-    Height                       18
-    Left                         12
-    Top                          164
-    Transparent                  Yes
-    Width                        31
-    WordWrap                     Yes
-end
-iMediaButton
-    Name                         IMediaButton0
-    Alias                        IMediaButton0
-    BackGroundColor              STEELBLUE
-    Font                         FONT3
-    FontMagnification            1
-    Height                       52
-    InnerGradColor               SILVER
-    LedOffColor                  SILVER
-    LedOnColor                   LIGHTSTEELBLUE
-    Left                         52
-    Matrix                       -1
-    Momentary                    No
-    OuterGradColor               STEELBLUE
-    OuterGradWidth               10
-    RingWidth                    10
-    Style                        'Round Sunken Raised'
-    Symbol                       Home
-    SymbolColor                  RED
-    Text                         Text
-    Top                          220
-    Width                        84
     OnChanged                    ''
 end
 iSwitch
@@ -1635,67 +1440,231 @@ iSwitch
     BevelShadowColor             BLACK
     ContainerBevel               4
     FontSize                     1
-    Font                         FONT2
+    Font                         FONT1
     Height                       30
-    Left                         52
-    OFFColor                     0x303030
-    OFFLabel                     Off
-    OFFLabelColor                RED
+    Left                         375
+    OFFColor                     DARKRED
+    OFFLabel                     Miliimeters
+    OFFLabelColor                WHITE
     ONColor                      DARKRED
-    ONLabel                      On
+    ONLabel                      Inches
     ONLabelColor                 WHITE
     Orientation                  Horizontal
     SwitchBevel                  3
-    Top                          160
-    Width                        60
+    Top                          132
+    Width                        105
     OnChanged                    ''
 end
+WinButton
+    Name                         Winbutton10
+    Alias                        Winbutton10
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Move to Loading Position'
+    Color                        GREEN
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       50
+    Left                         375
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          0
+    Width                        105
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+WinButton
+    Name                         Winbutton11
+    Alias                        Winbutton11
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Find Home'
+    Color                        GREEN
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       50
+    Left                         375
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          52
+    Width                        105
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
 StaticText
-    Name                         Statictext23
-    Alias                        Statictext23
+    Name                         Statictext19
+    Alias                        Statictext19
     Alignment                    Left
     AutoSize                     Yes
-    Caption                      Home
+    Caption                      Units
     Color                        BLACK
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
     Font.Size                    11
     Font.Style                   []
-    Height                       17
-    Left                         4
-    Top                          244
+    Height                       18
+    Left                         312
+    Top                          140
     Transparent                  Yes
-    Width                        39
+    Width                        32
     WordWrap                     Yes
 end
-4Dbutton
-    Name                         4Dbutton12
-    Alias                        4Dbutton12
-    Height                       48
-    Left                         336
+WinButton
+    Name                         Winbutton8
+    Alias                        Winbutton8
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Clear Fault'
+    Color                        TEAL
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       39
+    Left                         375
     Matrix                       -1
     Momentary                    Yes
-    Size                         48x48
-    Style                        Red
-    Top                          108
-    Type                         Slider01
-    Width                        48
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          202
+    Width                        105
     OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
 end
-4Dbutton
-    Name                         4Dbutton11
-    Alias                        4Dbutton11
-    Height                       48
-    Left                         152
+WinButton
+    Name                         Winbutton12
+    Alias                        Winbutton12
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Start Process'
+    Color                        HONEYDEW
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    18
+    Font.Style                   []
+    Height                       70
+    Left                         0
     Matrix                       -1
     Momentary                    Yes
-    Size                         48x48
-    Style                        Blue
-    Top                          176
-    Type                         Button02
-    Width                        48
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          202
+    Width                        180
     OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
 end
 Form
     Name                         Form4
