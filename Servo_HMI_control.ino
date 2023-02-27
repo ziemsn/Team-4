@@ -358,7 +358,7 @@ void loop() {
             Serial.print(motorConnectorNames[0]); Serial.print(" Starting move "); Serial.println(AxisMoveTarget);
           }
           // command the position move (see function definition below)
-          MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position
+          MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position**********
 //        }
       }
 
@@ -370,14 +370,6 @@ void loop() {
         motor.MoveStopDecel(AxisMoveAccel);
       }
 
-
-      // Displays the motor's current measured torque when a measurement is available.
-      // This torque value is not updated when the motor is Move Done or In Fault. The last measured value during motion will display during these conditions.
-      if (motor.HlfbState() == MotorDriver::HLFB_HAS_MEASUREMENT)
-      {
-        // Writes the torque measured, as a percent of motor peak torque rating
-        AxisTorque = (int(abs(motor.HlfbPercent())));
-      }
 
 
       // If a new fault is detected, turn on the axis Fault LED
@@ -429,9 +421,10 @@ bool MoveAbsolutePosition(int position) {
 }
 
 void UserSeeksHome(void){
-    // Commands a speed of 5000 pulses/sec towards the hardstop for 2 seconds
+  /* Move towards the blade for homing, then repeat much more slowly to prevent blade deflection. Needs to be adjusted to use limit switch as probe */
+    // Commands a speed of 4000 pulses/sec towards the hardstop for 2 seconds
     SerialPort.SendLine("Homing . . . Waiting for motor to finish");
-    motor.MoveVelocity(5000);
+    motor.MoveVelocity(4000);
     Delay_ms(2000);
     // Then slows down to 1000 pulses/sec until clamping into the hard stop
     motor.MoveVelocity(1000);
@@ -446,6 +439,22 @@ void UserSeeksHome(void){
     // Move away from the hard stop. Any move away from the hardstop will
     // conclude the homing sequence.
     motor.Move(-1000);
+
+    //Repeat, but much slower to prevent blade deflection
+    motor.MoveVelocity(500);
+    // Delay so HLFB has time to deassert
+    Delay_ms(10);
+    // Waits for HLFB to assert again, meaning the hardstop has been reached
+    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+        continue;
+    }
+    // Stop the velocity move now that the hardstop is reached
+    motor.MoveStopAbrupt();
+    // Move away from the hard stop. Any move away from the hardstop will
+    // conclude the homing sequence.
+    motor.Move(-1000);
+
+
     // Delay so HLFB has time to deassert
     Delay_ms(10);
     // Waits for HLFB to assert, meaning homing is complete
@@ -548,33 +557,6 @@ void myGenieEventHandler(void)
           genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
         }
 
-        else if (Event.reportObject.index == AxisFormVelEditGenieNum)                         // If Winbutton7 (Index = 7) - Axis0 Move Velocity Edit
-        {
-          PreviousForm = 2 + i;                                         // Keep a record of the Form number we came from
-          LEDDigitToEdit = AxisFormVelGenieNum;                      // The LED Digit which will take this edited value
-          DigitsToEdit = 4;                                             // The number of Digits (4 or 5)
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen
-          genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
-        }
-
-        else if (Event.reportObject.index == AxisFormAccelEditGenieNum)                       // If Winbutton8 (Index = 8) - Axis0 Move Acceleration Edit
-        {
-          PreviousForm = 2 + i;                                         // Keep a record of the Form number we came from
-          LEDDigitToEdit = AxisFormAccelGenieNum;                    // The LED Digit which will take this edited value
-          DigitsToEdit = 4;                                             // The number of Digits (4 or 5)
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen
-          genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
-        }
-
-        else if (Event.reportObject.index == AxisFormDwellEditGenieNum)                         // If Winbutton9 (Index = 9) - Axis0 Dwell Edit
-        {
-          PreviousForm = 2 + i;                                         // Keep a record of the Form number we came from
-          LEDDigitToEdit = AxisFormDwellGenieNum;                    // The LED Digit which will take this edited value
-          DigitsToEdit = 4;                                             // The number of Digits (4 or 5)
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen
-          genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
-        }
-
       /***************************** Form 5 Winbuttons **************************/
 
       if (Event.reportObject.index == 18)                             // If Winbutton18 (Index = 18) - Edit Parameter Cancel
@@ -639,22 +621,11 @@ void myGenieEventHandler(void)
 
             if (LEDDigitToEdit == AxisFormDistGenieNum)
             {
-              AxisMoveDist = newValue;
+              AxisMoveDist = newValue; 
+              //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
+              //Need to add conditional for metric or imperial, and conversion from those to steps. AxisMoveDist has units of steps.
             }
-            else if (LEDDigitToEdit == AxisFormVelGenieNum)
-            {
-              AxisMoveVel = constrain(newValue, 0, 6000);                // Limit velocity input to 0-6000 range
-              motor.VelMax(AxisMoveVel * ConversionFactor);             // Conversion factor applied to sent the motor the RPM (rather than steps/s)
-            }
-            else if (LEDDigitToEdit == AxisFormAccelGenieNum)
-            {
-              AxisMoveAccel = newValue;
-              motor.AccelMax(AxisMoveAccel * ConversionFactor);         // Conversion factor applied to send the motor the RPM/s (rather than steps/s/s)
-            }
-            else if (LEDDigitToEdit == AxisFormDwellGenieNum)
-            {
-              AxisDwell = newValue;
-            }
+            
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
       }
     }
