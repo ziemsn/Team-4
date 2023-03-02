@@ -479,81 +479,44 @@ void myGenieEventHandler(void)
   {
     if (Event.reportObject.object == GENIE_OBJ_4DBUTTON)              // If the Reported Message was from a 4DButton
     {
-        /***************************** Form 1 4D Buttons **************************/
 
-        if (Event.reportObject.index == Form1StartGenieNum)                              // If 4DButton0 (Index = 0) - Axis0 Start
+      /***************************** Form 2-4 4D Buttons **************************/
+      if (Event.reportObject.index == AxisFormClrFaultGenieNum)                         // If 4DButton6 (Index = 6) - Main Screen Clear Fault
+      {
+        Serial.print(motorConnectorNames[0]); Serial.println(" Clearing Fault if present");
+        if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
         {
-          AxisStopRun = 1;
-        }
-        else if (Event.reportObject.index == Form1StopGenieNum)                         // If 4DButton1 (Index = 1) - Axis0 Stop
-        {
-          AxisStopRun = 0;
-        }
-
-        /***************************** Form 2-4 4D Buttons **************************/
-        else if (Event.reportObject.index == AxisFormClrFaultGenieNum)                         // If 4DButton6 (Index = 6) - Axis0 Clear Fault
-        {
-          Serial.print(motorConnectorNames[0]); Serial.println(" Clearing Fault if present");
-          if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
+          if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
           {
-            if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
-            {
-              motor.EnableRequest(false);
-              delay(10);
-              motor.EnableRequest(true);                               // Cycle the enable to clear the motor fault
-            }
-            motor.ClearAlerts();                                       // Clear the Alert
+            motor.EnableRequest(false);
+            delay(10);
+            motor.EnableRequest(true);                               // Cycle the enable to clear the motor fault
           }
-        }
-
-        else if (Event.reportObject.index == AxisFormContModeGenieNum)                         // If 4DButton9 (Index = 9) - Axis0 Continuous Mode
-        {
-          int temp;
-          temp = genie.GetEventData(&Event);                            // Grab the data associated with the button to detemine if its toggled on or off
-          if (temp == 1)
-          {
-            AxisContinuous = 1;                                        // Set Continuous Mode On
-          }
-          else
-          {
-            AxisContinuous = 0;                                        // Turn Contunuous Mode Off
-          }
+          motor.ClearAlerts();                                       // Clear the Alert
         }
       }
+
+    
+    
     }
 
     if (Event.reportObject.object == GENIE_OBJ_WINBUTTON)             // If the Reported Message was from a WinButton
     {
-      /***************************** Form 1 Winbuttons **************************/
-
-      if (Event.reportObject.index == 0)                              // If Winbutton0 (Index = 0) - Main Screen Axis 1 Info
-      {
-        genie.SetForm(2);                                             // Change to Form 2
-      }
-
-      else if (Event.reportObject.index == 1)                         // If Winbutton1 (Index = 1) - Main Screen Axis 2 Info
-      {
-        genie.SetForm(3);                                             // Change to Form 3
-      }
-
-      else if (Event.reportObject.index == 2)                         // If Winbutton2 (Index = 2) - Main Screen Axis 3 Info
-      {
-        genie.SetForm(4);                                             // Change to Form 4
-      }
+      
 
       /***************************** Axis Form  Winbuttons **************************/
-
+        //check for back button press
         if (Event.reportObject.index == AxisFormBackGenieNum)        // If Winbutton3 (Index = 3) - Axis0 Information Back
         {
-          genie.SetForm(1);                                             // Change to Form 1
+          genie.SetForm(3);                                             // Change to Main Screen
         }
-
+        //check for edit press
         else if (Event.reportObject.index == AxisFormDistEditGenieNum)                        // If Winbutton6 (Index = 6) - Axis0 Move Distance Edit
         {
-          PreviousForm = 2 + i;                                         // Keep a record of the Form number we came from
+          PreviousForm = 3;                                         // Return to the main screen
           LEDDigitToEdit = AxisFormDistGenieNum;                     // The LED Digit which will take this edited value
-          DigitsToEdit = 5;                                             // The number of Digits (4 or 5)
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen
+          DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
+          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
           genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
         }
 
@@ -619,12 +582,11 @@ void myGenieEventHandler(void)
 
 
 
-            if (LEDDigitToEdit == AxisFormDistGenieNum)
-            {
-              AxisMoveDist = newValue; 
-              //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
-              //Need to add conditional for metric or imperial, and conversion from those to steps. AxisMoveDist has units of steps.
-            }
+            
+            AxisMoveDist = newValue; 
+            //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
+            //Need to add conditional for metric or imperial, and conversion from those to steps. AxisMoveDist has units of steps.
+            
             
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
       }
