@@ -169,17 +169,14 @@ void setup() {
   // Sets all motor connectors into step and direction mode.
   MotorMgr.MotorModeSet(MotorManager::MOTOR_ALL, Connector::CPM_MODE_STEP_AND_DIR);
 
-  // Converts Revs/minute (RPM) into Steps/second
-  ConversionFactor = (float)MotorProgInputRes / (float)SecondsInMinute;
-
   // Set the motor's HLFB mode to bipolar PWM
   motor.HlfbMode(MotorDriver::HLFB_MODE_HAS_BIPOLAR_PWM);
   // Set the HFLB carrier frequency to 482 Hz
   motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
   // Sets the maximum velocity for each move
-  motor.VelMax(AxisMoveVel * ConversionFactor);
+  motor.VelMax(3000);//FIXME, this depends on system
   // Set the maximum acceleration for each move
-  motor.AccelMax(AxisMoveAccel * ConversionFactor);
+  motor.AccelMax(2000);
 
   // Sets up serial communication and waits up to 5 seconds for a port to open.
   // Serial communication is not required for this example to run.
@@ -231,74 +228,25 @@ void loop() {
       /************************************* FORM 0 *********************************************/
 
       case 0:         // If the current Form is 0 - Splash Screen
-        // Splash Screen Animation
-        while (loops < 8) // Play the below, 8 times
-        {
-          for (i = 0; i < 30; i++) // Play the 30 frames of each of the GIF files
-          {
-            genie.WriteObject(GENIE_OBJ_VIDEO, 3, i); // ClearCore Demo #1
-            delay(25);
-          }
-          loops++; // Do 8 loops of the Startup Screen, then change Form
-        }
-        // End Animation
-
-        genie.SetForm(1); // Change to Form 1
+        // Keeping the splash screen open for 5 seconds
+        delay(5000);
+        genie.SetForm(3); // Change to main screen
         break;
 
-      /************************************* FORM 1 *********************************************/
+      /************************************* FORM descriptions *********************************************/
 
-      case 1: // If the current Form is 1 - Main Screen
-          if (motor.StatusReg().bit.StepsActive) // Running Status
-          {
-            genie.WriteObject(GENIE_OBJ_VIDEO, Form1AxisAnimationGenieNum, AxisAnimation); // Play the Cog animation based on the Axis 1 Animation frame
-          }
-        break;
-
-      /********************************** Motor Forms ******************************************/
-      
+      case 1:       
       case 4:
-      case 3:
-      case 2:
-        AxisCurrentPos = constrain(motor.PositionRefCommanded(), 0, 65535);
-
-        if (motor.StatusReg().bit.StepsActive) // Running Status
-        {
-          genie.WriteObject(GENIE_OBJ_VIDEO, AxisFormAnimationGenieNum, AxisAnimation); // Play the Cog animation based on the Axis 1 Animation frame
-        }
-
-        // Update the LED Digits only if the value has changed
-        if (AxisCurrentPos != AxisCurrentPosLast)
-        {
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormCurrentPositionGenieNum, AxisCurrentPos); // Update Current Position
-          AxisCurrentPosLast = AxisCurrentPos;
-        }
+      case 3://main screen
         if (AxisMoveDist != AxisMoveDistLast)
-        {
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormDistGenieNum, AxisMoveDist); // Update Move Distance
-          AxisMoveDistLast = AxisMoveDist;
-        }
-        if (AxisMoveVel != AxisMoveVelLast)
-        {
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormVelGenieNum, AxisMoveVel); // Update Move Velocity
-          AxisMoveVelLast = AxisMoveVel;
-        }
-        if (AxisMoveAccel != AxisMoveAccelLast)
-        {
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormAccelGenieNum, AxisMoveAccel); // Update Move Acceleration
-          AxisMoveAccelLast = AxisMoveAccel;
-        }
-        if (AxisDwell != AxisDwellLast)
-        {
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormDwellGenieNum, AxisDwell); // Update Dwell
-          AxisDwellLast = AxisDwell;
-        }
-        if (AxisTorque != AxisTorqueLast)
-        {
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormTorqueGenieNum, AxisTorque);  // Update Torque %
-          AxisTorqueLast = AxisTorque;
-        }
-        break;
+          {
+            genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormDistGenieNum, AxisMoveDist); // Update Move Distance
+            AxisMoveDistLast = AxisMoveDist;
+          }
+          
+          break;
+      case 2:              
+        
 
       case 5: // If the current Form is 5 - Edit Parameter
         // Do something here if required
@@ -306,70 +254,10 @@ void loop() {
     }
 
 
-    /************************************ ANIMATION *******************************************/
-
-      //Serial.print("Axis0Driection = "); Serial.println(Axis0Direction);
-      if (motor.StatusReg().bit.StepsActive && !motor.StatusReg().bit.MoveDirection)
-      {
-        if (AxisAnimation < 59)
-          AxisAnimation++;
-        else
-          AxisAnimation = 0;
-      }
-      else if (motor.StatusReg().bit.StepsActive && motor.StatusReg().bit.MoveDirection)
-      {
-        if (AxisAnimation > 0)
-          AxisAnimation--;
-        else
-          AxisAnimation = 59;
-      }
-
       /************* MOTOR ***************/
-
-      //Dwell is going to be removed
-      // Commands motion when the start button is pushed, using 
-      //  - a reciprocating absolute position move between 0 and an end position, with a dwell at each end
-      if (AxisStopRun  && !AxisFault)
-      {
-        // define a timeout as soon as the motor has stopped using the user defined dwell time
-        if (motor.StepsComplete() && motor.HlfbState() == MotorDriver::HLFB_ASSERTED)
-        {
-          if (!AxisStartedDwell)
-          {
-            AxisStartedDwell = 1;
-            AxisDwellTimeout = millis() + AxisDwell;
-            Serial.print(motorConnectorNames[0]); Serial.print(" At Position "); Serial.println(AxisMoveTarget);
-          }
-        }
-
-        // if the move is a position move, only command motion after the dwell timeout time has elapsed
-//        else {
-          if (AxisStartedDwell && millis() >= AxisDwellTimeout)
-          {
-            AxisStartedDwell = 0;
-            // if the last target position was 0, the new target position is 'Move Distance'
-            if (AxisMoveTarget == 0)
-            {
-              AxisMoveTarget = AxisMoveDist;
-              // if the last target position was not 0, the new target position is back to 0
-            } else {
-              AxisMoveTarget = 0;
-            }
-            Serial.print(motorConnectorNames[0]); Serial.print(" Starting move "); Serial.println(AxisMoveTarget);
-          }
           // command the position move (see function definition below)
           MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position**********
-//        }
-      }
-
-
-      // Stops the motor once the stop button is hit
-      if (!AxisStopRun)
-      {
-        Serial.print(motorConnectorNames[0]); Serial.println(" Stopped");
-        motor.MoveStopDecel(AxisMoveAccel);
-      }
-
+      
 
 
       // If a new fault is detected, turn on the axis Fault LED
@@ -377,13 +265,13 @@ void loop() {
       {
         AxisFault = true;
         Serial.print(motorConnectorNames[0]); Serial.println(" status: 'In Alert'");
-        genie.WriteObject(GENIE_OBJ_USER_LED, AxisFormFaultLEDGenieNum, 1);
+        genie.WriteObject(GENIE_OBJ_USER_LED, 1, 1);//Set user led 1, to value 1(On)
       }
       // If the fault has sucessfully been cleared, turn off the axis Fault LED
       else if (!motor.StatusReg().bit.AlertsPresent && AxisFault)
       {
         AxisFault = false;
-        genie.WriteObject(GENIE_OBJ_USER_LED, AxisFormFaultLEDGenieNum, 0);
+        genie.WriteObject(GENIE_OBJ_USER_LED, 1, 0);
       }
 
     waitPeriod = millis() + 50; // rerun this code in another 50ms time.
