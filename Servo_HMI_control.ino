@@ -516,7 +516,7 @@ void myGenieEventHandler(void)
           PreviousForm = 3;                                         // Return to the main screen
           LEDDigitToEdit = AxisFormDistGenieNum;                     // The LED Digit which will take this edited value
           DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen
+          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
           genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
         }
 
@@ -582,12 +582,11 @@ void myGenieEventHandler(void)
 
 
 
-            if (LEDDigitToEdit == AxisFormDistGenieNum)
-            {
-              AxisMoveDist = newValue; 
-              //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
-              //Need to add conditional for metric or imperial, and conversion from those to steps. AxisMoveDist has units of steps.
-            }
+            
+            AxisMoveDist = newValue; 
+            //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
+            //Need to add conditional for metric or imperial, and conversion from those to steps. AxisMoveDist has units of steps.
+            
             
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
       }
