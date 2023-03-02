@@ -255,8 +255,8 @@ void loop() {
 
 
       /************* MOTOR ***************/
-          // command the position move (see function definition below)
-          MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position**********
+      // command the position move (see function definition below)
+      MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position **********
       
 
 
