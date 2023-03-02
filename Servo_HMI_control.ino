@@ -420,7 +420,7 @@ bool MoveAbsolutePosition(int position) {
     return true;
 }
 
-void UserSeeksHome(void){
+void UserSeeksHome(void){//Check step direection, whether clockwise or anticlockwise is toward blade
   /* Move towards the blade for homing, then repeat much more slowly to prevent blade deflection. Needs to be adjusted to use limit switch as probe */
     // Commands a speed of 4000 pulses/sec towards the hardstop for 2 seconds
     SerialPort.SendLine("Homing . . . Waiting for motor to finish");
@@ -450,6 +450,9 @@ void UserSeeksHome(void){
     }
     // Stop the velocity move now that the hardstop is reached
     motor.MoveStopAbrupt();
+    // Zero the motor's reference position after homing to allow for accurate
+    // absolute position moves
+    motor.PositionRefSet(0);
     // Move away from the hard stop. Any move away from the hardstop will
     // conclude the homing sequence.
     motor.Move(-1000);
@@ -463,9 +466,7 @@ void UserSeeksHome(void){
         continue;
     }
     SerialPort.SendLine("Homing Complete. Motor Ready.");
-    // Zero the motor's reference position after homing to allow for accurate
-    // absolute position moves
-    motor.PositionRefSet(0);
+    
     return;
 }
 
