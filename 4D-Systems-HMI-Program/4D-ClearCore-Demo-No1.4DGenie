@@ -390,25 +390,6 @@ Form
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
-StaticText
-    Name                         Statictext41
-    Alias                        Statictext41
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      'Edit Parameter'
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 [Underline]
-    Font.Name                    Tahoma
-    Font.Size                    18
-    Font.Style                   []
-    Height                       29
-    Left                         9
-    Top                          4
-    Transparent                  Yes
-    Width                        158
-    WordWrap                     Yes
-end
 Keyboard
     Name                         Keyboard0
     Alias                        Keyboard0
@@ -423,13 +404,13 @@ Keyboard
     HighlightCaps                BLACK
     KeyboardType                 KB1
     KeyDistance                  0
-    Left                         41
+    Left                         0
     SmallFont.Color              BLACK
     SmallFont.Effects            []
     SmallFont.Name               Tahoma
     SmallFont.Size               12
     SmallFont.Style              [Bold]
-    Top                          43
+    Top                          47
     Width                        342
     OnChanged                    'Report Message'
 end
@@ -445,8 +426,8 @@ LedDigits
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x002B00
-    Top                          0
-    Width                        185
+    Top                          4
+    Width                        180
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -499,6 +480,44 @@ WinButton
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
+end
+StaticText
+    Name                         Statictext4
+    Alias                        'Enter Length'
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      'Enter Length between'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    9
+    Font.Style                   []
+    Height                       20
+    Left                         8
+    Top                          16
+    Transparent                  Yes
+    Width                        135
+    WordWrap                     Yes
+end
+StaticText
+    Name                         Statictext5
+    Alias                        UnitsRange
+    Alignment                    Left
+    AutoSize                     Yes
+    Caption                      '___ and ___, UNITS'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    9
+    Font.Style                   []
+    Height                       28
+    Left                         148
+    Top                          16
+    Transparent                  Yes
+    Width                        120
+    WordWrap                     Yes
 end
 Form
     Name                         Form1
