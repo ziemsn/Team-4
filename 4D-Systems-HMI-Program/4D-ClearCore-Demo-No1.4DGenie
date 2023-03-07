@@ -16,7 +16,7 @@ Options
     ButtonDisable                No
     SignedDigits                 No
     MaxString                    75
-    ComPort                      0
+    ComPort                      1
     ComTX1pinIdx                 0
     ComRX1pinIdx                 0
     FileSystem                   FATfs
@@ -247,7 +247,7 @@ iSwitch
     Height                       30
     Left                         340
     OFFColor                     DARKRED
-    OFFLabel                     Miliimeters
+    OFFLabel                     Millimeters
     OFFLabelColor                WHITE
     ONColor                      DARKRED
     ONLabel                      Inches
@@ -337,13 +337,13 @@ WinButton
     Bevel                        Yes
     BevelColor                   clWhite
     Caption                      'Start Process'
-    Color                        HONEYDEW
+    Color                        GREEN
     Font.Color                   clWindowText
     Font.Effects                 []
     Font.Name                    Tahoma
     Font.Size                    16
     Font.Style                   []
-    Height                       116
+    Height                       103
     Left                         0
     Matrix                       -1
     Momentary                    Yes
@@ -366,8 +366,8 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          156
-    Width                        258
+    Top                          169
+    Width                        187
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -568,11 +568,59 @@ StaticText
     Font.Size                    36
     Font.Style                   []
     Height                       68
-    Left                         40
-    Top                          116
+    Left                         64
+    Top                          120
     Transparent                  Yes
     Width                        340
     WordWrap                     Yes
+end
+WinButton
+    Name                         Winbutton4
+    Alias                        Winbutton4
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      STOP
+    Color                        clGray
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       35
+    Left                         221
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          214
+    Width                        120
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
 end
 Form
     Name                         Form4
@@ -672,6 +720,54 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          200
     Width                        176
+    OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+WinButton
+    Name                         Winbutton3
+    Alias                        Main/reset
+    Appearance.Alignment         Center
+    Appearance.Layout            Left
+    Appearance.PictureAlignment  Right
+    Appearance.SimpleLayout      No
+    Appearance.Spacing           3
+    AutoSizeToPicture            No
+    Bevel                        Yes
+    BevelColor                   clWhite
+    Caption                      'Go to Main Screen / Reset'
+    Color                        clGray
+    Font.Color                   clWindowText
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    8
+    Font.Style                   []
+    Height                       35
+    Left                         24
+    Matrix                       -1
+    Momentary                    Yes
+    Picture                      (None)
+    StatusWhenOff.BGcolor        RED
+    StatusWhenOff.Caption        ''
+    StatusWhenOff.Glow           Yes
+    StatusWhenOff.Color          WHITE
+    StatusWhenOff.Effects        []
+    StatusWhenOff.Name           Tahoma
+    StatusWhenOff.Size           8
+    StatusWhenOff.Style          []
+    StatusWhenOff.Visible        Yes
+    StatusWhenOn.BGcolor         RED
+    StatusWhenOn.Caption         ''
+    StatusWhenOn.Glow            Yes
+    StatusWhenOn.Color           WHITE
+    StatusWhenOn.Effects         []
+    StatusWhenOn.Name            Tahoma
+    StatusWhenOn.Size            8
+    StatusWhenOn.Style           []
+    StatusWhenOn.Visible         Yes
+    Top                          212
+    Width                        120
     OnChanged                    ''
     OnTouchMoving                ''
     OnTouchPressed               ''
@@ -908,6 +1004,23 @@ WinButton
     Top                          168
     Width                        149
     OnChanged                    ''
+    OnTouchMoving                ''
+    OnTouchPressed               ''
+    OnTouchReleased              ''
+end
+Form
+    Name                         Form2
+    Alias                        'Confirm Begin Process'
+    Bgtype                       Color
+    Color                        BLACK
+    Image                        (None)
+    Source.Height                0
+    Source.Left                  0
+    Source.Top                   0
+    Source.Width                 0
+    OnActivate                   ''
+    OnCreate                     ''
+    OnRepeat                     ''
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''

@@ -311,7 +311,7 @@ bool MoveAbsolutePosition(int position) {
 void UserSeeksHome(void){//Check step direection, whether clockwise or anticlockwise is toward blade
   /* Move towards the blade for homing, then repeat much more slowly to prevent blade deflection. Needs to be adjusted to use limit switch as probe */
     // Commands a speed of 4000 pulses/sec towards the hardstop for 2 seconds
-    SerialPort.SendLine("Homing . . . Waiting for motor to finish");
+    Serial.println("Homing . . . Waiting for motor to finish");
     motor.MoveVelocity(4000);
     Delay_ms(2000);
     // Then slows down to 1000 pulses/sec until clamping into the hard stop
@@ -349,11 +349,11 @@ void UserSeeksHome(void){//Check step direection, whether clockwise or anticlock
     // Delay so HLFB has time to deassert
     Delay_ms(10);
     // Waits for HLFB to assert, meaning homing is complete
-    SerialPort.SendLine("Moving away from hardstop... Waiting for motor");
+    Serial.println("Moving away from hardstop... Waiting for motor");
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
     }
-    SerialPort.SendLine("Homing Complete. Motor Ready.");
+    Serial.println("Homing Complete. Motor Ready.");
     
     return;
 }
@@ -481,4 +481,5 @@ void myGenieEventHandler(void)
       }
     }
   }
+}
 }
