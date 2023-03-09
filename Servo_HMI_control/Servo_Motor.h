@@ -106,7 +106,7 @@ void resetMotor() {
 
 void setMotorStates(int runState, int locationState) {
   MotorRunState = runState;
-  MotorLocationState = locationState; //
+  MotorLocationState = locationState;
 }
 
 int getMotorRunState() {
