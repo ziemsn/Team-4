@@ -29,6 +29,7 @@ Setup:
 */
 #include "Servo_Motor.h"
 #include "Blade_Saw.h"
+#include "HomeSensor.h"
 #include <genieArduinoDEV.h>
 
 Genie genie;
@@ -97,16 +98,11 @@ char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
 int temp, sumTemp;                    // Keyboard Temp values
 
-// Declares our user-defined helper function, which is used to command moves to
-// the motor. The definition/implementation of this function is at the  bottom
-// of the example
-bool MoveAbsolutePosition(int position);
-
 
 void setup() {
 
   initMotorParams();
-  resetMotor();
+
 
   // Sets up serial communication and waits up to 5 seconds for a port to open.
   // Serial communication is not required for this example to run.
@@ -130,10 +126,9 @@ void setup() {
     genie.AttachEventHandler(myGenieEventHandler); // Attach the user function Event Handler for processing events
   }
 
-    // Enables the motor; homing will begin automatically if "normal" ClearPath automatic homing is enabled
-    motor.EnableRequest(true);
-    Serial.println("Motor Enabled");
-    delay(10);
+    resetMotor();
+
+
 
   genie.SetForm(0); // Change to Form 0
   CurrentForm = 0;
@@ -145,6 +140,10 @@ void setup() {
 void loop() {
   
   static unsigned long waitPeriod = millis();
+
+  //Need to keep monitoring both home sensor and blade states
+  detectHomeSensorState();
+  detectBladeState();
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
 
@@ -186,6 +185,8 @@ void loop() {
 
       /************* MOTOR ***************/
       // command the position move (see function definition below)
+      //Need to check Motor state and then start to move
+      //Motor State == MOTOR_STOPPED && 
       MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position **********
       
 

@@ -17,8 +17,8 @@ int getBladeState() {
 
 
 //Put the bladesaw's state based on switch on and off on ClearCore
-//Return BLADE_UP or BLADE_DOWN
-int detectBladeState() {
+//SET BLADE_UP or BLADE_DOWN
+void detectBladeState() {
 
 
   

@@ -1,8 +1,6 @@
 
 #include "ClearCore.h"
 
-#define MOTOR_AT_HOME 1
-#define MOTOR_NOT_AT_HOME 2
 #define MOTOR_IS_MOVING 3
 #define MOTOR_STOPPED 4
 #define MOTOR_IN_CUT_POSITION 5
@@ -14,7 +12,8 @@
 #define motor ConnectorM0
 
 
-int MotorState;
+int MotorRunState;
+int MotorLocationState;
 
 // Boolean variable to track the state of the motor, Stop = 0, Run = 1
 bool AxisStopRun = 0;
@@ -96,16 +95,24 @@ void initMotorParams() {
 
 //when the system restart. reset the motor by calling the following function
 void resetMotor() {
-  
+    // Enables the motor; homing will begin automatically if "normal" ClearPath automatic homing is enabled
+    motor.EnableRequest(true);
+    Serial.println("Motor Enabled");
+    delay(10);
 }
 
 
-void setMotorState(int state) {
-  MotorState = state;
+void setMotorStates(int runState, int locationState) {
+  MotorRunState = runState;
+  MotorLocationState = locationState;
 }
 
-int getMotorState() {
-  return MotorState;
+int getMotorRunState() {
+  return MotorRunState;
+}
+
+int getMotorLocationState() {
+  return MotorLocationState;
 }
 
 //bool isMotorInitialized() {
