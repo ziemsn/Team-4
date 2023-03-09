@@ -95,16 +95,18 @@ void initMotorParams() {
 
 //when the system restart. reset the motor by calling the following function
 void resetMotor() {
-    // Enables the motor; homing will begin automatically if "normal" ClearPath automatic homing is enabled
-    motor.EnableRequest(true);
-    Serial.println("Motor Enabled");
-    delay(10);
+  // Enables the motor; homing will begin automatically if "normal" ClearPath automatic homing is enabled
+  motor.EnableRequest(false);
+  delay(10);
+  motor.EnableRequest(true); 
+  Serial.println("Motor Enabled");
+  delay(10);
 }
 
 
 void setMotorStates(int runState, int locationState) {
   MotorRunState = runState;
-  MotorLocationState = locationState;
+  MotorLocationState = locationState; //
 }
 
 int getMotorRunState() {
