@@ -31,6 +31,8 @@ Setup:
 #include "Blade_Saw.h"
 #include "HomeSensor.h"
 #include <genieArduinoDEV.h>
+#include <ClearCore.h>
+]
 
 Genie genie;
 
@@ -54,9 +56,6 @@ char motorConnectorNames[1][6] = {"Motor"};
 // ClearCore Baud Rate, for 4D Display
 #define baudRate 115200
 
-// Define the velocity and acceleration limits to be used for each move
-int velocityLimit = 5000; // pulses per sec
-int accelerationLimit = 10000; // pulses per sec^2
 
 int i, k;
 int loops = 0;                        // Used for the Form0 animation sequence
@@ -65,34 +64,23 @@ int PreviousForm = -1;                // The Form/Page we came from
 int LEDDigitToEdit = -1;              // The LED Digit index which will be edited
 int DigitsToEdit = -1;                // The number of digits in the LED Digit being edited
 
-int MotorProgInputRes = 800;          // Motor Programmed Input Resolution (Change this if you change the motor value in MSP)
+int MotorProgInputRes = 6400;          // Motor Programmed Input Resolution (Change this if you change the motor value in MSP)
 int SecondsInMinute = 60;             // Seconds in a minute
-float ConversionFactor;               // Used to convert RPM into Steps/s
 
 
+//Stored Variables
+int MoveDist = 0;
+int MoveDistLast = 0;
 
-//Genie Axis Form #s
-int Form1AxisAnimationGenieNum = 4;
-int Form1StartGenieNum = 0;
-int Form1StopGenieNum = 1;
+//Genie Form Item indeces
+int CurrentPositionGenieNum = 0;
+int DistGenieNum = 1;
 
-int AxisFormAnimationGenieNum = 7;
-int AxisFormCurrentPositionGenieNum = 0;
-int AxisFormDistGenieNum = 1;
-int AxisFormVelGenieNum = 2;
-int AxisFormAccelGenieNum = 3;
-int AxisFormDwellGenieNum = 4;
-int AxisFormTorqueGenieNum = 5;
+int FaultLEDGenieNum = 0;
+int ClrFaultGenieNum = 6;
 
-int AxisFormFaultLEDGenieNum = 0;
-
-int AxisFormClrFaultGenieNum = 6;
-int AxisFormContModeGenieNum = 7;
-int AxisFormBackGenieNum = 3;
-int AxisFormDistEditGenieNum = 4;
-int AxisFormVelEditGenieNum = 5;
-int AxisFormAccelEditGenieNum = 6;
-int AxisFormDwellEditGenieNum = 7;
+int BackGenieNum = 3;
+int DistEditGenieNum = 4;
 
 char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
@@ -165,12 +153,12 @@ void loop() {
       /************************************* FORM descriptions *********************************************/
 
       case 1:       
-      case 4:
-      case 3://main screen
-        if (AxisMoveDist != AxisMoveDistLast)
+      case 2:
+      case 3: //main screen
+        if (MoveDist != MoveDistLast)
           {
-            genie.WriteObject(GENIE_OBJ_LED_DIGITS, AxisFormDistGenieNum, AxisMoveDist); // Update Move Distance
-            AxisMoveDistLast = AxisMoveDist;
+            genie.WriteObject(GENIE_OBJ_LED_DIGITS, DistGenieNum, MoveDist); // Update Move Distance
+            MoveDistLast = MoveDist;
           }
           
           break;
@@ -222,7 +210,7 @@ void myGenieEventHandler(void)
     {
 
       /***************************** Form 2-4 4D Buttons **************************/
-      if (Event.reportObject.index == AxisFormClrFaultGenieNum)                         // If 4DButton6 (Index = 6) - Main Screen Clear Fault
+      if (Event.reportObject.index == 8)                         //8 is the index of the clear fault button 
       {
         Serial.print(motorConnectorNames[0]); Serial.println(" Clearing Fault if present");
         if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
