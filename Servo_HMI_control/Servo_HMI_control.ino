@@ -75,13 +75,14 @@ bool fault = false;
 
 //Genie Form Item indeces
 int CurrentPositionGenieNum = 0;
-int DistGenieNum = 1;
+int DistGenieNum = 7;
 
-int faultLEDGenieNum = 0;
-int ClrfaultGenieNum = 6;
+int faultLEDGenieNum = 1;
+int ClrfaultGenieNum = 8;
 
 int BackGenieNum = 3;
-int DistEditGenieNum = 4;
+int DistEditGenieNum = 9;
+int EditInputDigitNum = 18;
 
 char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
@@ -209,23 +210,8 @@ void myGenieEventHandler(void)
     if (Event.reportObject.object == GENIE_OBJ_4DBUTTON)              // If the Reported Message was from a 4DButton
     {
 
-      /***************************** Form 2-4 4D Buttons **************************/
-      if (Event.reportObject.index == 8)                         //8 is the index of the clear fault button 
-      {
-        Serial.print(motorConnectorNames[0]); Serial.println(" Clearing fault if present");
-        if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
-        {
-          if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
-          {
-            motor.EnableRequest(false);
-            delay(10);
-            motor.EnableRequest(true);                               // Cycle the enable to clear the motor fault
-          }
-          motor.ClearAlerts();                                       // Clear the Alert
-        }
-      }
-
-    
+      /***************************** Form 4D Buttons **************************/
+         
     
     }
 
@@ -234,6 +220,23 @@ void myGenieEventHandler(void)
       
 
       /***************************** Form  Winbuttons **************************/
+        
+        //Check for clear fault press
+        if (Event.reportObject.index == ClrfaultGenieNum)                         //8 is the index of the clear fault button 
+        {
+          Serial.print(motorConnectorNames[0]); Serial.println(" Clearing fault if present");
+          if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
+          {
+            if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
+            {
+              motor.EnableRequest(false);
+              delay(10);
+              motor.EnableRequest(true);                               // Cycle the enable to clear the motor fault
+            }
+            motor.ClearAlerts();                                       // Clear the Alert
+          }
+        }
+
         //check for back button press
         if (Event.reportObject.index == BackGenieNum)        // If Winbutton3 (Index = 3) - 0 Information Back
         {
@@ -241,17 +244,20 @@ void myGenieEventHandler(void)
         }
         //check for edit press
         else if (Event.reportObject.index == DistEditGenieNum)                        // If Winbutton6 (Index = 6) - 0 Move Distance Edit
-        {
-          PreviousForm = 3;                                         // Return to the main screen
-          LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
-          DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-          genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
+        {//check if motor 
+          if (MotorRunState == MOTOR_STOPPED)
+          {
+            PreviousForm = 3;                                         // Always eturn to the main screen
+            LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
+            DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
+            genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
+            genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
+          }
         }
 
       /***************************** Form 5 Winbuttons **************************/
 
-      if (Event.reportObject.index == 18)                             // If Winbutton18 (Index = 18) - Edit Parameter Cancel
+      if (Event.reportObject.index == EditInputDigitNum)                             // If Winbutton18 (Index = 18) - Edit Parameter Cancel
       {
         if (MotorRunState == MOTOR_IS_MOVING)
         {
