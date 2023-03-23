@@ -15,63 +15,6 @@
 int MotorRunState;
 int MotorLocationState;
 
-// Boolean variable to track the state of the motor, Stop = 0, Run = 1
-bool AxisStopRun = 0;
-
-// Integer variable to track the current step count of the motor's encoder
-int AxisCurrentPos = 0;
-
-// Integer variable to store the default move distance for the motor
-int AxisMoveDist = 4000;
-
-// Integer variable to store the default move velocity for the motor
-int AxisMoveVel = 800;
-
-// Integer variable to store the default move acceleration for the motor
-int AxisMoveAccel = 4000;
-
-// Integer variable to store the default dwell time for the motor
-int AxisDwell = 800;
-
-// Unsigned long variable to store the timeout for the dwell time
-unsigned long AxisDwellTimeout = 0;
-
-// Integer variable to store the torque of the motor
-int AxisTorque = 0;
-
-// Integer variable to store the last recorded position of the motor
-int AxisCurrentPosLast = 0;
-
-// Integer variable to store the last recorded move distance for the motor
-int AxisMoveDistLast = 0;
-
-// Integer variable to store the last recorded move velocity for the motor
-int AxisMoveVelLast = 0;
-
-// Integer variable to store the last recorded move acceleration for the motor
-int AxisMoveAccelLast = 0;
-
-// Integer variable to store the last recorded dwell time for the motor
-int AxisDwellLast = 0;
-
-// Integer variable to store the last recorded torque of the motor
-int AxisTorqueLast = 0;
-
-// Integer variable to store the current frame of the animation
-int AxisAnimation = 0;
-
-// Integer variable to store the target position for the motor to move to
-int AxisMoveTarget = 0;
-
-// Boolean variable to track if the motor has a fault, 0 if no fault, 1 if fault
-bool AxisFault = 0;
-
-// Boolean variable to track if the motor is in continuous mode, 1 if continuous, 0 if not
-bool AxisContinuous = 0;
-
-// Boolean variable to track if the dwell time has started
-bool AxisStartedDwell = 0;
-
 
 void initMotorParams() {
 

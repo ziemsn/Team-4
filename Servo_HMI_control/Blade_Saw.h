@@ -1,10 +1,11 @@
-// Assumes normally-closed blade state switch
-
+/* 
+ *  Assumes normally-closed blade state switch
+*/
 #include "ClearCore.h"
 
 #define BLADE_UP 7
 #define BLADE_DOWN 8
-#define Blade_State_Pin D16
+#define Blade_State_Pin DI6
 
 int BladeState;
 

@@ -32,7 +32,7 @@ Setup:
 #include "HomeSensor.h"
 #include <genieArduinoDEV.h>
 #include <ClearCore.h>
-]
+
 
 Genie genie;
 
@@ -71,13 +71,14 @@ int SecondsInMinute = 60;             // Seconds in a minute
 //Stored Variables
 int MoveDist = 0;
 int MoveDistLast = 0;
+bool fault = false;
 
 //Genie Form Item indeces
 int CurrentPositionGenieNum = 0;
 int DistGenieNum = 1;
 
-int FaultLEDGenieNum = 0;
-int ClrFaultGenieNum = 6;
+int faultLEDGenieNum = 0;
+int ClrfaultGenieNum = 6;
 
 int BackGenieNum = 3;
 int DistEditGenieNum = 4;
@@ -118,10 +119,10 @@ void setup() {
 
 
 
-  genie.SetForm(0); // Change to Form 0
-  CurrentForm = 0;
+  genie.SetForm(1); // Change to Form 0 //should add INIT_FORM variable?
+  CurrentForm = 1;
 
-  genie.WriteContrast(15); // Max Brightness (0-15 range)
+  genie.WriteContrast(7); // Max Brightness (0-15 range)
 
 }
 
@@ -161,8 +162,7 @@ void loop() {
             MoveDistLast = MoveDist;
           }
           
-          break;
-      case 2:              
+          break;            
         
 
       case 5: // If the current Form is 5 - Edit Parameter
@@ -175,21 +175,21 @@ void loop() {
       // command the position move (see function definition below)
       //Need to check Motor state and then start to move
       //Motor State == MOTOR_STOPPED && 
-      MoveAbsolutePosition(AxisMoveTarget); // Move Motor 0 to Distance position **********
+      MoveAbsolutePosition(MoveDist); // Move Motor 0 to Distance position **********
       
 
 
-      // If a new fault is detected, turn on the axis Fault LED
-      if (motor.StatusReg().bit.AlertsPresent && !AxisFault)
+      // If a new fault is detected, turn on the  fault LED
+      if (motor.StatusReg().bit.AlertsPresent && !fault)
       {
-        AxisFault = true;
+        fault = true;
         Serial.print(motorConnectorNames[0]); Serial.println(" status: 'In Alert'");
         genie.WriteObject(GENIE_OBJ_USER_LED, 1, 1);//Set user led 1, to value 1(On)
       }
-      // If the fault has sucessfully been cleared, turn off the axis Fault LED
-      else if (!motor.StatusReg().bit.AlertsPresent && AxisFault)
+      // If the fault has sucessfully been cleared, turn off the  fault LED
+      else if (!motor.StatusReg().bit.AlertsPresent && fault)
       {
-        AxisFault = false;
+        fault = false;
         genie.WriteObject(GENIE_OBJ_USER_LED, 1, 0);
       }
 
@@ -212,7 +212,7 @@ void myGenieEventHandler(void)
       /***************************** Form 2-4 4D Buttons **************************/
       if (Event.reportObject.index == 8)                         //8 is the index of the clear fault button 
       {
-        Serial.print(motorConnectorNames[0]); Serial.println(" Clearing Fault if present");
+        Serial.print(motorConnectorNames[0]); Serial.println(" Clearing fault if present");
         if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
         {
           if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
@@ -233,17 +233,17 @@ void myGenieEventHandler(void)
     {
       
 
-      /***************************** Axis Form  Winbuttons **************************/
+      /***************************** Form  Winbuttons **************************/
         //check for back button press
-        if (Event.reportObject.index == AxisFormBackGenieNum)        // If Winbutton3 (Index = 3) - Axis0 Information Back
+        if (Event.reportObject.index == BackGenieNum)        // If Winbutton3 (Index = 3) - 0 Information Back
         {
           genie.SetForm(3);                                             // Change to Main Screen
         }
         //check for edit press
-        else if (Event.reportObject.index == AxisFormDistEditGenieNum)                        // If Winbutton6 (Index = 6) - Axis0 Move Distance Edit
+        else if (Event.reportObject.index == DistEditGenieNum)                        // If Winbutton6 (Index = 6) - 0 Move Distance Edit
         {
           PreviousForm = 3;                                         // Return to the main screen
-          LEDDigitToEdit = AxisFormDistGenieNum;                     // The LED Digit which will take this edited value
+          LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
           DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
           genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
           genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
@@ -312,9 +312,9 @@ void myGenieEventHandler(void)
 
 
             
-            AxisMoveDist = newValue; 
+            MoveDist = newValue; 
             //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
-            //Need to add conditional for metric or imperial, and conversion from those to steps. AxisMoveDist has units of steps.
+            //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
             
             
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
