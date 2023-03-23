@@ -49,10 +49,6 @@ Genie genie;
 
 //----------------------------------------------------------------------------------------
 
-
-// The containers for our motor objects.
-char motorConnectorNames[1][6] = {"Motor"};
-
 // ClearCore Baud Rate, for 4D Display
 #define baudRate 115200
 
@@ -84,10 +80,13 @@ int ClrfaultGenieNum = 8;
 int BackGenieNum = 3;
 int DistEditGenieNum = 9;
 int EditInputDigitNum = 18;
+int FinishedCuttingGenieNum = 1;
 
 int StopMotionGenieNum = 4;
 int ClampConfirmGenieNum = 0;
-int GoMainGeniNum = 3;
+int GoMainGenieNum = 3;
+int CutSameGenieNum = 2;
+int NewCutGenieNum = 10;
 
 char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
@@ -97,7 +96,6 @@ int temp, sumTemp;                    // Keyboard Temp values
 void setup() {
 
   initMotorParams();
-
 
   // Sets up serial communication and waits up to 5 seconds for a port to open.
   // Serial communication is not required for this example to run.
@@ -120,10 +118,7 @@ void setup() {
   {
     genie.AttachEventHandler(myGenieEventHandler); // Attach the user function Event Handler for processing events
   }
-
-    resetMotor();
-
-
+  resetMotor();
 
   genie.SetForm(1); // Change to Form 0 //should add INIT_FORM variable?
   CurrentForm = 1;
@@ -314,10 +309,40 @@ void myGenieEventHandler(void)
           if (BladeState == BLADE_UP)
           {
             NextForm = 6; //go to Begin cutting screen after MotorMotion Screen
-            genie.SetForm(1) //Motor in Motion Screen
+            genie.SetForm(1); //Motor in Motion Screen
           }
         }
 
+      }
+      /***************************** Begin Cutting Screen Winbutton **************************/
+
+      if (Event.reportObject.index == FinishedCuttingGenieNum)                             // If Finished cut is pressed
+      {
+        if (MotorRunState == MOTOR_STOPPED)
+        {
+          if (BladeState == BLADE_DOWN)
+          {
+            genie.SetForm(7);
+          }
+        }
+      }
+
+      /***************************** User Finished Screen Winbutton **************************/
+
+      if (Event.reportObject.index == CutSameGenieNum)                             // If Cut same size is pressed
+      {
+        if (MotorRunState == MOTOR_STOPPED)
+        {
+          genie.SetForm(4);
+        }
+      }
+
+      if (Event.reportObject.index == NewCutGenieNum)                             // If Cut same size is pressed
+      {
+        if (MotorRunState == MOTOR_STOPPED)
+        {
+          genie.SetForm(3);
+        }
       }
 
       /***************************** Keypad Screen Winbuttons **************************/
