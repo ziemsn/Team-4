@@ -76,6 +76,7 @@ bool fault = false;
 //Genie Form Item indeces
 int CurrentPositionGenieNum = 0;
 int DistGenieNum = 7;
+int StartProcessGenieNum = 12;
 
 int faultLEDGenieNum = 1;
 int ClrfaultGenieNum = 8;
@@ -176,7 +177,7 @@ void loop() {
       // command the position move (see function definition below)
       //Need to check Motor state and then start to move
       //Motor State == MOTOR_STOPPED && 
-      MoveAbsolutePosition(MoveDist); // Move Motor 0 to Distance position **********
+      //MoveAbsolutePosition(MoveDist); // Move Motor 0 to Distance position **********
       
 
 
@@ -217,9 +218,15 @@ void myGenieEventHandler(void)
 
     if (Event.reportObject.object == GENIE_OBJ_WINBUTTON)             // If the Reported Message was from a WinButton
     {
-      
+      /*
+      //check for back button press
+        if (Event.reportObject.index == BackGenieNum)        // If Winbutton3 (Index = 3) - 0 Information Back
+        {
+          genie.SetForm(3);                                             // Change to Main Screen
+        }
+      */
 
-      /***************************** Form  Winbuttons **************************/
+      /***************************** Form 3 Winbuttons **************************/
         
         //Check for clear fault press
         if (Event.reportObject.index == ClrfaultGenieNum)                         //8 is the index of the clear fault button 
@@ -236,22 +243,32 @@ void myGenieEventHandler(void)
             motor.ClearAlerts();                                       // Clear the Alert
           }
         }
-
-        //check for back button press
-        if (Event.reportObject.index == BackGenieNum)        // If Winbutton3 (Index = 3) - 0 Information Back
-        {
-          genie.SetForm(3);                                             // Change to Main Screen
-        }
+        
         //check for edit press
         else if (Event.reportObject.index == DistEditGenieNum)                        // If Winbutton6 (Index = 6) - 0 Move Distance Edit
-        {//check if motor 
+        { 
           if (MotorRunState == MOTOR_STOPPED)
           {
             PreviousForm = 3;                                         // Always eturn to the main screen
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
             DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-            genie.SetForm(5);                                             // Change to Form 5 - Edit Parameter
+            genie.SetForm(5);                                               // Change to Form 5 - Edit Parameter
+          }//else alert user something here
+        }
+
+        //Check for Start Process press
+        else if (Event.reportObject.index == StartProcessGenieNum)
+        {
+          if (MotorRunState == MOTOR_STOPPED)
+          {
+            //switch screen
+            //delay
+            //move
+            genie.SetForm(1); //Switch to motor in motion screen
+            delay(1000);
+            MoveAbsolutePosition(LoadPosition);
+            
           }
         }
 

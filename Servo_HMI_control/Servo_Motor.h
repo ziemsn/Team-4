@@ -15,6 +15,8 @@
 int MotorRunState;
 int MotorLocationState;
 
+int LoadPosition;
+
 
 void initMotorParams() {
 
@@ -134,6 +136,7 @@ void UserSeeksHome(void){//Check step direection, whether clockwise or anticlock
     // Move away from the hard stop. Any move away from the hardstop will
     // conclude the homing sequence.
     motor.Move(-1000);
+    LoadPosition = 1000;
 
 
     // Delay so HLFB has time to deassert
