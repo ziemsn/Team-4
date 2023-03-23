@@ -253,15 +253,18 @@ void myGenieEventHandler(void)
 
       if (Event.reportObject.index == 18)                             // If Winbutton18 (Index = 18) - Edit Parameter Cancel
       {
-        //Clear any partially entered values from Keyboard, ready for next time
-        for (int f = 0; f < 5; f++)
+        if (MotorRunState == MOTOR_IS_MOVING)
         {
-          keyvalue[f] = 0;
+          //Clear any partially entered values from Keyboard, ready for next time
+          for (int f = 0; f < 5; f++)
+          {
+            keyvalue[f] = 0;
+          }
+          counter = 0;
+  
+          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any data from the Edit Parameter LED Digit
+          genie.SetForm(PreviousForm);                                  // Change to Previous Form
         }
-        counter = 0;
-
-        genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any data from the Edit Parameter LED Digit
-        genie.SetForm(PreviousForm);                                  // Change to Previous Form
       }
     }
 
@@ -269,6 +272,8 @@ void myGenieEventHandler(void)
 
     if (Event.reportObject.object == GENIE_OBJ_KEYBOARD)
     {
+      if (MotorRunState == MOTOR_IS_MOVING)
+      {
       if (Event.reportObject.index == 0)                                  // If keyboard0
       {
         temp = genie.GetEventData(&Event);                                // Store the value of the key pressed
@@ -321,5 +326,6 @@ void myGenieEventHandler(void)
       }
     }
   }
+    }
 }
 }
