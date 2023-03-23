@@ -72,9 +72,9 @@ int SecondsInMinute = 60;             // Seconds in a minute
 int MoveDist = 0;
 int MoveDistLast = 0;
 bool fault = false;
+int NextForm = 0;
 
 //Genie Form Item indeces
-int CurrentPositionGenieNum = 0;
 int DistGenieNum = 7;
 int StartProcessGenieNum = 12;
 
@@ -84,6 +84,10 @@ int ClrfaultGenieNum = 8;
 int BackGenieNum = 3;
 int DistEditGenieNum = 9;
 int EditInputDigitNum = 18;
+
+int StopMotionGenieNum = 4;
+int ClampConfirmGenieNum = 0;
+int GoMainGeniNum = 3;
 
 char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
@@ -153,10 +157,23 @@ void loop() {
         genie.SetForm(3); // Change to main screen
         break;
 
-      /************************************* FORM descriptions *********************************************/
+      /************************************* FORM actions *********************************************/
 
-      case 1:       
+      case 1: //Motor In Motion Screen 
+        if(MotorLocationState == LoadPosition)
+        {
+          if(MotorRunState == MOTOR_STOPPED)
+          {
+            delay(500);
+            genie.SetForm(NextForm); //Switch to Clamp Confirmation screen
+          }
+        }   
+        break;
+
       case 2:
+
+        break;
+
       case 3: //main screen
         if (MoveDist != MoveDistLast)
           {
@@ -165,7 +182,10 @@ void loop() {
           }
           
           break;            
-        
+      
+      case 4://Bolt Confirmation Screen
+
+        break;
 
       case 5: // If the current Form is 5 - Edit Parameter
         // Do something here if required
@@ -226,7 +246,7 @@ void myGenieEventHandler(void)
         }
       */
 
-      /***************************** Form 3 Winbuttons **************************/
+      /***************************** Main Screen Winbuttons **************************/
         
         //Check for clear fault press
         if (Event.reportObject.index == ClrfaultGenieNum)                         //8 is the index of the clear fault button 
@@ -262,17 +282,45 @@ void myGenieEventHandler(void)
         {
           if (MotorRunState == MOTOR_STOPPED)
           {
-            //switch screen
-            //delay
-            //move
+            NextForm = 4; //form to go to after MotorMotion screen
             genie.SetForm(1); //Switch to motor in motion screen
             delay(1000);
-            MoveAbsolutePosition(LoadPosition);
+            MoveAbsolutePosition(LoadPosition); //Move to Loading position
             
           }
         }
 
-      /***************************** Form 5 Winbuttons **************************/
+      /***************************** Motor In Motion Screen Winbutton **************************/
+
+      if (Event.reportObject.index == StopMotionGenieNum)                             // If the stop button is pressed
+      {
+        motor.MoveStopAbrupt(); //Immediately stop the motor
+        genie.SetForm(3); //return to main screen
+      }
+
+      /***************************** Clamp Confirmation Screen Winbuttons **************************/
+      if (Event.reportObject.index == GoMainGenieNum)                             // If 'Go Back' is pressed
+      {
+        if (MotorRunState == MOTOR_STOPPED)
+        {
+          genie.SetForm(3); //Return to main screen
+        }
+      }
+
+      if (Event.reportObject.index == ClampConfirmGenieNum)                             // If Proceed is pressed
+      {
+        if (MotorRunState == MOTOR_STOPPED)
+        {
+          if (BladeState == BLADE_UP)
+          {
+            NextForm = 6; //go to Begin cutting screen after MotorMotion Screen
+            genie.SetForm(1) //Motor in Motion Screen
+          }
+        }
+
+      }
+
+      /***************************** Keypad Screen Winbuttons **************************/
 
       if (Event.reportObject.index == EditInputDigitNum)                             // If Winbutton18 (Index = 18) - Edit Parameter Cancel
       {
