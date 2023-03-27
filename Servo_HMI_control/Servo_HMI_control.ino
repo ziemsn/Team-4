@@ -69,6 +69,15 @@ int MoveDist = 0;
 int MoveDistLast = 0;
 bool fault = false;
 int NextForm = 0;
+int CutPosition = 0;
+int UserDist = 0;
+int UnitFactor = 0;
+int LengthMin = 0;
+int LengthMax = 1;
+bool UserUnits = true;
+char Units;
+int UnitMin = 0;
+int UnitMax = 1;
 
 //Genie Form Item indeces
 int DistGenieNum = 7;
@@ -187,15 +196,6 @@ void loop() {
         break;
     }
 
-
-      /************* MOTOR ***************/
-      // command the position move (see function definition below)
-      //Need to check Motor state and then start to move
-      //Motor State == MOTOR_STOPPED && 
-      //MoveAbsolutePosition(MoveDist); // Move Motor 0 to Distance position **********
-      
-
-
       // If a new fault is detected, turn on the  fault LED
       if (motor.StatusReg().bit.AlertsPresent && !fault)
       {
@@ -227,7 +227,34 @@ void myGenieEventHandler(void)
     {
 
       /***************************** Form 4D Buttons **************************/
-         
+         //None used
+    
+    }
+
+    if (Event.reportObject.object == GENIE_OBJ_ISWITCH)              // If the Reported Message was from a ISwitch
+    {
+
+      /***************************** Form Switch **************************/
+        
+      //Check for Switch Change
+      if (Event.reportObject.index == 0)                         //0 is the index of the UnitSelect Switch 
+      {
+        UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
+        //ON is Inches, Off is millimeters
+        if(UserUnits)
+        {
+          //UnitFactor = Inches to steps
+          Units = "Inches";
+          UnitMin = LengthMin/UnitFactor;//steps to inches
+          UnitMax = LengthMax/UnitFactor;//steps to inches
+        }else
+        {
+          //UnitFactor = Millimeters to steps
+          Units   = "Millimeters";
+          UnitMin = LengthMin/UnitFactor;//steps to mm
+          UnitMax = LengthMax/UnitFactor;//steps to mm
+        }
+      }
     
     }
 
@@ -268,6 +295,7 @@ void myGenieEventHandler(void)
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
             DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
+            genie.genieWriteStr(5, 0, "Enter length between " + UnitMin + " and " + UnitMax + " " + Units);
             genie.SetForm(5);                                               // Change to Form 5 - Edit Parameter
           }//else alert user something here
         }
@@ -310,6 +338,19 @@ void myGenieEventHandler(void)
           {
             NextForm = 6; //go to Begin cutting screen after MotorMotion Screen
             genie.SetForm(1); //Motor in Motion Screen
+            delay(1000);
+            CutPosition = UserDist*UnitFactor-LengthMin;
+            MoveAbsolutePosition(CutPosition); 
+            /*
+            Needs to be scaled from user input (Inches/millimeters) to steps
+            CutPosition = UserDist*UnitFactor-LengthMin
+
+            CutPosition - Value in steps of distance for bolt cutting (Int)
+            UserDist    - Input from user, could be Inches/Millimeters (Int)
+            UnitFactor  - Conversion from Inches/Millimeters to steps, dependent on UserUnit Value (Int)
+            UserUnit    - Set by user on Main Screen, sets the value of UnitFactor (Bool)
+            LengthMin   - Smallest Bolt that can be cut because of clamp depth and its distance to the blade (Int steps, predetermined)
+            */
           }
         }
 
@@ -379,6 +420,14 @@ void myGenieEventHandler(void)
           sumTemp = atoi(keyvalue);                                       // Convert the array into a number
           if (DigitsToEdit == 5)                                          // If we are dealing with a parameter which takes a 5 digit number
           {
+            if(sumTemp > UnitMax)
+            {
+              sumTemp = UnitMax;
+            }
+            if(sumTemp < UnitMin)
+            {
+              sumTemp = UnitMin;
+            }
             if (sumTemp > 65535)                                          // If the number is > 16 bits (the max a Genie LED Digit can be sent)
             {
               sumTemp = 65535;                                            // Limits the max value that can be typed in on a 5 digit parameter, to be 65535 (16 bit number)
@@ -410,14 +459,11 @@ void myGenieEventHandler(void)
           }
           counter = 0;
 
-
-
-            
-            MoveDist = newValue; 
-            //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
-            //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
-            
-            
+          MoveDist = newValue; 
+          //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
+          //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
+          
+          
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
       }
     }

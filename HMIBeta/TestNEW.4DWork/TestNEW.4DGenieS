@@ -3,7 +3,7 @@
 //#constant OLDCOMPILE
 
 
-// generated 3/27/2023 6:14:11 PM
+// generated 3/27/2023 5:58:48 PM
 // uSDRequired:- 1   InternalRequired:- 1
 
 #MODE FLASHBANK_1
@@ -13,7 +13,7 @@
 #inherit "VisualConst.inc"
 
 
-#inherit "4D-ClearCore-Demo-No1Const.inc"
+#inherit "TestNEWConst.inc"
 
 
 
@@ -21,8 +21,8 @@
 
 #CONST
     CMDLenMAX   80
-    seroutX     $serout1
-    serinX      $serin1
+    seroutX     $serout
+    serinX      $serin
 #END
 
 
@@ -167,127 +167,10 @@
     WRITE_LABEL     12
 
 // End P1.inc
-    nObjects        42
-    nInputs         22
+    nObjects        10
+    nInputs         4
     nAniTimers      0
-    nKeyboards      1
 #END
-
-#CONST
-    Ofs_kb_Down
-    Ofs_kb_Mvt
-    Ofs_kb_State
-    Ofs_kb_Ign
-    Ofs_kb_Caps
-    Ofs_kb_Shift1
-    Ofs_kb_Shift2
-    Ofs_kb_Ctrl1
-    Ofs_kb_Ctrl2
-    Ofs_kb_Lock
-    Ofs_kb_Buttons
-    Ofs_kb_ShiftCaps
-#END
-
-#constant KbShiftBit        01
-#constant KbCapsBit         02
-#constant KbShiftCapsBits   03
-#constant KbCtrlBit         04
-
-func refreshstate(var iKB, var oKB)
-    var shifted ;
-    shifted := oKB[Ofs_kb_State] & KbShiftCapsBits ;
-    if (!shifted || (shifted == KbShiftCapsBits))
-        shifted := 0 ;
-        oKB[Ofs_kb_Caps] := 0 ;
-    else
-        shifted := 1 ;
-        oKB[Ofs_kb_Caps] := 2 ;
-    endif
-    setkeystate(iKB,shifted) ;
-    if (oKB[Ofs_kb_State] & KbCapsBit)
-        setkeystate(iKB + oKB[Ofs_kb_Lock],1) ;
-    endif
-    if ((oKB[Ofs_kb_State] & KbShiftBit) && (shifted))
-        setkeystate(iKB + oKB[Ofs_kb_Shift1],1) ;
-        setkeystate(iKB + oKB[Ofs_kb_Shift2],1) ;
-    endif
-    if (oKB[Ofs_kb_State] & KbCtrlBit)
-        setkeystate(iKB + oKB[Ofs_kb_Ctrl1],1) ;
-        setkeystate(iKB + oKB[Ofs_kb_Ctrl2],1) ;
-    endif
-endfunc
-
-func kbDown(var iKB, var oKB, var KBKeys, var key)
-    var keyval, rtn ;
-    oKB[Ofs_kb_Mvt] := 1 ;
-    oKB[Ofs_kb_Ign]  := 0 ;
-    if ((key == oKB[Ofs_kb_Shift1]) || (key == oKB[Ofs_kb_Shift2]))
-        if (oKB[Ofs_kb_State] & KbShiftBit)
-            oKB[Ofs_kb_State] &= ~KbShiftBit ;
-            oKB[Ofs_kb_Mvt] := 0 ;
-        else
-            oKB[Ofs_kb_State] |= KbShiftBit ;
-        endif
-        refreshstate(iKB, oKB) ;
-        oKB[Ofs_kb_Ign] := 1 ;
-    else if ((key == oKB[Ofs_kb_Ctrl1]) || (key == oKB[Ofs_kb_Ctrl2]))
-        if (oKB[Ofs_kb_State] & KbCtrlBit)
-            oKB[Ofs_kb_State] &= ~KbCtrlBit ;
-            oKB[Ofs_kb_Mvt] := 0 ;
-        else
-            oKB[Ofs_kb_State] |= KbCtrlBit ;
-        endif
-        setkeystate(iKB+oKB[Ofs_kb_Ctrl1],oKB[Ofs_kb_Mvt]) ;
-        key := oKB[Ofs_kb_Ctrl2] ;
-        oKB[Ofs_kb_Ign] := 1 ;
-    else if (key == oKB[Ofs_kb_Lock])
-        if (oKB[Ofs_kb_State] & KbCapsBit)
-            oKB[Ofs_kb_State] &= ~KbCapsBit ;
-            oKB[Ofs_kb_Mvt] := 0 ;
-        else
-            oKB[Ofs_kb_State] |= KbCapsBit ;
-        endif
-        refreshstate(iKB, oKB) ;
-        oKB[Ofs_kb_Ign] := 1 ;
-    endif
-
-    if (!oKB[Ofs_kb_Ign])
-        if (oKB[Ofs_kb_ShiftCaps])
-            keyval := (oKB[Ofs_kb_State] & KbShiftCapsBits) * oKB[Ofs_kb_Buttons] - 1 ;
-        else if (((oKB[Ofs_kb_State] & KbShiftCapsBits) == 0) || ((oKB[Ofs_kb_State] & KbShiftCapsBits) == KbShiftCapsBits))
-                keyval := - 1 ;
-            else
-                keyval := oKB[Ofs_kb_Buttons] - 1 ;
-        endif
-        keyval := KBKeys[key+keyval] ;
-        if (oKB[Ofs_kb_State] & KbCtrlBit) keyval &= 0x9F ;
-	rtn := rKeyboardRoutines[ActiveKeyboard] ;
-        rtn(REPORT_EVENT, tKeyboard, ActiveKeyboard, keyval & 0xff) ;
-        setkeystate(iKB+key,oKB[Ofs_kb_Mvt]+oKB[Ofs_kb_Caps]) ;
-    endif
-    oKB[Ofs_kb_Down] := key ;
-endfunc
-
-func setkeystate(var key, var idx)
-    img_SetWord(hndl, key,IMAGE_INDEX, idx);
-    img_Show(hndl,key) ;
-endfunc
-
-func kbUp(var iKB, var oKB)
-    if (!oKB[Ofs_kb_Ign])
-        setkeystate(iKB + oKB[Ofs_kb_Down],oKB[Ofs_kb_Caps]) ;
-        if (oKB[Ofs_kb_State] & KbShiftBit)
-            oKB[Ofs_kb_State] &= ~KbShiftBit ;
-            refreshstate(iKB, oKB) ;
-        endif
-        if (oKB[Ofs_kb_State] & KbCtrlBit)
-            oKB[Ofs_kb_State] &= ~KbCtrlBit ;
-            setkeystate(iKB + oKB[Ofs_kb_Ctrl1],0) ;
-            setkeystate(iKB + oKB[Ofs_kb_Ctrl2],0) ;
-        endif
-        oKB[Ofs_kb_Down] := -1 ;
-    endif
-endfunc
 
 #DATA
     word gfxInternals -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, gfx_Switch, -1, -1, -1, -1, -1, -1, -1, -1, -1
@@ -296,58 +179,36 @@ endfunc
     word oiviSwitch vISwitch0
     word xobj2iiobj 0x3A00
     word xobj2iobj 0x3A00
-    word IISwitch0 340, 88, 130, 35, 0x0, GRAY, SILVER, 2, 3, DARKRED, DARKRED,
-        CnISwitch0, CfISwitch0, 3, 1, WHITE, WHITE
-    byte CnISwitch0 "Inches",0 
-    byte CfISwitch0 "Millimeters",0 
-    word FormStartIndex 0, 1, 11, 29, 32, 36, 39
-    word FormEndIndex 1, 11, 29, 32, 36, 39, 42
-    word iFormStartIndex 0, 0, 1, 1, 1, 1, 1
-    word iFormEndIndex 0, 1, 1, 1, 1, 1, 1
-    word iiFormStartIndex 0, 0, 1, 1, 1, 1, 1
-    word iiFormEndIndex 0, 1, 1, 1, 1, 1, 1
-    word InputControls -1, -1, -1, -1, 0, -1, -1, -1, -1, 88, 132, 176, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 176, -1, -1, -1, -1, 220, -1, -1, 264, 308, -1, -1, 352, -1, 396, 440
-    word InternalInputControls 44
-    word InputData tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 22, 2,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                tiSwitch, 1, 340, 469, 1, -1, -1, -1, 0, 66, 2,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 110, 4,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 154, 6,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 198, 8,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 242, 10,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 286, 12,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 330, 14,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 374, 16,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 418, 18,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 462, 20,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9
+    word IISwitch0 328, 120, 130, 60, 0x0, PINK, BLACK, 4, 3, DARKRED, 0x3186,
+        CnISwitch0, CfISwitch0, 2, 1, WHITE, RED
+    byte CnISwitch0 "On",0 
+    byte CfISwitch0 "Off",0 
+    word FormStartIndex 0
+    word FormEndIndex 10
+    word iFormStartIndex 0
+    word iFormEndIndex 1
+    word iiFormStartIndex 0
+    word iiFormEndIndex 1
+    word InputControls 0, 22, 44
+    word InternalInputControls 66
+    word InputData tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 2,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 4,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 6,
+                tiSwitch, 1, 328, 457, 1, -1, -1, -1, 0, 0, 2
     word oDipSwitchs 0
-    word oWinButtons 10, iWinbutton0, iWinbutton1, iWinbutton2, iWinbutton3, iWinbutton4, iWinbutton5, iWinbutton6, iWinbutton7, iWinbutton8, iWinbutton9
-    word oForms 7, -1, -1, -1, -1, -1, -1, -1
-    word oImages 1, iImage0
-    word oKeyboards 1, iKeyboard0
-    word oLeddigitss 2, iLeddigits0, iLeddigits1
+    word oWinButtons 3, iWinbutton0, iWinbutton1, iWinbutton2
+    word oForms 1, -1
+    word oLeddigitss 1, iLeddigits0
     word oUserleds 1, iUserled0
-    word oStaticTexts 13, iStatictext0, iStatictext1, iStatictext2, iStatictext3, iStatictext4, iStatictext5, iStatictext6, iStatictext7, iStatictext8, iStatictext9, iStatictext10, iStatictext11, iStatictext12
+    word oStaticTexts 4, iStatictext0, iStatictext1, iStatictext2, iStatictext3
     word oiSwitchs 1, IISwitch0
-    word FormBGcolors 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
-    word kKeyboardKeystrokes iKeyboard0keystrokes
-    word rKeyboardRoutines SendReport
-    word oLedDigitsn 0, 6, 4, 30, 0,
-                295, 6, 4, 30, 0
+    word FormBGcolors 0x0000
+    word kKeyboardKeystrokes -1
+    word rKeyboardRoutines -1
+    word oLedDigitsn 63, 4, 3, 30, 0
 #END
 
     var vISwitch0[WIDGET_RAM_SPACE] ;
-var dKeyboard[1], ActiveKeyboard ;
 // Start P2.inc
 var vObjects[MaxIntObjects+1] ;              // address of RAM objects
 var GObjectIdx, GObjectFunc, GObjectRAM, GObjectDATA, GObjectParms, GObjectStrings ;
@@ -387,17 +248,17 @@ func addressInternalWidget(var idx var iponly)
 endfunc
 
 func seroutCS(var op)
-    serout1(op) ;
+    serout(op) ;
     OutputCS ^= op ;
 endfunc
 
 func nak0()
-    serout1(NAK) ;
+    serout(NAK) ;
     InputCS := 0 ;
 endfunc
 
 func seroutOcs()
-    serout1(OutputCS) ;
+    serout(OutputCS) ;
     OutputCS := 0 ;
 endfunc
 
@@ -685,7 +546,6 @@ endfunc
 func main()
     var comTX[50], cmdi, i, j, TouchStatus ;
 
-    ActiveKeyboard := -1 ;
 
     gfx_ScreenMode(LANDSCAPE) ;
 
@@ -699,9 +559,9 @@ func main()
         wend
     endif
 
-//    if (file_CheckUpdate("4D-CLE~1.4xe", CHECKUPDATE_QUERY) == CHECKUPDATE_NEWFILE)
+//    if (file_CheckUpdate("TESTNE~1.4xe", CHECKUPDATE_QUERY) == CHECKUPDATE_NEWFILE)
 //        putstr("Program will now update") ;
-//        file_CheckUpdate("4D-CLE~1.4xe", CHECKUPDATE_UPDATENEWER) ;
+//        file_CheckUpdate("TESTNE~1.4xe", CHECKUPDATE_UPDATENEWER) ;
 //    endif
 //    gfx_MoveTo(0, 0);
 //    print(mem_Heap()," ") ;
@@ -710,7 +570,7 @@ func main()
 
 
     // open image control
-    hndl := file_LoadImageControl("4D-CLE~1.dat", "4D-CLE~1.gci", 1);
+    hndl := file_LoadImageControl("TESTNE~1.dat", "TESTNE~1.gci", 1);
 
 
     // init 'constants'
@@ -728,8 +588,8 @@ func main()
     oObjects[tCustomdigits] := oDipSwitchs ; // dummy as no object there
     oObjects[tForm] := oForms ;
     oObjects[tGauge] := oDipSwitchs ; // dummy as no object there
-    oObjects[tImage] := oImages ;
-    oObjects[tKeyboard] := oKeyboards ;
+    oObjects[tImage] := oDipSwitchs ; // dummy as no object there
+    oObjects[tKeyboard] := oDipSwitchs ; // dummy as no object there
     oObjects[tLed] := oDipSwitchs ; // dummy as no object there
     oObjects[tLeddigits] := oLeddigitss ;
     oObjects[tMeter] := oDipSwitchs ; // dummy as no object there
@@ -784,7 +644,6 @@ func main()
     oObjects[tiSliderC] := oDipSwitchs ; // dummy as no object there
     oObjects[tiLinearInput] := oDipSwitchs ; // dummy as no object there
     vObjects[19] := oiviSwitch ;
-    dKeyboard[0] := oKeyboard0 ;
 // Start P4.inc
     wp := widget_Create(1) ;
     for (i := 0; i < 1; i++)
@@ -797,11 +656,9 @@ func main()
     next
 
     // init comms
-    COM1_RX_pin(PA0);
-    COM1_TX_pin(PA1);
-    com1_Init(comRX,CMDLenMAX,0);
-    com_SetBaud(COM1,960);
-    com1_TXbuffer(comTX, 100, 0);
+    com_Init(comRX,CMDLenMAX,0);
+    com_SetBaud(COM0,960);
+    com_TXbuffer(comTX, 100, 0);
     // tag 'real' objects
     for (i := 0; i <= MaxTotObjects; i++)
         if (   (i != tSounds)
@@ -823,13 +680,6 @@ func main()
     next
 
 
-    for (i := 0; i < nKeyboards; i++) // for each kb key, set tag to -1
-        if (oKeyboards[i+1] != -1)               // if keyboard exists
-            for(ImageTouched := oKeyboards[i+1]+1; ImageTouched <= oKeyboards[i+1]+*(dKeyboard[i] + Ofs_kb_Buttons); ImageTouched++)
-                img_SetWord(hndl, ImageTouched, IMAGE_TAG, -1);
-            next
-        endif
-    next
     // display initial form
     CurrentForm := -1 ;
 // End P4.inc
@@ -843,8 +693,8 @@ func main()
     repeat
 
         // check comms for command, how to NAK invalid command
-        if (com1_Count() != 0)
-            i := serin1() ;
+        if (com_Count() != 0)
+            i := serin() ;
             InputCS ^= i ;               // update checksum
                 cmd[cmdi++] := i ;
                  if (   (cmd[0] == READ_OBJ)
@@ -861,7 +711,7 @@ func main()
                         nak0() ;
                     else
                         WriteObject(cmd[1], cmd[2], cmd[3] << 8 + cmd[4]) ;
-                        serout1(ACK) ;
+                        serout(ACK) ;
                     endif
                     cmdi := 0 ;
                 else if (   (cmd[0] == WRITE_CONTRAST)
@@ -870,7 +720,7 @@ func main()
                         nak0() ;
                     else
                         gfx_Contrast(cmd[1]) ;
-                        serout1(ACK) ;
+                        serout(ACK) ;
                     endif
                     cmdi := 0 ;
                 else if (cmdi == 6)    // we have 6 bytes and we've gotten here -> something wrong
@@ -910,21 +760,6 @@ func main()
                 TouchState := Ofs_IPD_RELEASE ;
             endif
             if (ImageTouched >= 0)
-                // if touch released then find a keyboard down, if one then release it
-                if ((TouchStatus == TOUCH_RELEASED) && (ActiveKeyboard != -1))
-                    kbUp(oKeyboards[ActiveKeyboard+1], dKeyboard[ActiveKeyboard]) ;
-                    ActiveKeyboard := -1 ;
-                else
-                    i := 0 ;
-                    while ((i < nKeyboards) && ((-1 == oKeyboards[i+1]) || (ImageTouched <= oKeyboards[i+1]) || (ImageTouched > oKeyboards[i+1] + *(dKeyboard[i]+Ofs_kb_Buttons))))
-                        i++ ;
-                    wend
-                    if (i < nKeyboards)
-                        if (TouchStatus == TOUCH_PRESSED)
-                            ActiveKeyboard := i ;
-                            kbDown(oKeyboards[ActiveKeyboard+1], dKeyboard[ActiveKeyboard], kKeyboardKeystrokes[ActiveKeyboard], ImageTouched-oKeyboards[ActiveKeyboard+1]) ;
-                        endif
-                    else
                         CurInputData := InputControls[ImageTouched] + InputData;
                         GObjectType := *(CurInputData) ;
                         if (GObjectType == tSmartSlider)
@@ -938,8 +773,6 @@ func main()
                         endif
                         gosub (i), (cDipswitch, cKnob, cRockerswitch, cRotaryswitch, cSlider, cTrackbar, cWinbutton, c4DButton, cAniButton, cColorPicker, cUserButton) ;
                         ImageTouched := -1 ; // show processed here
-                    endif
-                endif
             endif
             if (ImageTouched != -1) ImageTouched := -2 - ImageTouched ;
             if (ImageTouched >= 0)

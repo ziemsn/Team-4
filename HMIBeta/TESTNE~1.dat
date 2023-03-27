@@ -1,0 +1,10 @@
+"Winbutton0" 0000 0000 14 D0
+"Winbutton1" 4200 0000 193 C0
+"Winbutton2" 6E00 0000 C0 50
+"Userled0" B000 0000 18F E5
+"Leddigits0" D800 0000 3F 45
+"iLeddigits0" FA00 0000 3F 45
+"Statictext0" 4E00 0001 22 2D
+"Statictext1" 5800 0001 177 66
+"Statictext2" 6200 0001 16E CA
+"Statictext3" 6C00 0001 108 14

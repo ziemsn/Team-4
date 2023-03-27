@@ -8,17 +8,17 @@
 
 int HomeSensorState;
 
-void setHomeSensorState(int state) {
+void setHomeSensorState() {
   // Read the state of the limit switch connected to digital pin 7
   int switchState = digitalRead(Home_pin);
 
   // If the switch is  triggered, set Motr at home
   if (switchState == LOW) {
-    setBladeState(MOTOR_AT_HOME);
+    HomeSensorState = MOTOR_AT_HOME;
   }
   // If the switch is not triggered, motor is not home
   else {
-    setBladeState(MOTOR_NOT_AT_HOME);
+    HomeSensorState = MOTOR_NOT_AT_HOME;
   }
 }
 
@@ -32,7 +32,7 @@ void InitHoming(){
 
   // Set an ISR to be called when the state of the interrupt pin goes from
   // true to false.
-  attachInterrupt(digitalPinToInterrupt(Home_pin), setHomeSensorState, RISING);
+  attachInterrupt(digitalPinToInterrupt(Home_pin), setHomeSensorState, CHANGE);
 
   // Enable digital interrupts.
   interrupts();

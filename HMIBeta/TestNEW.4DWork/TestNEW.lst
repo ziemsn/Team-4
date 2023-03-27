@@ -1,4 +1,4 @@
-file C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS
+file C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS
 
 file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Gen4-uLCD-43DCT-CLB.fnc
 
@@ -5803,7 +5803,7 @@ file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Diablo16_Functions
 005797  000003  //#constant OLDCOMPILE
 005798  000004        
 005799  000005        
-005800  000006  // generated 3/27/2023 6:14:11 PM
+005800  000006  // generated 3/27/2023 5:58:48 PM
 005801  000007  // uSDRequired:- 1   InternalRequired:- 1
 005802  000008        
 005803  000009  #MODE FLASHBANK_1
@@ -5839,1980 +5839,1110 @@ file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\VisualConst.inc
 005829  000007  #constant  LPSOLID     0x0000
 005830  000014        
 005831  000015        
-file C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1Const.inc
+file C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEWConst.inc
 
-005832  000016  #inherit "4D-ClearCore-Demo-No1Const.inc"
-005833  000016  #inherit "4D-ClearCore-Demo-No1Const.inc"
-005834  000001  // File generated 3/27/2023 6:14:05 PM
+005832  000016  #inherit "TestNEWConst.inc"
+005833  000016  #inherit "TestNEWConst.inc"
+005834  000001  // File generated 3/27/2023 5:58:44 PM
 005835  000002  // Warning! This is a generated file, any manual changes will be
 005836  000003  // lost during the next generation.
 005837  000004        
-005838  000007  #END
-5839  0012
-5840  0013
-5841  0014
-5842  0015
-5843  0016
-5844  0017
-5845  0018
-5846  0019
-5847  001A
-5848  001B
-5849  001C
-5850  001D
-005851  000008        
-005852  000009        
-005853  000010  #constant  IFONT_OFFSET     0
-005854  000010  #constant  IFONT_OFFSET     0
-005855  000011  // object indexes into WIDGET pointer
-005856  000012  #CONST
-005857  000014  #END
-005858  000015        
-005859  000016  // object indexes into ImageControl
-005860  000017  #CONST
-005861  000060  #END
-005862  000061        
-005863  000062        
-005864  000063        
-005865  000064  #IFNOT EXISTS NOGLOBALS
-005866  000065  var hndl ;
-005867  000066  var oKeyboard0[12] := [-1, 0, 0, 0, 0, 255, 255, 255, 255, 255, 12, 0] ;
-5868  002A
-5869  002B
-5870  002C
-5871  002D
-5872  002E
-5873  002F
-5874  0030
-5875  0031
-5876  0032
-5877  0033
-5878  0034
-5879  0035
-5880  0036
-5881  0037
-5882  0038
-5883  0039
-5884  003A
-5885  003B
-5886  003C
-5887  003D
-5888  003E
-5889  003F
-5890  0040
-5891  0041
-005892  000067  #ENDIF
-005893  000017        
-005894  000018        
-005895  000019        
-005896  000020  #constant IPDatasize 22
-005897  000020  #constant IPDatasize 22
-005898  000021        
-005899  000022  #CONST
-005900  000026  #END
-005901  000027        
-005902  000028        
-005903  000029        
-005904  000030  #CONST
-005905  000174  #END
-005906  000175        
-005907  000176  #CONST
-005908  000189  #END
-005909  000190        
-005910  000191  #constant KbShiftBit        01
-005911  000191  #constant KbShiftBit        01
-005912  000192  #constant KbCapsBit         02
-005913  000192  #constant KbCapsBit         02
-005914  000193  #constant KbShiftCapsBits   03
-005915  000193  #constant KbShiftCapsBits   03
-005916  000194  #constant KbCtrlBit         04
-005917  000194  #constant KbCtrlBit         04
-005918  000195        
-005919  000196  func refreshstate(var iKB, var oKB)
-005920  000197      var shifted ;
-005921  000198      shifted := oKB[Ofs_kb_State] & KbShiftCapsBits ;
-005922  000199      if (!shifted || (shifted == KbShiftCapsBits))
-005923  000200          shifted := 0 ;
-005924  000201          oKB[Ofs_kb_Caps] := 0 ;
-005925  000202      else
-005926  000203          shifted := 1 ;
-005927  000204          oKB[Ofs_kb_Caps] := 2 ;
-005928  000205      endif
-005929  000206      setkeystate(iKB,shifted) ;
-005930  000207      if (oKB[Ofs_kb_State] & KbCapsBit)
-005931  000208          setkeystate(iKB + oKB[Ofs_kb_Lock],1) ;
-005932  000209      endif
-005933  000210      if ((oKB[Ofs_kb_State] & KbShiftBit) && (shifted))
-005934  000211          setkeystate(iKB + oKB[Ofs_kb_Shift1],1) ;
-005935  000212          setkeystate(iKB + oKB[Ofs_kb_Shift2],1) ;
-005936  000213      endif
-005937  000214      if (oKB[Ofs_kb_State] & KbCtrlBit)
-005938  000215          setkeystate(iKB + oKB[Ofs_kb_Ctrl1],1) ;
-005939  000216          setkeystate(iKB + oKB[Ofs_kb_Ctrl2],1) ;
-005940  000217      endif
-005941  000218  endfunc
-005942  000219        
-005943  000220  func kbDown(var iKB, var oKB, var KBKeys, var key)
-005944  000221      var keyval, rtn ;
-005945  000222      oKB[Ofs_kb_Mvt] := 1 ;
-005946  000223      oKB[Ofs_kb_Ign]  := 0 ;
-005947  000224      if ((key == oKB[Ofs_kb_Shift1]) || (key == oKB[Ofs_kb_Shift2]))
-005948  000225          if (oKB[Ofs_kb_State] & KbShiftBit)
-005949  000226              oKB[Ofs_kb_State] &= ~KbShiftBit ;
-005950  000227              oKB[Ofs_kb_Mvt] := 0 ;
-005951  000228          else
-005952  000229              oKB[Ofs_kb_State] |= KbShiftBit ;
-005953  000230          endif
-005954  000231          refreshstate(iKB, oKB) ;
-005955  000232          oKB[Ofs_kb_Ign] := 1 ;
-005956  000233      else if ((key == oKB[Ofs_kb_Ctrl1]) || (key == oKB[Ofs_kb_Ctrl2]))
-005957  000234          if (oKB[Ofs_kb_State] & KbCtrlBit)
-005958  000235              oKB[Ofs_kb_State] &= ~KbCtrlBit ;
-005959  000236              oKB[Ofs_kb_Mvt] := 0 ;
-005960  000237          else
-005961  000238              oKB[Ofs_kb_State] |= KbCtrlBit ;
-005962  000239          endif
-005963  000240          setkeystate(iKB+oKB[Ofs_kb_Ctrl1],oKB[Ofs_kb_Mvt]) ;
-005964  000241          key := oKB[Ofs_kb_Ctrl2] ;
-005965  000242          oKB[Ofs_kb_Ign] := 1 ;
-005966  000243      else if (key == oKB[Ofs_kb_Lock])
-005967  000244          if (oKB[Ofs_kb_State] & KbCapsBit)
-005968  000245              oKB[Ofs_kb_State] &= ~KbCapsBit ;
-005969  000246              oKB[Ofs_kb_Mvt] := 0 ;
-005970  000247          else
-005971  000248              oKB[Ofs_kb_State] |= KbCapsBit ;
-005972  000249          endif
-005973  000250          refreshstate(iKB, oKB) ;
-005974  000251          oKB[Ofs_kb_Ign] := 1 ;
-005975  000252      endif
-005976  000253        
-005977  000254      if (!oKB[Ofs_kb_Ign])
-005978  000255          if (oKB[Ofs_kb_ShiftCaps])
-005979  000256              keyval := (oKB[Ofs_kb_State] & KbShiftCapsBits) * oKB[Ofs_kb_Buttons] - 1 ;
-005980  000257          else if (((oKB[Ofs_kb_State] & KbShiftCapsBits) == 0) || ((oKB[Ofs_kb_State] & KbShiftCapsBits) == KbShiftCapsBits))
-005981  000258                  keyval := - 1 ;
-005982  000259              else
-005983  000260                  keyval := oKB[Ofs_kb_Buttons] - 1 ;
-005984  000261          endif
-005985  000262          keyval := KBKeys[key+keyval] ;
-005986  000263          if (oKB[Ofs_kb_State] & KbCtrlBit) keyval &= 0x9F ;
-005987  000264  	rtn := rKeyboardRoutines[ActiveKeyboard] ;
-005988  000265          rtn(REPORT_EVENT, tKeyboard, ActiveKeyboard, keyval & 0xff) ;
-005989  000266          setkeystate(iKB+key,oKB[Ofs_kb_Mvt]+oKB[Ofs_kb_Caps]) ;
-005990  000267      endif
-005991  000268      oKB[Ofs_kb_Down] := key ;
-005992  000269  endfunc
-005993  000270        
-005994  000271  func setkeystate(var key, var idx)
-005995  000272      img_SetWord(hndl, key,IMAGE_INDEX, idx);
-005996  000273      img_Show(hndl,key) ;
-005997  000274  endfunc
-005998  000275        
-005999  000276  func kbUp(var iKB, var oKB)
-006000  000277      if (!oKB[Ofs_kb_Ign])
-006001  000278          setkeystate(iKB + oKB[Ofs_kb_Down],oKB[Ofs_kb_Caps]) ;
-006002  000279          if (oKB[Ofs_kb_State] & KbShiftBit)
-006003  000280              oKB[Ofs_kb_State] &= ~KbShiftBit ;
-006004  000281              refreshstate(iKB, oKB) ;
-006005  000282          endif
-006006  000283          if (oKB[Ofs_kb_State] & KbCtrlBit)
-006007  000284              oKB[Ofs_kb_State] &= ~KbCtrlBit ;
-006008  000285              setkeystate(iKB + oKB[Ofs_kb_Ctrl1],0) ;
-006009  000286              setkeystate(iKB + oKB[Ofs_kb_Ctrl2],0) ;
-006010  000287          endif
-006011  000288          oKB[Ofs_kb_Down] := -1 ;
-006012  000289      endif
-006013  000290  endfunc
-006014  000291        
-006015  000347  #END
-6016  0421
-6017  0422
-6018  0423
-6019  0424
-6020  0425
-6021  0426
-6022  0427
-6023  0428
-6024  0429
-6025  042A
-6026  042B
-6027  042C
-6028  042D
-6029  042E
-6030  042F
-6031  0430
-6032  0431
-6033  0432
-6034  0433
-6035  0434
-6036  0435
-6037  0436
-6038  0437
-6039  0438
-6040  0439
-6041  043A
-6042  043B
-6043  043C
-6044  043D
-6045  043E
-6046  043F
-6047  0440
-6048  0441
-6049  0442
-6050  0443
-6051  0444
-6052  0445
-6053  0446
-6054  0447
-6055  0448
-6056  0449
-6057  044A
-6058  044B
-6059  044C
-6060  044D
-6061  044E
-6062  044F
-6063  0450
-6064  0451
-6065  0452
-6066  0453
-6067  0454
-6068  0455
-6069  0456
-6070  0457
-6071  0458
-6072  0459
-6073  045A
-6074  045B
-6075  045C
-6076  045D
-6077  045E
-6078  045F
-6079  0460
-6080  0461
-6081  0462
-6082  0463
-6083  0464
-6084  0465
-6085  0466
-6086  0467
-6087  0468
-6088  0469
-6089  046A
-6090  046B
-6091  046C
-6092  046D
-6093  046E
-6094  046F
-6095  0470
-6096  0471
-6097  0472
-6098  0473
-6099  0474
-6100  0475
-6101  0476
-6102  0477
-6103  0478
-6104  0479
-6105  047A
-6106  047B
-6107  047C
-6108  047D
-6109  047E
-6110  047F
-6111  0480
-6112  0481
-6113  0482
-6114  0483
-6115  0484
-6116  0485
-6117  0486
-6118  0487
-6119  0488
-6120  0489
-6121  048A
-6122  048B
-6123  048C
-6124  048D
-6125  048E
-6126  048F
-6127  0490
-6128  0491
-6129  0492
-6130  0493
-6131  0494
-6132  0495
-6133  0496
-6134  0497
-6135  0498
-6136  0499
-6137  049A
-6138  049B
-6139  049C
-6140  049D
-6141  049E
-6142  049F
-6143  04A0
-6144  04A1
-6145  04A2
-6146  04A3
-6147  04A4
-6148  04A5
-6149  04A6
-6150  04A7
-6151  04A8
-6152  04A9
-6153  04AA
-6154  04AB
-6155  04AC
-6156  04AD
-6157  04AE
-6158  04AF
-6159  04B0
-6160  04B1
-6161  04B2
-6162  04B3
-6163  04B4
-6164  04B5
-6165  04B6
-6166  04B7
-6167  04B8
-6168  04B9
-6169  04BA
-6170  04BB
-6171  04BC
-6172  04BD
-6173  04BE
-6174  04BF
-6175  04C0
-6176  04C1
-6177  04C2
-6178  04C3
-6179  04C4
-6180  04C5
-6181  04C6
-6182  04C7
-6183  04C8
-6184  04C9
-6185  04CA
-6186  04CB
-6187  04CC
-6188  04CD
-6189  04CE
-6190  04CF
-6191  04D0
-6192  04D1
-6193  04D2
-6194  04D3
-6195  04D4
-6196  04D5
-6197  04D6
-6198  04D7
-6199  04D8
-6200  04D9
-6201  04DA
-6202  04DB
-6203  04DC
-6204  04DD
-6205  04DE
-6206  04DF
-6207  04E0
-6208  04E1
-6209  04E2
-6210  04E3
-6211  04E4
-6212  04E5
-6213  04E6
-6214  04E7
-6215  04E8
-6216  04E9
-6217  04EA
-6218  04EB
-6219  04EC
-6220  04ED
-6221  04EE
-6222  04EF
-6223  04F0
-6224  04F1
-6225  04F2
-6226  04F3
-6227  04F4
-6228  04F5
-6229  04F6
-6230  04F7
-6231  04F8
-6232  04F9
-6233  04FA
-6234  04FB
-6235  04FC
-6236  04FD
-6237  04FE
-6238  04FF
-6239  0500
-6240  0501
-6241  0502
-6242  0503
-6243  0504
-6244  0505
-6245  0506
-6246  0507
-6247  0508
-6248  0509
-6249  050A
-6250  050B
-6251  050C
-6252  050D
-6253  050E
-6254  050F
-6255  0510
-6256  0511
-6257  0512
-6258  0513
-6259  0514
-6260  0515
-6261  0516
-6262  0517
-6263  0518
-6264  0519
-6265  051A
-6266  051B
-6267  051C
-6268  051D
-6269  051E
-6270  051F
-6271  0520
-6272  0521
-6273  0522
-6274  0523
-6275  0524
-6276  0525
-6277  0526
-6278  0527
-6279  0528
-6280  0529
-6281  052A
-6282  052B
-6283  052C
-6284  052D
-6285  052E
-6286  052F
-6287  0530
-6288  0531
-6289  0532
-6290  0533
-6291  0534
-6292  0535
-6293  0536
-6294  0537
-6295  0538
-6296  0539
-6297  053A
-6298  053B
-6299  053C
-6300  053D
-6301  053E
-6302  053F
-6303  0540
-6304  0541
-6305  0542
-6306  0543
-6307  0544
-6308  0545
-6309  0546
-6310  0547
-6311  0548
-6312  0549
-6313  054A
-6314  054B
-6315  054C
-6316  054D
-6317  054E
-6318  054F
-6319  0550
-6320  0551
-6321  0552
-6322  0553
-6323  0554
-6324  0555
-6325  0556
-6326  0557
-6327  0558
-6328  0559
-6329  055A
-6330  055B
-6331  055C
-6332  055D
-6333  055E
-6334  055F
-6335  0560
-6336  0561
-6337  0562
-6338  0563
-6339  0564
-6340  0565
-6341  0566
-6342  0567
-6343  0568
-6344  0569
-6345  056A
-6346  056B
-6347  056C
-6348  056D
-6349  056E
-6350  056F
-6351  0570
-6352  0571
-6353  0572
-6354  0573
-6355  0574
-6356  0575
-6357  0576
-6358  0577
-6359  0578
-6360  0579
-6361  057A
-6362  057B
-6363  057C
-6364  057D
-6365  057E
-6366  057F
-6367  0580
-6368  0581
-6369  0582
-6370  0583
-6371  0584
-6372  0585
-6373  0586
-6374  0587
-6375  0588
-6376  0589
-6377  058A
-6378  058B
-6379  058C
-6380  058D
-6381  058E
-6382  058F
-6383  0590
-6384  0591
-6385  0592
-6386  0593
-6387  0594
-6388  0595
-6389  0596
-6390  0597
-6391  0598
-6392  0599
-6393  059A
-6394  059B
-6395  059C
-6396  059D
-6397  059E
-6398  059F
-6399  05A0
-6400  05A1
-6401  05A2
-6402  05A3
-6403  05A4
-6404  05A5
-6405  05A6
-6406  05A7
-6407  05A8
-6408  05A9
-6409  05AA
-6410  05AB
-6411  05AC
-6412  05AD
-6413  05AE
-6414  05AF
-6415  05B0
-6416  05B1
-6417  05B2
-6418  05B3
-6419  05B4
-6420  05B5
-6421  05B6
-6422  05B7
-6423  05B8
-6424  05B9
-6425  05BA
-6426  05BB
-6427  05BC
-6428  05BD
-6429  05BE
-6430  05BF
-6431  05C0
-6432  05C1
-6433  05C2
-6434  05C3
-6435  05C4
-6436  05C5
-6437  05C6
-6438  05C7
-6439  05C8
-6440  05C9
-6441  05CA
-6442  05CB
-6443  05CC
-6444  05CD
-6445  05CE
-6446  05CF
-6447  05D0
-6448  05D1
-6449  05D2
-6450  05D3
-6451  05D4
-6452  05D5
-6453  05D6
-6454  05D7
-6455  05D8
-6456  05D9
-6457  05DA
-6458  05DB
-6459  05DC
-6460  05DD
-6461  05DE
-6462  05DF
-6463  05E0
-6464  05E1
-6465  05E2
-6466  05E3
-6467  05E4
-6468  05E5
-6469  05E6
-6470  05E7
-6471  05E8
-6472  05E9
-6473  05EA
-6474  05EB
-6475  05EC
-6476  05ED
-6477  05EE
-6478  05EF
-6479  05F0
-6480  05F1
-6481  05F2
-6482  05F3
-6483  05F4
-6484  05F5
-6485  05F6
-6486  05F7
-6487  05F8
-6488  05F9
-6489  05FA
-6490  05FB
-6491  05FC
-6492  05FD
-6493  05FE
-6494  05FF
-6495  0600
-6496  0601
-6497  0602
-6498  0603
-6499  0604
-6500  0605
-6501  0606
-6502  0607
-6503  0608
-6504  0609
-6505  060A
-6506  060B
-6507  060C
-6508  060D
-6509  060E
-6510  060F
-6511  0610
-6512  0611
-6513  0612
-6514  0613
-6515  0614
-6516  0615
-6517  0616
-6518  0617
-6519  0618
-6520  0619
-6521  061A
-6522  061B
-6523  061C
-6524  061D
-6525  061E
-6526  061F
-6527  0620
-6528  0621
-6529  0622
-6530  0623
-6531  0624
-6532  0625
-6533  0626
-6534  0627
-6535  0628
-6536  0629
-6537  062A
-6538  062B
-6539  062C
-6540  062D
-6541  062E
-6542  062F
-6543  0630
-6544  0631
-6545  0632
-6546  0633
-6547  0634
-6548  0635
-6549  0636
-6550  0637
-6551  0638
-6552  0639
-6553  063A
-6554  063B
-6555  063C
-6556  063D
-6557  063E
-6558  063F
-6559  0640
-6560  0641
-6561  0642
-6562  0643
-6563  0644
-6564  0645
-6565  0646
-6566  0647
-6567  0648
-6568  0649
-6569  064A
-6570  064B
-6571  064C
-6572  064D
-6573  064E
-6574  064F
-6575  0650
-6576  0651
-6577  0652
-6578  0653
-6579  0654
-6580  0655
-6581  0656
-6582  0657
-6583  0658
-6584  0659
-6585  065A
-6586  065B
-6587  065C
-6588  065D
-6589  065E
-6590  065F
-6591  0660
-6592  0661
-6593  0662
-6594  0663
-6595  0664
-6596  0665
-6597  0666
-6598  0667
-6599  0668
-6600  0669
-6601  066A
-6602  066B
-6603  066C
-6604  066D
-6605  066E
-6606  066F
-6607  0670
-6608  0671
-6609  0672
-6610  0673
-6611  0674
-6612  0675
-6613  0676
-6614  0677
-6615  0678
-6616  0679
-6617  067A
-6618  067B
-6619  067C
-6620  067D
-6621  067E
-6622  067F
-6623  0680
-6624  0681
-6625  0682
-6626  0683
-6627  0684
-6628  0685
-6629  0686
-6630  0687
-6631  0688
-6632  0689
-6633  068A
-6634  068B
-6635  068C
-6636  068D
-6637  068E
-6638  068F
-6639  0690
-6640  0691
-6641  0692
-6642  0693
-6643  0694
-6644  0695
-6645  0696
-6646  0697
-6647  0698
-6648  0699
-6649  069A
-6650  069B
-6651  069C
-6652  069D
-6653  069E
-6654  069F
-6655  06A0
-6656  06A1
-6657  06A2
-6658  06A3
-6659  06A4
-6660  06A5
-6661  06A6
-6662  06A7
-6663  06A8
-6664  06A9
-6665  06AA
-6666  06AB
-6667  06AC
-6668  06AD
-6669  06AE
-6670  06AF
-6671  06B0
-6672  06B1
-6673  06B2
-6674  06B3
-6675  06B4
-6676  06B5
-6677  06B6
-6678  06B7
-6679  06B8
-6680  06B9
-6681  06BA
-6682  06BB
-6683  06BC
-6684  06BD
-6685  06BE
-6686  06BF
-6687  06C0
-6688  06C1
-6689  06C2
-6690  06C3
-6691  06C4
-6692  06C5
-6693  06C6
-6694  06C7
-6695  06C8
-6696  06C9
-6697  06CA
-6698  06CB
-6699  06CC
-6700  06CD
-6701  06CE
-6702  06CF
-6703  06D0
-6704  06D1
-6705  06D2
-6706  06D3
-6707  06D4
-6708  06D5
-6709  06D6
-6710  06D7
-6711  06D8
-6712  06D9
-6713  06DA
-6714  06DB
-6715  06DC
-6716  06DD
-6717  06DE
-6718  06DF
-6719  06E0
-6720  06E1
-6721  06E2
-6722  06E3
-6723  06E4
-6724  06E5
-6725  06E6
-6726  06E7
-6727  06E8
-6728  06E9
-6729  06EA
-6730  06EB
-6731  06EC
-6732  06ED
-6733  06EE
-6734  06EF
-6735  06F0
-6736  06F1
-6737  06F2
-6738  06F3
-6739  06F4
-6740  06F5
-6741  06F6
-6742  06F7
-6743  06F8
-6744  06F9
-6745  06FA
-6746  06FB
-6747  06FC
-6748  06FD
-6749  06FE
-6750  06FF
-6751  0700
-6752  0701
-6753  0702
-6754  0703
-6755  0704
-6756  0705
-6757  0706
-6758  0707
-6759  0708
-6760  0709
-6761  070A
-6762  070B
-6763  070C
-6764  070D
-6765  070E
-6766  070F
-6767  0710
-6768  0711
-6769  0712
-6770  0713
-6771  0714
-6772  0715
-6773  0716
-6774  0717
-6775  0718
-6776  0719
-6777  071A
-6778  071B
-6779  071C
-6780  071D
-6781  071E
-6782  071F
-6783  0720
-6784  0721
-6785  0722
-6786  0723
-6787  0724
-6788  0725
-6789  0726
-6790  0727
-6791  0728
-6792  0729
-6793  072A
-6794  072B
-6795  072C
-6796  072D
-6797  072E
-6798  072F
-6799  0730
-6800  0731
-6801  0732
-6802  0733
-6803  0734
-6804  0735
-6805  0736
-6806  0737
-6807  0738
-6808  0739
-6809  073A
-6810  073B
-6811  073C
-6812  073D
-6813  073E
-6814  073F
-6815  0740
-6816  0741
-6817  0742
-6818  0743
-6819  0744
-6820  0745
-6821  0746
-6822  0747
-6823  0748
-6824  0749
-6825  074A
-6826  074B
-6827  074C
-6828  074D
-6829  074E
-6830  074F
-6831  0750
-6832  0751
-6833  0752
-6834  0753
-6835  0754
-6836  0755
-6837  0756
-6838  0757
-6839  0758
-6840  0759
-6841  075A
-6842  075B
-6843  075C
-6844  075D
-6845  075E
-6846  075F
-6847  0760
-6848  0761
-6849  0762
-6850  0763
-6851  0764
-6852  0765
-6853  0766
-6854  0767
-6855  0768
-6856  0769
-6857  076A
-6858  076B
-6859  076C
-6860  076D
-6861  076E
-6862  076F
-6863  0770
-6864  0771
-6865  0772
-6866  0773
-6867  0774
-6868  0775
-6869  0776
-6870  0777
-6871  0778
-6872  0779
-6873  077A
-6874  077B
-6875  077C
-6876  077D
-6877  077E
-6878  077F
-6879  0780
-6880  0781
-6881  0782
-6882  0783
-6883  0784
-6884  0785
-6885  0786
-6886  0787
-6887  0788
-6888  0789
-6889  078A
-6890  078B
-6891  078C
-6892  078D
-6893  078E
-6894  078F
-6895  0790
-6896  0791
-6897  0792
-6898  0793
-6899  0794
-6900  0795
-6901  0796
-6902  0797
-6903  0798
-6904  0799
-6905  079A
-6906  079B
-6907  079C
-6908  079D
-6909  079E
-6910  079F
-6911  07A0
-6912  07A1
-6913  07A2
-6914  07A3
-6915  07A4
-6916  07A5
-6917  07A6
-6918  07A7
-6919  07A8
-6920  07A9
-6921  07AA
-6922  07AB
-6923  07AC
-6924  07AD
-6925  07AE
-6926  07AF
-6927  07B0
-6928  07B1
-6929  07B2
-6930  07B3
-6931  07B4
-6932  07B5
-6933  07B6
-6934  07B7
-6935  07B8
-6936  07B9
-6937  07BA
-6938  07BB
-6939  07BC
-6940  07BD
-6941  07BE
-6942  07BF
-6943  07C0
-6944  07C1
-6945  07C2
-6946  07C3
-6947  07C4
-6948  07C5
-6949  07C6
-6950  07C7
-6951  07C8
-6952  07C9
-6953  07CA
-6954  07CB
-6955  07CC
-6956  07CD
-6957  07CE
-6958  07CF
-6959  07D0
-6960  07D1
-6961  07D2
-6962  07D3
-6963  07D4
-6964  07D5
-6965  07D6
-6966  07D7
-6967  07D8
-6968  07D9
-6969  07DA
-6970  07DB
-6971  07DC
-6972  07DD
-6973  07DE
-6974  07DF
-6975  07E0
-6976  07E1
-6977  07E2
-6978  07E3
-6979  07E4
-6980  07E5
-6981  07E6
-6982  07E7
-6983  07E8
-6984  07E9
-6985  07EA
-6986  07EB
-6987  07EC
-6988  07ED
-6989  07EE
-6990  07EF
-6991  07F0
-6992  07F1
-6993  07F2
-6994  07F3
-6995  07F4
-6996  07F5
-6997  07F6
-6998  07F7
-6999  07F8
-7000  07F9
-7001  07FA
-7002  07FB
-7003  07FC
-7004  07FD
-7005  07FE
-7006  07FF
-7007  0800
-7008  0801
-7009  0802
-7010  0803
-7011  0804
-7012  0805
-7013  0806
-7014  0807
-7015  0808
-7016  0809
-7017  080A
-7018  080B
-7019  080C
-7020  080D
-7021  080E
-7022  080F
-7023  0810
-7024  0811
-7025  0812
-7026  0813
-7027  0814
-7028  0815
-7029  0816
-7030  0817
-007031  000348        
-007032  000349      var vISwitch0[WIDGET_RAM_SPACE] ;
-007033  000350  var dKeyboard[1], ActiveKeyboard ;
-007034  000351  // Start P2.inc
-007035  000352  var vObjects[MaxIntObjects+1] ;              // address of RAM objects
-007036  000353  var GObjectIdx, GObjectFunc, GObjectRAM, GObjectDATA, GObjectParms, GObjectStrings ;
-007037  000354  var oObjects[MaxTotObjects+1] ;                 // address of objects
-007038  000355  var CurrentForm, oldn, ImageTouched ;
-007039  000356  var TouchXpos, TouchYpos ;
-007040  000357  var GObjectType, TouchState, CurInputData, pInputIndex ;
-007041  000358  var comRX[40], cmd[CMDLenMAX] ;
-007042  000359        
-007043  000360  var InputCS, OutputCS ;
-007044  000361        
-007045  000362  // > ? Constant/Global/Data ? <
-007046  000363        
-007047  000364        
-007048  000365  func addressInternalWidget(var idx var iponly)
-007049  000366      var i, j ;
-007050  000367  //to(COM0) ; print("Address Int ", idx, " ") ;
-007051  000368      if (iponly) 
-007052  000369          GObjectIdx := xobj2iiobj[idx] ;
-007053  000370      else
-007054  000371          GObjectIdx := xobj2iobj[idx] ;
-007055  000372      endif
-007056  000373      GObjectType := (GObjectIdx>>8) ;                          // extract object type
-007057  000374      i := oObjects[GObjectType] ;                              // i is address of list of all objects of this type
-007058  000375      GObjectIdx &= 0xff ;
-007059  000376      //GObjectIdx *= 2 ;
-007060  000377      j := GObjectIdx * 2 ;
-007061  000378      GObjectDATA := i[j + 2] ;                                 // address of this object
-007062  000379      i := vObjects[GObjectType-tiAngularMeter] ;               // i is address of list of all ram objects of his type
-007063  000380      GObjectRAM := i[j] ;                                      // address of this objects' ram
-007064  000381      i := GObjectType-tiAngularMeter ;
-007065  000382      GObjectFunc := gfxInternals[i] ; // address function
-007066  000383      GObjectParms := gfxIntParms[i] ;
-007067  000384      GObjectStrings := gfxIntStrings[i] ;
-007068  000385  //to(COM0) ; print([HEX4] GObjectFunc, " ", [HEX4] GObjectRAM, " ", [HEX4] GObjectDATA, " ", GObjectType, " ", GObjectIdx, "\r\n") ;
-007069  000386  //    GObjectFunc(0, GObjectRAM, GObjectDATA) ;
-007070  000387  endfunc
-007071  000388        
-007072  000389  func seroutCS(var op)
-007073  000390      serout1(op) ;
-007074  000391      OutputCS ^= op ;
-007075  000392  endfunc
-007076  000393        
-007077  000394  func nak0()
-007078  000395      serout1(NAK) ;
-007079  000396      InputCS := 0 ;
-007080  000397  endfunc
-007081  000398        
-007082  000399  func seroutOcs()
-007083  000400      serout1(OutputCS) ;
-007084  000401      OutputCS := 0 ;
-007085  000402  endfunc
-007086  000403        
-007087  000404  func SendReport(var id, var objt, var objn, var val)
-007088  000405      seroutCS(id) ;
-007089  000406      seroutCS(objt) ;
-007090  000407      seroutCS(objn) ;
-007091  000408      seroutCS(val >> 8) ; // first 8 bits
-007092  000409      seroutCS(val) ;
-007093  000410      seroutOcs() ;
-007094  000411  endfunc
-007095  000412        
-007096  000413        
-007097  000414        
-007098  000415  func ReadObject(var ObjectType, var ObjectIdx)
-007099  000416      var j, k, Objects ;
-007100  000417      if ((ObjectType >= tiLedDigitsH) && (ObjectType <= tiLinearInput))
-007101  000418          j := ObjectIdx *2 ;
-007102  000419          k := vObjects[ObjectType-tiAngularMeter] ;               // k is address of list of all ram objects of his type
-007103  000420          k := k[j] ;                                              // k is address of this objects' ram
-007104  000421          if (ObjectType == tiLedDigit)
-007105  000422              k := k[0] ;
-007106  000423          else 
-007107  000424              k := k[WIDGET_VAL1] ;
-007108  000425          endif
-007109  000426  //gfx_MoveTo(0,0); txt_Opacity(OPAQUE) ; print(ObjectType, " ", ObjectIdx, " ", k," ") ;
-007110  000427      else
-007111  000428      Objects := *(oObjects+ObjectType) ;
-007112  000429        
-007113  000430      j := 2 + ObjectIdx * 2 + Objects ;
-007114  000431       if (ObjectType == tForm)
-007115  000432          k := CurrentForm ;
-007116  000433      else if ((ObjectType == tCustomdigits) || (ObjectType == tLeddigits))
-007117  000434          k := img_GetWord(hndl, *j, IMAGE_TAG2);
-007118  000435          else
-007119  000436          k := img_GetWord(hndl, *j, IMAGE_INDEX);
-007120  000437          if (((ObjectType == tWinButton) || (ObjectType == tAniButton) || (ObjectType == tUserButton) || (ObjectType == t4Dbutton)) && (k)) k := 1 ; // this is not correct for blocked buttons and cannot be fixed as we cannot
-007121  000438                                                                                                                                                      // determine if button is momentary or not which is needed for correct answer.
-007122  000439      endif
-007123  000440      endif
-007124  000441      SendReport(REPORT_OBJ, ObjectType, ObjectIdx, k) ;
-007125  000442  endfunc
-007126  000443        
-007127  000444  var wp ;
-007128  000445        
-007129  000446        
-007130  000447  func WriteObject(var ObjectType, var ObjectIdx, var NewVal)
-007131  000448      var i, j, k, Objects ;
-007132  000449  //    ObjectType &= 0x3f ; Why was his there? Anibuttons? Complex cascades?
-007133  000450  //to(COM0) ; print("WriteObject ", ObjectType, " ", ObjectIdx, " ", NewVal, "\r\n") ;
-007134  000451      if (ObjectType == tForm)
-007135  000452          ActivateForm(ObjectIdx) ;
-007136  000453          return ;
-007137  000454      endif
-007138  000455          Objects := *(oObjects+ObjectType)+ObjectIdx*2+2 ;
-007139  000456          i := *(Objects) ;
-007140  000457  	if ((ObjectType >= tiAngularMeter) && (ObjectType <= tiLinearInput))
-007141  000458              i := oObjects[ObjectType] ;                              // f is address of list of all objects of this type
-007142  000459              j := ObjectIdx *2 ;
-007143  000460              i := i[j + 2] ;                         // f is address of this object
-007144  000461              k := vObjects[ObjectType-tiAngularMeter] ;               // a is address of list of all ram objects of his type
-007145  000462              k := k[j] ;                             // a is address of this objects' ram
-007146  000463                  j := ObjectType-tiAngularMeter ;
-007147  000464                  Objects := gfxInternals[j] ;           // locate function address   
-007148  000465              Objects(NewVal, k, i) ; 
-007149  000466          return ;
-007150  000467      endif
-007151  000468          switch (ObjectType)
-007152  000469              case tWinButton :
-007153  000470                  j := InputControls[oWinButtons[ObjectIdx+1]] ;
-007154  000471                  break ;
-007155  000472              default : j := -1 ;
-007156  000473          endswitch
-007157  000474          if (j != -1)
-007158  000475              k := img_GetWord(hndl, i , IMAGE_INDEX) ;
-007159  000476              NewVal := NewVal << 1 ;
-007160  000477              if (OVF())      // button group index change
-007161  000478                  if (*(j+InputData+Ofs_IPD_P1))
-007162  000479                      k &= 1 ;    // mask off old group index for momentary
-007163  000480                  else
-007164  000481                      k &= 3 ;    // mask off old group index for toggle
-007165  000482                  endif
-007166  000483              else            // normal set
-007167  000484                  if (*(j+InputData+Ofs_IPD_P2) != -1) TurnOffButtons(*(j+InputData+Ofs_IPD_P2)) ;
-007168  000485                  k &= 0xfffc ;    // retain only group index for state set
-007169  000486              endif
-007170  000487              NewVal |= k ;
-007171  000488  //        endif
-007172  000489          endif
-007173  000490          if (ObjectType == tLeddigits)
-007174  000491              img_SetWord(hndl, i , IMAGE_TAG2, NewVal); // where state is 0 to 2
-007175  000492              ledDigitsDisplay(i, oLeddigitss, oLedDigitsn) ;
-007176  000493              return ;
-007177  000494          endif 
-007178  000495              img_SetWord(hndl, i , IMAGE_INDEX, NewVal); // where state is 0 to 2
-007179  000496              img_Show(hndl, i) ; // will only display if form is current
-007180  000497      return ; // compiler bug circumvention!
-007181  000498  endfunc
-007182  000499        
-007183  000500  func TurnOffButtons(var group)
-007184  000501      var j, k, l, m, n, o, p;
-007185  000502      m := GObjectIdx ;     // save as will be clobbered
-007186  000503      n := GObjectType ;     // save as will be clobbered
-007187  000504      for (j := 0; j < nInputs; j++)
-007188  000505          k := j*IPDatasize ;
-007189  000506          if (*(InputData+k+Ofs_IPD_P2) == group)
-007190  000507              l := -1 ;
-007191  000508               if (*(InputData+k) == tWinButton)
-007192  000509                  l := oWinButtons[*(InputData+k+Ofs_IPD_OBJVIDX)/2] ;
-007193  000510                  img_SetWord(hndl, l, IMAGE_INDEX, 0);
-007194  000511                  img_Show(hndl, l);      // only shows on current form
-007195  000512        
-007196  000513              endif
-007197  000514          endif
-007198  000515      next
-007199  000516      GObjectIdx := m ;     // Restore
-007200  000517      GObjectType := n ;    // Restore
-007201  000518  endfunc
-007202  000519        
-007203  000520        
-007204  000521  // WARNING, this code will crash if newval exceeds maximum displayable number
-007205  000522  func ledDigitsDisplay(var imgidx, var typeptr, var setptr)
-007206  000523      var i, j, k, l, lb, newval, num[4] ;
-007207  000524      if (!((img_GetWord(hndl, imgidx, IMAGE_FLAGS) & I_ENABLED))) return ;  // ;img_GetWord(hndl, imgidx, IMAGE_TAG2) ;if diabled then exit
-007208  000525      newval := img_GetWord(hndl, imgidx, IMAGE_TAG2) ;
-007209  000526      i := -1 ;
-007210  000527      j := *(typeptr) ;
-007211  000528      repeat
-007212  000529          typeptr += 2 ;
-007213  000530          i++ ;
-007214  000531          until (*(typeptr) == imgidx);
-007215  000532      j := setptr + i*10 ;
-007216  000533        
-007217  000534      l := 0x500a | (*(j+Ofs_Digits_Digits) << 8) ;       // UDECxZ
-007218  000535      to(num) ;
-007219  000536      putnum(l, newval) ;
-007220  000537      imgidx++ ;
-007221  000538      lb := *(j+Ofs_Digits_LeadingBlanks) ;
-007222  000539      l := str_Ptr(num) ;
-007223  000540      for (i := 0; i < *(j+Ofs_Digits_Digits); i++)
-007224  000541          k := str_GetByte(l++) & 0x0f ;
-007225  000542          if ( lb && (i < *(j+Ofs_Digits_Digits) - *(j+Ofs_Digits_MinDigits)) )
-007226  000543              if (k == 0)
-007227  000544                  k := 10 ;
-007228  000545              else
-007229  000546                  lb := 0 ;
-007230  000547              endif
-007231  000548          endif
-007232  000549          img_SetWord(hndl, imgidx, IMAGE_INDEX, k);
-007233  000550          img_SetWord(hndl, imgidx, IMAGE_XPOS, *(j+Ofs_Digits_Left)+i* *(j+Ofs_Digits_Widthdigit)) ;
-007234  000551          img_Show(hndl, imgidx);
-007235  000552      next
-007236  000553  endfunc
-007237  000554        
-007238  000555        
-007239  000556  func ActivateForm(var newform)
-007240  000557      var i, j, *p ;
-007241  000558        
-007242  000559          widget_Disable(wp, ALL) ;
-007243  000560      if (CurrentForm != -1) // deactivate old form, by disabling all inputs
-007244  000561          for (i := FormStartIndex[CurrentForm]; i <= FormEndIndex[CurrentForm]; i++)
-007245  000562              if (img_GetWord(hndl, i, IMAGE_TAG))
-007246  000563                  img_Disable(hndl,i) ;
-007247  000564              endif
-007248  000565          next
-007249  000566      endif
-007250  000567      CurrentForm := newform ;
-007251  000568      // display newform image or clear to image color
-007252  000569      if (FormBGcolors[CurrentForm] != ColorBGimage)
-007253  000570          gfx_Set(BACKGROUND_COLOUR,FormBGcolors[CurrentForm]);
-007254  000571          gfx_Cls() ;
-007255  000572          DoGFXObjects() ;                                    // display GFX 'widgets'
-007256  000573      endif
-007257  000574        
-007258  000575      // enable inputs
-007259  000576      for (i := FormStartIndex[CurrentForm]; i < FormEndIndex[CurrentForm]; i++)
-007260  000577          j := img_GetWord(hndl, i, IMAGE_TAG) ;
-007261  000578          if (j)
-007262  000579              j-- ;
-007263  000580              img_SetAttributes(hndl, i, I_STAYONTOP+I_ENABLED);        // make sure this is on top of form, if applicable
-007264  000581              //if (j != tKeyboard)
-007265  000582              if (((j <= tWinButton) || (j >= t4Dbutton)) && (j != tSmartGauge) )               // enable inputs
-007266  000583                  img_ClearAttributes(hndl, i, I_TOUCH_DISABLE);        // ensure touch is enabled
-007267  000584              endif
-007268  000585              img_Show(hndl,i) ; // show initialy, if required
-007269  000586              if (j == tForm)
-007270  000587                  DoGFXObjects() ;                                    // display GFX 'widgets' for image backgruobds
-007271  000588              else if (j == tLeddigits)
-007272  000589                  ledDigitsDisplay(i, oLeddigitss, oLedDigitsn) ;
-007273  000590              endif
-007274  000591          endif
-007275  000592      next
-007276  000593        
-007277  000594      // enable inputs
-007278  000595         var a, f ; 
-007279  000606  */
-007280  000607      for (i := iFormStartIndex[CurrentForm]; i < iFormEndIndex[CurrentForm]; i++)
-007281  000608          addressInternalWidget(i, 0) ;
-007282  000609          widget_Enable(wp,i) ;
-007283  000610          if (GObjectType != tiLabelB) widget_ClearAttributes(wp,i,WIDGET_F_INITIALISED) ; // don't clear initialised for tiLabelB
-007284  000611                  j := GObjectRAM[WIDGET_VAL1] ;
-007285  000612                  GObjectFunc(j, GObjectRAM, GObjectDATA) ; 
-007286  000613      next
-007287  000614      for (i := iFormStartIndex[CurrentForm]; i < iFormEndIndex[CurrentForm]; i++)
-007288  000615          if (InternalInputControls[i] != -1)
-007289  000616              widget_SetAttributes(wp,i,WIDGET_F_TOUCH_ENABLE) ;
-007290  000617          endif
-007291  000618      next
-007292  000619        
-007293  000620        
-007294  000621  endfunc
-007295  000622        
-007296  000623  func UpdateObjects(var newval)
-007297  000624      var IPidx, otherOBJ, oldvalue ;
-007298  000625      if (GObjectType < tiLedDigitsH)
-007299  000626          oldvalue := img_GetWord(hndl, *(pInputIndex), IMAGE_INDEX) ;
-007300  000627      else
-007301  000628          oldvalue := GObjectRAM[WIDGET_VAL1] ;
-007302  000629      endif
-007303  000630      if ( ( oldvalue != newval) || (TouchState == Ofs_IPD_RELEASE) ) // only bother if values changed, or release
-007304  000631      if (GObjectType < tiLedDigitsH)
-007305  000632          img_SetWord(hndl, *(pInputIndex), IMAGE_INDEX, newval);
-007306  000633              img_Show(hndl, *(pInputIndex));      // only shows on current form
-007307  000634      else
-007308  000635          WriteObject(GObjectType, GObjectIdx, newval) ;
-007309  000636      endif
-007310  000637          if ((GObjectType == t4Dbutton) || (GObjectType == tUserButton) || (GObjectType == tWinButton))
-007311  000638              if (*(CurInputData+Ofs_IPD_P1))
-007312  000639                  newval &= 1;
-007313  000640              else
-007314  000641                  newval &= 3;
-007315  000642              endif
-007316  000643              if (newval > 1) newval := 1;
-007317  000644          endif
-007318  000645          IPidx := *(CurInputData+TouchState) ;
-007319  000646          while(IPidx != 0)
-007320  000647              otherOBJ := IPidx + InputData;
-007321  000648              if (*(otherOBJ) == OT_REPORT)
-007322  000649          SendReport(REPORT_EVENT, GObjectType, *(otherOBJ+Ofs_IPD_OBJVIDX), newval) ;
-007323  000650              else if (*(otherOBJ) == OT_MAGIC)
-007324  000651                  IPidx := *(otherOBJ+Ofs_IPD_P5) ;
-007325  000652                  IPidx(newval) ;
-007326  000653  //            else if (TouchState == *(otherOBJ+Ofs_IPD_P4))  // test prior to Workshop 6.5.0.0
-007327  000654              else if ((TouchState == *(otherOBJ+Ofs_IPD_P4)) || (*(CurInputData+Ofs_IPD_P1) && ((GObjectType == t4Dbutton) || (GObjectType == tUserButton) || (GObjectType == tWinButton))))
-007328  000655                  if (*(otherOBJ) == OT_ACTIVATE)
-007329  000656                      ActivateForm(*(otherOBJ+Ofs_IPD_P2) ) ;
-007330  000657                      GObjectType := tForm ;
-007331  000658                  else if (*(otherOBJ) == OT_SETCONST)
-007332  000659                      newval := *(otherOBJ+Ofs_IPD_P3) ;
-007333  000660                      WriteObject(*(otherOBJ+Ofs_IPD_P1), *(otherOBJ+Ofs_IPD_P2), newval) ;
-007334  000661                  else if (*(otherOBJ) == OT_SETANOTHER)
-007335  000662                      WriteObject(*(otherOBJ+Ofs_IPD_P1), *(otherOBJ+Ofs_IPD_P2), newval) ;
-007336  000663                  else if (*(otherOBJ) == OT_PREVFRAME)
-007337  000664                      if (img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX))
-007338  000665                          WriteObject(*(otherOBJ+Ofs_IPD_P5),*(otherOBJ+Ofs_IPD_P2),img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX)-1) ;
-007339  000666                      endif
-007340  000667                      newval := img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) ;
-007341  000668                  else if (*(otherOBJ) == OT_NEXTFRAME)
-007342  000669                      if (img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) < *(otherOBJ+Ofs_IPD_P3))
-007343  000670                          WriteObject(*(otherOBJ+Ofs_IPD_P5),*(otherOBJ+Ofs_IPD_P2),img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX)+1) ;
-007344  000671                      endif
-007345  000672                      newval := img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) ;
-007346  000673                  endif
-007347  000674              endif
-007348  000675              IPidx := *(otherOBJ+TouchState) ;
-007349  000676          wend
-007350  000677      endif
-007351  000678  endfunc
-007352  000679        
-007353  000680  // End P2.inc
-007354  000681  func DoGFXObjects()
-007355  000682  endfunc
-007356  000683        
-007357  000684  // Start P3.inc
-007358  000685  func main()
-007359  000686      var comTX[50], cmdi, i, j, TouchStatus ;
-007360  000687        
-007361  000688      ActiveKeyboard := -1 ;
-007362  000689        
-007363  000690      gfx_ScreenMode(LANDSCAPE) ;
-007364  000691        
-007365  000692      putstr("Mounting...\n");
-007366  000693      if (!(file_Mount()))
-007367  000694          while(!(file_Mount()))
-007368  000695              putstr("Drive not mounted...");
-007369  000696              pause(200);
-007370  000697              gfx_Cls();
-007371  000698              pause(200);
-007372  000699          wend
-007373  000700      endif
-007374  000701        
-007375  000702  //    if (file_CheckUpdate("4D-CLE~1.4xe", CHECKUPDATE_QUERY) == CHECKUPDATE_NEWFILE)
-007376  000703  //        putstr("Program will now update") ;
-007377  000704  //        file_CheckUpdate("4D-CLE~1.4xe", CHECKUPDATE_UPDATENEWER) ;
-007378  000705  //    endif
-007379  000706  //    gfx_MoveTo(0, 0);
-007380  000707  //    print(mem_Heap()," ") ;
-007381  000708  //    gfx_TransparentColour(0x0020);
-007382  000709  //    gfx_Transparency(ON);
-007383  000710        
-007384  000711        
-007385  000712      // open image control
-007386  000713      hndl := file_LoadImageControl("4D-CLE~1.dat", "4D-CLE~1.gci", 1);
-007387  000714        
-007388  000715        
-007389  000716      // init 'constants'
-007390  000717  // End P3.inc
-007391  000718        
-007392  000719      oObjects[tDipSwitch] := oDipSwitchs ; // dummy as no object there
-007393  000720      oObjects[tKnob] := oDipSwitchs ; // dummy as no object there
-007394  000721      oObjects[tRockerSwitch] := oDipSwitchs ; // dummy as no object there
-007395  000722      oObjects[tRotarySwitch] := oDipSwitchs ; // dummy as no object there
-007396  000723      oObjects[tGSlider] := oDipSwitchs ; // dummy as no object there
-007397  000724      oObjects[tTrackbar] := oDipSwitchs ; // dummy as no object there
-007398  000725      oObjects[tWinButton] := oWinButtons ;
-007399  000726      oObjects[tAngularmeter] := oDipSwitchs ; // dummy as no object there
-007400  000727      oObjects[tCoolgauge] := oDipSwitchs ; // dummy as no object there
-007401  000728      oObjects[tCustomdigits] := oDipSwitchs ; // dummy as no object there
-007402  000729      oObjects[tForm] := oForms ;
-007403  000730      oObjects[tGauge] := oDipSwitchs ; // dummy as no object there
-007404  000731      oObjects[tImage] := oImages ;
-007405  000732      oObjects[tKeyboard] := oKeyboards ;
-007406  000733      oObjects[tLed] := oDipSwitchs ; // dummy as no object there
-007407  000734      oObjects[tLeddigits] := oLeddigitss ;
-007408  000735      oObjects[tMeter] := oDipSwitchs ; // dummy as no object there
-007409  000736      oObjects[tStrings] := oDipSwitchs ; // dummy as no object there
-007410  000737      oObjects[tThermometer] := oDipSwitchs ; // dummy as no object there
-007411  000738      oObjects[tUserled] := oUserleds ;
-007412  000739      oObjects[tVideo] := oDipSwitchs ; // dummy as no object there
-007413  000740      oObjects[tStaticText] := oStaticTexts ;
-007414  000741      oObjects[tSounds] := oDipSwitchs ; // dummy as no object there
-007415  000742      oObjects[tTimer] := oDipSwitchs ; // dummy as no object there
-007416  000743      oObjects[tSpectrum] := oDipSwitchs ; // dummy as no object there
-007417  000744      oObjects[tTank] := oDipSwitchs ; // dummy as no object there
-007418  000745      oObjects[tUserImages] := oDipSwitchs ; // dummy as no object there
-007419  000746      oObjects[tPinOutput] := oDipSwitchs ; // dummy as no object there
-007420  000747      oObjects[tPinInput] := oDipSwitchs ; // dummy as no object there
-007421  000748      oObjects[t4Dbutton] := oDipSwitchs ; // dummy as no object there
-007422  000749      oObjects[tAniButton] := oDipSwitchs ; // dummy as no object there
-007423  000750      oObjects[tColorPicker] := oDipSwitchs ; // dummy as no object there
-007424  000751      oObjects[tUserButton] := oDipSwitchs ; // dummy as no object there
-007425  000752      oObjects[tMagicObject] := oDipSwitchs ; // dummy as no object there
-007426  000753      oObjects[tSmartGauge] := oDipSwitchs ; // dummy as no object there
-007427  000754      oObjects[tSmartSlider] := oDipSwitchs ; // dummy as no object there
-007428  000755      oObjects[tSmartKnob] := oDipSwitchs ; // dummy as no object there
-007429  000756      oObjects[tiLedDigitsH] := oDipSwitchs ; // dummy as no object there
-007430  000757      oObjects[tiAngularMeter] := oDipSwitchs ; // dummy as no object there
-007431  000758      oObjects[tiGauge] := oDipSwitchs ; // dummy as no object there
-007432  000759      oObjects[tiLabelB] := oDipSwitchs ; // dummy as no object there
-007433  000760      oObjects[tiUserGauge] := oDipSwitchs ; // dummy as no object there
-007434  000761      oObjects[tiMediaGauge] := oDipSwitchs ; // dummy as no object there
-007435  000762      oObjects[tiMediaThermometer] := oDipSwitchs ; // dummy as no object there
-007436  000763      oObjects[tiLed] := oDipSwitchs ; // dummy as no object there
-007437  000764      oObjects[tiMediaLed] := oDipSwitchs ; // dummy as no object there
-007438  000765      oObjects[tiLedDigits] := oDipSwitchs ; // dummy as no object there
-007439  000766      oObjects[tiNeedle] := oDipSwitchs ; // dummy as no object there
-007440  000767      oObjects[tiRuler] := oDipSwitchs ; // dummy as no object there
-007441  000768      oObjects[tiLedDigit] := oDipSwitchs ; // dummy as no object there
-007442  000769      oObjects[tiButtonD] := oDipSwitchs ; // dummy as no object there
-007443  000770      oObjects[tiButtonE] := oDipSwitchs ; // dummy as no object there
-007444  000771      oObjects[tiMediaButton] := oDipSwitchs ; // dummy as no object there
-007445  000772      oObjects[tiToggleInput] := oDipSwitchs ; // dummy as no object there
-007446  000773      oObjects[tiDial] := oDipSwitchs ; // dummy as no object there
-007447  000774      oObjects[tiMediaRotary] := oDipSwitchs ; // dummy as no object there
-007448  000775      oObjects[tiRotaryInput] := oDipSwitchs ; // dummy as no object there
-007449  000776      oObjects[tiSwitch] := oiSwitchs ;
-007450  000777      oObjects[tiSwitchB] := oDipSwitchs ; // dummy as no object there
-007451  000778      oObjects[tiSliderE] := oDipSwitchs ; // dummy as no object there
-007452  000779      oObjects[tiMediaSlider] := oDipSwitchs ; // dummy as no object there
-007453  000780      oObjects[tiSliderH] := oDipSwitchs ; // dummy as no object there
-007454  000781      oObjects[tiSliderG] := oDipSwitchs ; // dummy as no object there
-007455  000782      oObjects[tiSliderF] := oDipSwitchs ; // dummy as no object there
-007456  000783      oObjects[tiSliderD] := oDipSwitchs ; // dummy as no object there
-007457  000784      oObjects[tiSliderC] := oDipSwitchs ; // dummy as no object there
-007458  000785      oObjects[tiLinearInput] := oDipSwitchs ; // dummy as no object there
-007459  000786      vObjects[19] := oiviSwitch ;
-007460  000787      dKeyboard[0] := oKeyboard0 ;
-007461  000788  // Start P4.inc
-007462  000789      wp := widget_Create(1) ;
-007463  000790      for (i := 0; i < 1; i++)
-007464  000791  	addressInternalWidget(i, 0) ;
-007465  000792          if (GObjectType != tiLedDigit) widget_Add(wp, i, GObjectRAM) ;    // don't add tiLedDigit objects as they are only 1 word long
-007466  000793  //        if (GObjectType == tiLabelB)			// code to cause 'early' allocation of 'buffer' storage in LabelB widgets
-007467  000794  //            widget_Disable(wp, i) ;
-007468  000795  //            img_FunctionCall(hndl, GObjectFunc, j, GObjectRAM, GObjectDATA, GObjectParms, GObjectStrings) ;
-007469  000796  //        endif
-007470  000797      next
-007471  000798        
-007472  000799      // init comms
-007473  000800      COM1_RX_pin(PA0);
-007474  000801      COM1_TX_pin(PA1);
-007475  000802      com1_Init(comRX,CMDLenMAX,0);
-007476  000803      com_SetBaud(COM1,960);
-007477  000804      com1_TXbuffer(comTX, 100, 0);
-007478  000805      // tag 'real' objects
-007479  000806      for (i := 0; i <= MaxTotObjects; i++)
-007480  000807          if (   (i != tSounds)
-007481  000808              && (i != tTimer)
-007482  000809              && (i != tPinOutput)
-007483  000810              && (i != tMagicObject)
-007484  000811              && (i != tPinInput) )
-007485  000812              TouchXpos := oObjects[i] ;
-007486  000813              TouchYpos := *(TouchXpos) ;
-007487  000814              for (ImageTouched := 1; ImageTouched <= TouchYpos; ImageTouched++)
-007488  000815                  oldn := *(TouchXpos+ImageTouched*2) ;
-007489  000816                  img_SetAttributes(hndl, oldn, I_TOUCH_DISABLE);  // ensure touch is enabled
-007490  000817                  if (oldn != -1)
-007491  000818                      img_SetWord(hndl, oldn, IMAGE_TAG, i+1);
-007492  000819                      img_Disable(hndl, oldn) ;
-007493  000820                  endif
-007494  000821              next
-007495  000822          endif
-007496  000823      next
-007497  000824        
-007498  000825        
-007499  000826      for (i := 0; i < nKeyboards; i++) // for each kb key, set tag to -1
-007500  000827          if (oKeyboards[i+1] != -1)               // if keyboard exists
-007501  000828              for(ImageTouched := oKeyboards[i+1]+1; ImageTouched <= oKeyboards[i+1]+*(dKeyboard[i] + Ofs_kb_Buttons); ImageTouched++)
-007502  000829                  img_SetWord(hndl, ImageTouched, IMAGE_TAG, -1);
-007503  000830              next
-007504  000831          endif
-007505  000832      next
-007506  000833      // display initial form
-007507  000834      CurrentForm := -1 ;
-007508  000835  // End P4.inc
-007509  000836  // Start P5.inc
-007510  000837      ActivateForm(0) ; // need to change this according to first actual form
-007511  000838        
-007512  000839  // End P5.inc
-007513  000840  // Start P6.inc Diablo
-007514  000841      touch_Set(TOUCH_ENABLE);                            // enable the touch screen
-007515  000842      oldn := -1 ;
-007516  000843      repeat
-007517  000844        
-007518  000845          // check comms for command, how to NAK invalid command
-007519  000846          if (com1_Count() != 0)
-007520  000847              i := serin1() ;
-007521  000848              InputCS ^= i ;               // update checksum
-007522  000849                  cmd[cmdi++] := i ;
-007523  000850                   if (   (cmd[0] == READ_OBJ)
-007524  000851                           && (cmdi == 4)         )
-007525  000852                      if (InputCS)
-007526  000853                          nak0() ;
-007527  000854                      else
-007528  000855                          ReadObject(cmd[1], cmd[2]) ;
-007529  000856                      endif
-007530  000857                      cmdi := 0 ;
-007531  000858                  else if (   (cmd[0] == WRITE_OBJ)    // 6 byte write command (gen option)
-007532  000859                           && (cmdi == 6)          )
-007533  000860                      if (InputCS)
-007534  000861                          nak0() ;
-007535  000862                      else
-007536  000863                          WriteObject(cmd[1], cmd[2], cmd[3] << 8 + cmd[4]) ;
-007537  000864                          serout1(ACK) ;
-007538  000865                      endif
-007539  000866                      cmdi := 0 ;
-007540  000867                  else if (   (cmd[0] == WRITE_CONTRAST)
-007541  000868                           && (cmdi == 3)         )
-007542  000869                      if (InputCS)
-007543  000870                          nak0() ;
-007544  000871                      else
-007545  000872                          gfx_Contrast(cmd[1]) ;
-007546  000873                          serout1(ACK) ;
-007547  000874                      endif
-007548  000875                      cmdi := 0 ;
-007549  000876                  else if (cmdi == 6)    // we have 6 bytes and we've gotten here -> something wrong
-007550  000877                      nak0() ;
-007551  000878                      cmdi := 0 ;
-007552  000879                  endif
-007553  000880          endif   // a character is available
-007554  000881        
-007555  000882        
-007556  000883      // touch code processing
-007557  000884        
-007558  000885          TouchStatus := touch_Get(TOUCH_STATUS);               // get touchscreen status
-007559  000886          if ((TouchStatus == TOUCH_PRESSED) || (TouchStatus == TOUCH_RELEASED) || (TouchStatus == TOUCH_MOVING))
-007560  000887              ImageTouched := img_Touched(hndl,-1) ;
-007561  000888              if (ImageTouched == -1)
-007562  000889                  ImageTouched := widget_Touched(wp, ALL) ;
-007563  000890                  if (ImageTouched != -1) ImageTouched := -2 - ImageTouched ;
-007564  000891              endif
-007565  000892              if ((TouchStatus != TOUCH_RELEASED) && (ImageTouched != oldn) && (oldn != -1))
-007566  000893                  TouchStatus := TOUCH_RELEASED ;       // simulate release if we move off object
-007567  000894              endif
-007568  000895              if (TouchStatus != TOUCH_RELEASED)        // if not released
-007569  000896                  if (oldn != -1)
-007570  000897                      ImageTouched := oldn ;
-007571  000898                  else
-007572  000899                      if (oldn != ImageTouched)
-007573  000900                  oldn := ImageTouched ;
-007574  000901                          TouchStatus := TOUCH_PRESSED ;
-007575  000902                      endif
-007576  000903                  endif
-007577  000904                  TouchXpos  := touch_Get(TOUCH_GETX);
-007578  000905                  TouchYpos  := touch_Get(TOUCH_GETY);
-007579  000906                  TouchState := Ofs_IPD_DOWN ;
-007580  000907              else
-007581  000908                  ImageTouched := oldn ;                     // simulate release of what we touched
-007582  000909                  oldn := -1 ;                    // prevent double release
-007583  000910                  TouchState := Ofs_IPD_RELEASE ;
-007584  000911              endif
-007585  000912              if (ImageTouched >= 0)
-007586  000913                  // if touch released then find a keyboard down, if one then release it
-007587  000914                  if ((TouchStatus == TOUCH_RELEASED) && (ActiveKeyboard != -1))
-007588  000915                      kbUp(oKeyboards[ActiveKeyboard+1], dKeyboard[ActiveKeyboard]) ;
-007589  000916                      ActiveKeyboard := -1 ;
-007590  000917                  else
-007591  000918                      i := 0 ;
-007592  000919                      while ((i < nKeyboards) && ((-1 == oKeyboards[i+1]) || (ImageTouched <= oKeyboards[i+1]) || (ImageTouched > oKeyboards[i+1] + *(dKeyboard[i]+Ofs_kb_Buttons))))
-007593  000920                          i++ ;
-007594  000921                      wend
-007595  000922                      if (i < nKeyboards)
-007596  000923                          if (TouchStatus == TOUCH_PRESSED)
-007597  000924                              ActiveKeyboard := i ;
-007598  000925                              kbDown(oKeyboards[ActiveKeyboard+1], dKeyboard[ActiveKeyboard], kKeyboardKeystrokes[ActiveKeyboard], ImageTouched-oKeyboards[ActiveKeyboard+1]) ;
-007599  000926                          endif
-007600  000927                      else
-007601  000928                          CurInputData := InputControls[ImageTouched] + InputData;
-007602  000929                          GObjectType := *(CurInputData) ;
-007603  000930                          if (GObjectType == tSmartSlider)
-007604  000931                              i := tTrackbar ; // GSlider ;
-007605  000932                          else if (GObjectType == tSmartKnob)
-007606  000933                              i := tKnob ;
-007607  000934                          else if (GObjectType >= t4Dbutton) 
-007608  000935                              i := GObjectType - 23 ; // adjust to ensure next in gosub
-007609  000936                          else 
-007610  000937                              i := GObjectType ;
-007611  000938                          endif
-007612  000939                          gosub (i), (cDipswitch, cKnob, cRockerswitch, cRotaryswitch, cSlider, cTrackbar, cWinbutton, c4DButton, cAniButton, cColorPicker, cUserButton) ;
-007613  000940                          ImageTouched := -1 ; // show processed here
-007614  000941                      endif
-007615  000942                  endif
-007616  000943              endif
-007617  000944              if (ImageTouched != -1) ImageTouched := -2 - ImageTouched ;
-007618  000945              if (ImageTouched >= 0)
-007619  000946  //print(ImageTouched," ") ;
-007620  000947  //                        CurInputData := InternalInputControls[ImageTouched] + InternalInputData;
-007621  000948                          CurInputData := InternalInputControls[ImageTouched] + InputData;
-007622  000949  //                        GObjectType := *(CurInputData) ;
-007623  000950  //                        i := GObjectType ;
-007624  000951  //                        if (GObjectType >= t4Dbutton) i -= 23 ; // adjust to ensure next in gosub
-007625  000952  //                        gosub (i), (cDipswitch, cKnob, cRockerswitch, cRotaryswitch, cSlider, cTrackbar, cWinbutton, c4DButton, cAniButton, cColorPicker, cUserButton) ;
-007626  000953                          addressInternalWidget(ImageTouched, 0) ;
-007627  000954  //                        i := xobj2iiobj[ImageTouched] ;                            // address object type and hash from ram index
-007628  000955  //                        GObjectIdx := i & 0xff ;
-007629  000956  //                        GObjectType := (i>>8) ;                                   // extract object type
-007630  000957                          if (GObjectType <= tiToggleInput) 
-007631  000958                              i := 0 ;
-007632  000959                          else if (GObjectType <= tiRotaryInput) 
-007633  000960                              i := 1 ;
-007634  000961                          else if (GObjectType <= tiSwitchB) 
-007635  000962                              i := 2 ;
-007636  000963                          else 
-007637  000964                              i := 3 ;
-007638  000965                          endif
-007639  000966  //to(COM0) ; print(i, "\r\n") ;  
-007640  000967        
-007641  000968                          gosub (i), (ciButton, ciDial, ciSwitch, ciSlider) ;
-007642  000969        
-007643  000970        
-007644  000971  //            ImageTouched := widget_Touched(wp, ALL) ;
-007645  000972              endif
-007646  000973          endif
-007647  000974   //       if ((n != -1) && (oldn == -1)) oldn := n ;    // save what we touched in case we move off it
-007648  000975        
-007649  000976          sys_EventsResume() ;
-007650  000977      forever
-007651  000978        
-007652  000979  ciSwitch:
-007653  000980  cDipswitch:
-007654  000981      pInputIndex := oObjects[GObjectType]  + *(CurInputData+Ofs_IPD_OBJVIDX) ;
-007655  000982  #IF EXISTS OLDCOMPILE
-007656  000983      if (*(CurInputData+Ofs_IPD_P1))
-007657  000984          i := (TouchXpos - *(CurInputData+Ofs_IPD_P2)) / *(CurInputData+Ofs_IPD_P3) ;
-007658  000985      else
-007659  000986          i := (TouchYpos - *(CurInputData+Ofs_IPD_P2)) / *(CurInputData+Ofs_IPD_P3) ;
-007660  000987      endif
-007661  000988      if (i > *(CurInputData+Ofs_IPD_P4)) i := *(CurInputData+Ofs_IPD_P4) ;
-007662  000989  #ELSE
-007663  000990      i := gfx_XYlinToVal(TouchXpos, TouchYpos, *(CurInputData+Ofs_IPD_P1),
-007664  000991                   *(CurInputData+Ofs_IPD_P2), *(CurInputData+Ofs_IPD_P3), 0, *(CurInputData+Ofs_IPD_P4) ) ;
-007665  000992  #ENDIF
-007666  000997  */
-007667  000998      UpdateObjects(i) ;
-007668  000999  endsub ;
-007669  001000        
-007670  001001  cKnob:
-007671  001002  ciDial:
-007672  001003        
-007673  001004  cRockerswitch:
-007674  001005        
-007675  001006  cRotaryswitch:
-007676  001007        
-007677  001008  cSlider:
-007678  001009  cTrackbar:
-007679  001010  ciSlider:
-007680  001011        
-007681  001012  ciButton:
-007682  001013        
-007683  001014  c4DButton:
-007684  001015  cUserButton:
-007685  001016  cWinbutton:
-007686  001017      pInputIndex := oObjects[GObjectType]  + *(CurInputData+Ofs_IPD_OBJVIDX) ;
-007687  001018      i := img_GetWord(hndl, *(pInputIndex), IMAGE_INDEX) ; // current state
-007688  001019  CommonButtons:
-007689  001020      if (*(CurInputData+Ofs_IPD_P1))                                 // momentary, reports 0, but should report 1
-007690  001021          if (TouchStatus == TOUCH_RELEASED)
-007691  001022              i &= 0xfffe ;
-007692  001023              TouchState == Ofs_IPD_DOWN ;
-007693  001024          else
-007694  001025              i |= 1 ;
-007695  001026              TouchState == Ofs_IPD_RELEASE ;
-007696  001027          endif
-007697  001028      else if (*(CurInputData+Ofs_IPD_P2) == -1)                      // Toggle, reports 0+2, but should report 0+1
-007698  001029          if (TouchStatus == TOUCH_RELEASED)                     // only truly change on release
-007699  001030              if ((i & 3) == 3)
-007700  001031                  i &= 0xfffc ;
-007701  001032              else
-007702  001033                  i++ ;
-007703  001034              endif
-007704  001035          else
-007705  001036              i |= 1 ;                                      // make down regardless of current state
-007706  001037          endif
-007707  001038      else                        // group action, up all other buttons on touch press, reports 0 for button down
-007708  001039          if (TouchStatus == TOUCH_PRESSED)                     // only truly change on release
-007709  001040              TurnOffButtons(*(CurInputData+Ofs_IPD_P2)) ;
-007710  001041          endif
-007711  001042          if (GObjectType < tiLedDigits)
-007712  001043              i := (i & 0xfffc) | 2 ;         // uSD button, four, grouping and blocking states
-007713  001044          else
-007714  001045              i := 1 ;                        // Internal button two states
-007715  001046          endif
-007716  001047      endif
-007717  001048        
-007718  001049      UpdateObjects(i) ;
-007719  001050  endsub ;
-007720  001051        
-007721  001052  cAniButton:
-007722  001053        
-007723  001054  cColorPicker:
-007724  001055        
-007725  001056  endfunc
-007726  001057  // End P6.inc
-Notice: local var 'j' in func 'main' is never used (line 686 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'GObjectRAM' is being indexed (line 628 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: Check that the function called via pointer  'IPidx' requires 1 argument (line 652 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'GObjectRAM' is being indexed (line 611 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: Check that the function called via pointer  'GObjectFunc' requires 3 arguments (line 612 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: local var 'p' in func 'ActivateForm' is never used (line 557 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: local var 'a' in func 'ActivateForm' is never used (line 595 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: local var 'f' in func 'ActivateForm' is never used (line 595 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: local var 'o' in func 'TurnOffButtons' is never used (line 501 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: local var 'p' in func 'TurnOffButtons' is never used (line 501 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'i' is being indexed (line 460 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'k' is being indexed (line 462 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: Check that the function called via pointer  'Objects' requires 3 arguments (line 465 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'k' is being indexed (line 420 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'k' is being indexed (line 422 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'k' is being indexed (line 424 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'i' is being indexed (line 378 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'i' is being indexed (line 380 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 277 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 278 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 278 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 279 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 280 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 283 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 284 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 285 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 286 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 288 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 222 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 223 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 224 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 224 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 225 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 226 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 227 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 229 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 232 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 233 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 233 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 234 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 235 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 236 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 238 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 240 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 240 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 241 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 242 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 243 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 244 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 245 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 246 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 248 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 251 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 254 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 255 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 256 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 256 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 257 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 257 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 260 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'KBKeys' is being indexed (line 262 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 263 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: Check that the function called via pointer  'rtn' requires 4 arguments (line 265 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 266 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 266 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 268 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 198 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 201 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 204 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 207 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 208 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 210 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 211 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 212 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 214 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 215 file:4D-ClearCore-Demo-No1.4DGenieS)
-Notice: variable 'oKB' is being indexed (line 216 file:4D-ClearCore-Demo-No1.4DGenieS)
+005838  000005  #constant  IFONT_OFFSET     0
+005839  000005  #constant  IFONT_OFFSET     0
+005840  000006  // object indexes into WIDGET pointer
+005841  000007  #CONST
+005842  000009  #END
+005843  000010        
+005844  000011  // object indexes into ImageControl
+005845  000012  #CONST
+005846  000023  #END
+005847  000024        
+005848  000025        
+005849  000026        
+005850  000027  #IFNOT EXISTS NOGLOBALS
+005851  000028  var hndl ;
+005852  000029  #ENDIF
+005853  000017        
+005854  000018        
+005855  000019        
+005856  000020  #constant IPDatasize 22
+005857  000020  #constant IPDatasize 22
+005858  000021        
+005859  000022  #CONST
+005860  000026  #END
+005861  000027        
+005862  000028        
+005863  000029        
+005864  000030  #CONST
+005865  000173  #END
+005866  000174        
+005867  000209  #END
+5868  0183
+5869  0184
+5870  0185
+5871  0186
+5872  0187
+5873  0188
+5874  0189
+5875  018A
+5876  018B
+5877  018C
+5878  018D
+5879  018E
+5880  018F
+5881  0190
+5882  0191
+5883  0192
+5884  0193
+5885  0194
+5886  0195
+5887  0196
+5888  0197
+5889  0198
+5890  0199
+5891  019A
+5892  019B
+5893  019C
+5894  019D
+5895  019E
+5896  019F
+5897  01A0
+5898  01A1
+5899  01A2
+5900  01A3
+5901  01A4
+5902  01A5
+5903  01A6
+5904  01A7
+5905  01A8
+5906  01A9
+5907  01AA
+5908  01AB
+5909  01AC
+5910  01AD
+5911  01AE
+5912  01AF
+5913  01B0
+5914  01B1
+5915  01B2
+5916  01B3
+5917  01B4
+5918  01B5
+5919  01B6
+5920  01B7
+5921  01B8
+5922  01B9
+5923  01BA
+5924  01BB
+5925  01BC
+5926  01BD
+5927  01BE
+5928  01BF
+5929  01C0
+5930  01C1
+5931  01C2
+5932  01C3
+5933  01C4
+5934  01C5
+5935  01C6
+5936  01C7
+5937  01C8
+5938  01C9
+5939  01CA
+5940  01CB
+5941  01CC
+5942  01CD
+5943  01CE
+5944  01CF
+5945  01D0
+5946  01D1
+5947  01D2
+5948  01D3
+5949  01D4
+5950  01D5
+5951  01D6
+5952  01D7
+5953  01D8
+5954  01D9
+5955  01DA
+5956  01DB
+5957  01DC
+5958  01DD
+5959  01DE
+5960  01DF
+5961  01E0
+5962  01E1
+5963  01E2
+5964  01E3
+5965  01E4
+5966  01E5
+5967  01E6
+5968  01E7
+5969  01E8
+5970  01E9
+5971  01EA
+5972  01EB
+5973  01EC
+5974  01ED
+5975  01EE
+5976  01EF
+5977  01F0
+5978  01F1
+5979  01F2
+5980  01F3
+5981  01F4
+5982  01F5
+5983  01F6
+5984  01F7
+5985  01F8
+5986  01F9
+5987  01FA
+5988  01FB
+5989  01FC
+5990  01FD
+5991  01FE
+5992  01FF
+5993  0200
+5994  0201
+5995  0202
+5996  0203
+5997  0204
+5998  0205
+5999  0206
+6000  0207
+6001  0208
+6002  0209
+6003  020A
+6004  020B
+6005  020C
+6006  020D
+6007  020E
+6008  020F
+6009  0210
+6010  0211
+6011  0212
+6012  0213
+6013  0214
+6014  0215
+6015  0216
+6016  0217
+6017  0218
+6018  0219
+6019  021A
+6020  021B
+6021  021C
+6022  021D
+6023  021E
+6024  021F
+6025  0220
+6026  0221
+6027  0222
+6028  0223
+6029  0224
+6030  0225
+6031  0226
+6032  0227
+6033  0228
+6034  0229
+6035  022A
+6036  022B
+6037  022C
+6038  022D
+6039  022E
+6040  022F
+6041  0230
+6042  0231
+6043  0232
+6044  0233
+6045  0234
+6046  0235
+6047  0236
+6048  0237
+6049  0238
+6050  0239
+6051  023A
+6052  023B
+6053  023C
+6054  023D
+6055  023E
+6056  023F
+6057  0240
+6058  0241
+6059  0242
+6060  0243
+6061  0244
+6062  0245
+6063  0246
+6064  0247
+6065  0248
+6066  0249
+6067  024A
+6068  024B
+6069  024C
+6070  024D
+6071  024E
+6072  024F
+6073  0250
+6074  0251
+6075  0252
+6076  0253
+6077  0254
+6078  0255
+6079  0256
+6080  0257
+6081  0258
+6082  0259
+6083  025A
+6084  025B
+6085  025C
+6086  025D
+6087  025E
+6088  025F
+6089  0260
+6090  0261
+6091  0262
+6092  0263
+6093  0264
+6094  0265
+6095  0266
+6096  0267
+6097  0268
+6098  0269
+6099  026A
+6100  026B
+6101  026C
+6102  026D
+6103  026E
+6104  026F
+6105  0270
+6106  0271
+6107  0272
+6108  0273
+6109  0274
+6110  0275
+6111  0276
+6112  0277
+6113  0278
+6114  0279
+6115  027A
+6116  027B
+6117  027C
+6118  027D
+6119  027E
+6120  027F
+6121  0280
+6122  0281
+6123  0282
+6124  0283
+6125  0284
+6126  0285
+6127  0286
+6128  0287
+6129  0288
+6130  0289
+6131  028A
+6132  028B
+6133  028C
+6134  028D
+6135  028E
+6136  028F
+6137  0290
+6138  0291
+6139  0292
+6140  0293
+6141  0294
+6142  0295
+6143  0296
+6144  0297
+6145  0298
+6146  0299
+6147  029A
+6148  029B
+6149  029C
+6150  029D
+6151  029E
+6152  029F
+6153  02A0
+6154  02A1
+6155  02A2
+6156  02A3
+6157  02A4
+6158  02A5
+6159  02A6
+6160  02A7
+6161  02A8
+6162  02A9
+6163  02AA
+6164  02AB
+6165  02AC
+6166  02AD
+6167  02AE
+6168  02AF
+6169  02B0
+6170  02B1
+6171  02B2
+6172  02B3
+6173  02B4
+6174  02B5
+6175  02B6
+6176  02B7
+6177  02B8
+6178  02B9
+6179  02BA
+6180  02BB
+6181  02BC
+6182  02BD
+6183  02BE
+6184  02BF
+6185  02C0
+6186  02C1
+6187  02C2
+6188  02C3
+6189  02C4
+6190  02C5
+6191  02C6
+6192  02C7
+6193  02C8
+6194  02C9
+6195  02CA
+6196  02CB
+6197  02CC
+6198  02CD
+6199  02CE
+6200  02CF
+6201  02D0
+6202  02D1
+6203  02D2
+6204  02D3
+6205  02D4
+6206  02D5
+6207  02D6
+6208  02D7
+6209  02D8
+6210  02D9
+6211  02DA
+6212  02DB
+6213  02DC
+6214  02DD
+6215  02DE
+6216  02DF
+6217  02E0
+6218  02E1
+6219  02E2
+6220  02E3
+6221  02E4
+6222  02E5
+6223  02E6
+6224  02E7
+6225  02E8
+6226  02E9
+6227  02EA
+6228  02EB
+6229  02EC
+6230  02ED
+6231  02EE
+6232  02EF
+6233  02F0
+6234  02F1
+6235  02F2
+6236  02F3
+6237  02F4
+6238  02F5
+6239  02F6
+6240  02F7
+6241  02F8
+6242  02F9
+6243  02FA
+6244  02FB
+6245  02FC
+6246  02FD
+6247  02FE
+6248  02FF
+006249  000210        
+006250  000211      var vISwitch0[WIDGET_RAM_SPACE] ;
+006251  000212  // Start P2.inc
+006252  000213  var vObjects[MaxIntObjects+1] ;              // address of RAM objects
+006253  000214  var GObjectIdx, GObjectFunc, GObjectRAM, GObjectDATA, GObjectParms, GObjectStrings ;
+006254  000215  var oObjects[MaxTotObjects+1] ;                 // address of objects
+006255  000216  var CurrentForm, oldn, ImageTouched ;
+006256  000217  var TouchXpos, TouchYpos ;
+006257  000218  var GObjectType, TouchState, CurInputData, pInputIndex ;
+006258  000219  var comRX[40], cmd[CMDLenMAX] ;
+006259  000220        
+006260  000221  var InputCS, OutputCS ;
+006261  000222        
+006262  000223  // > ? Constant/Global/Data ? <
+006263  000224        
+006264  000225        
+006265  000226  func addressInternalWidget(var idx var iponly)
+006266  000227      var i, j ;
+006267  000228  //to(COM0) ; print("Address Int ", idx, " ") ;
+006268  000229      if (iponly) 
+006269  000230          GObjectIdx := xobj2iiobj[idx] ;
+006270  000231      else
+006271  000232          GObjectIdx := xobj2iobj[idx] ;
+006272  000233      endif
+006273  000234      GObjectType := (GObjectIdx>>8) ;                          // extract object type
+006274  000235      i := oObjects[GObjectType] ;                              // i is address of list of all objects of this type
+006275  000236      GObjectIdx &= 0xff ;
+006276  000237      //GObjectIdx *= 2 ;
+006277  000238      j := GObjectIdx * 2 ;
+006278  000239      GObjectDATA := i[j + 2] ;                                 // address of this object
+006279  000240      i := vObjects[GObjectType-tiAngularMeter] ;               // i is address of list of all ram objects of his type
+006280  000241      GObjectRAM := i[j] ;                                      // address of this objects' ram
+006281  000242      i := GObjectType-tiAngularMeter ;
+006282  000243      GObjectFunc := gfxInternals[i] ; // address function
+006283  000244      GObjectParms := gfxIntParms[i] ;
+006284  000245      GObjectStrings := gfxIntStrings[i] ;
+006285  000246  //to(COM0) ; print([HEX4] GObjectFunc, " ", [HEX4] GObjectRAM, " ", [HEX4] GObjectDATA, " ", GObjectType, " ", GObjectIdx, "\r\n") ;
+006286  000247  //    GObjectFunc(0, GObjectRAM, GObjectDATA) ;
+006287  000248  endfunc
+006288  000249        
+006289  000250  func seroutCS(var op)
+006290  000251      serout(op) ;
+006291  000252      OutputCS ^= op ;
+006292  000253  endfunc
+006293  000254        
+006294  000255  func nak0()
+006295  000256      serout(NAK) ;
+006296  000257      InputCS := 0 ;
+006297  000258  endfunc
+006298  000259        
+006299  000260  func seroutOcs()
+006300  000261      serout(OutputCS) ;
+006301  000262      OutputCS := 0 ;
+006302  000263  endfunc
+006303  000264        
+006304  000265  func SendReport(var id, var objt, var objn, var val)
+006305  000266      seroutCS(id) ;
+006306  000267      seroutCS(objt) ;
+006307  000268      seroutCS(objn) ;
+006308  000269      seroutCS(val >> 8) ; // first 8 bits
+006309  000270      seroutCS(val) ;
+006310  000271      seroutOcs() ;
+006311  000272  endfunc
+006312  000273        
+006313  000274        
+006314  000275        
+006315  000276  func ReadObject(var ObjectType, var ObjectIdx)
+006316  000277      var j, k, Objects ;
+006317  000278      if ((ObjectType >= tiLedDigitsH) && (ObjectType <= tiLinearInput))
+006318  000279          j := ObjectIdx *2 ;
+006319  000280          k := vObjects[ObjectType-tiAngularMeter] ;               // k is address of list of all ram objects of his type
+006320  000281          k := k[j] ;                                              // k is address of this objects' ram
+006321  000282          if (ObjectType == tiLedDigit)
+006322  000283              k := k[0] ;
+006323  000284          else 
+006324  000285              k := k[WIDGET_VAL1] ;
+006325  000286          endif
+006326  000287  //gfx_MoveTo(0,0); txt_Opacity(OPAQUE) ; print(ObjectType, " ", ObjectIdx, " ", k," ") ;
+006327  000288      else
+006328  000289      Objects := *(oObjects+ObjectType) ;
+006329  000290        
+006330  000291      j := 2 + ObjectIdx * 2 + Objects ;
+006331  000292       if (ObjectType == tForm)
+006332  000293          k := CurrentForm ;
+006333  000294      else if ((ObjectType == tCustomdigits) || (ObjectType == tLeddigits))
+006334  000295          k := img_GetWord(hndl, *j, IMAGE_TAG2);
+006335  000296          else
+006336  000297          k := img_GetWord(hndl, *j, IMAGE_INDEX);
+006337  000298          if (((ObjectType == tWinButton) || (ObjectType == tAniButton) || (ObjectType == tUserButton) || (ObjectType == t4Dbutton)) && (k)) k := 1 ; // this is not correct for blocked buttons and cannot be fixed as we cannot
+006338  000299                                                                                                                                                      // determine if button is momentary or not which is needed for correct answer.
+006339  000300      endif
+006340  000301      endif
+006341  000302      SendReport(REPORT_OBJ, ObjectType, ObjectIdx, k) ;
+006342  000303  endfunc
+006343  000304        
+006344  000305  var wp ;
+006345  000306        
+006346  000307        
+006347  000308  func WriteObject(var ObjectType, var ObjectIdx, var NewVal)
+006348  000309      var i, j, k, Objects ;
+006349  000310  //    ObjectType &= 0x3f ; Why was his there? Anibuttons? Complex cascades?
+006350  000311  //to(COM0) ; print("WriteObject ", ObjectType, " ", ObjectIdx, " ", NewVal, "\r\n") ;
+006351  000312      if (ObjectType == tForm)
+006352  000313          ActivateForm(ObjectIdx) ;
+006353  000314          return ;
+006354  000315      endif
+006355  000316          Objects := *(oObjects+ObjectType)+ObjectIdx*2+2 ;
+006356  000317          i := *(Objects) ;
+006357  000318  	if ((ObjectType >= tiAngularMeter) && (ObjectType <= tiLinearInput))
+006358  000319              i := oObjects[ObjectType] ;                              // f is address of list of all objects of this type
+006359  000320              j := ObjectIdx *2 ;
+006360  000321              i := i[j + 2] ;                         // f is address of this object
+006361  000322              k := vObjects[ObjectType-tiAngularMeter] ;               // a is address of list of all ram objects of his type
+006362  000323              k := k[j] ;                             // a is address of this objects' ram
+006363  000324                  j := ObjectType-tiAngularMeter ;
+006364  000325                  Objects := gfxInternals[j] ;           // locate function address   
+006365  000326              Objects(NewVal, k, i) ; 
+006366  000327          return ;
+006367  000328      endif
+006368  000329          switch (ObjectType)
+006369  000330              case tWinButton :
+006370  000331                  j := InputControls[oWinButtons[ObjectIdx+1]] ;
+006371  000332                  break ;
+006372  000333              default : j := -1 ;
+006373  000334          endswitch
+006374  000335          if (j != -1)
+006375  000336              k := img_GetWord(hndl, i , IMAGE_INDEX) ;
+006376  000337              NewVal := NewVal << 1 ;
+006377  000338              if (OVF())      // button group index change
+006378  000339                  if (*(j+InputData+Ofs_IPD_P1))
+006379  000340                      k &= 1 ;    // mask off old group index for momentary
+006380  000341                  else
+006381  000342                      k &= 3 ;    // mask off old group index for toggle
+006382  000343                  endif
+006383  000344              else            // normal set
+006384  000345                  if (*(j+InputData+Ofs_IPD_P2) != -1) TurnOffButtons(*(j+InputData+Ofs_IPD_P2)) ;
+006385  000346                  k &= 0xfffc ;    // retain only group index for state set
+006386  000347              endif
+006387  000348              NewVal |= k ;
+006388  000349  //        endif
+006389  000350          endif
+006390  000351          if (ObjectType == tLeddigits)
+006391  000352              img_SetWord(hndl, i , IMAGE_TAG2, NewVal); // where state is 0 to 2
+006392  000353              ledDigitsDisplay(i, oLeddigitss, oLedDigitsn) ;
+006393  000354              return ;
+006394  000355          endif 
+006395  000356              img_SetWord(hndl, i , IMAGE_INDEX, NewVal); // where state is 0 to 2
+006396  000357              img_Show(hndl, i) ; // will only display if form is current
+006397  000358      return ; // compiler bug circumvention!
+006398  000359  endfunc
+006399  000360        
+006400  000361  func TurnOffButtons(var group)
+006401  000362      var j, k, l, m, n, o, p;
+006402  000363      m := GObjectIdx ;     // save as will be clobbered
+006403  000364      n := GObjectType ;     // save as will be clobbered
+006404  000365      for (j := 0; j < nInputs; j++)
+006405  000366          k := j*IPDatasize ;
+006406  000367          if (*(InputData+k+Ofs_IPD_P2) == group)
+006407  000368              l := -1 ;
+006408  000369               if (*(InputData+k) == tWinButton)
+006409  000370                  l := oWinButtons[*(InputData+k+Ofs_IPD_OBJVIDX)/2] ;
+006410  000371                  img_SetWord(hndl, l, IMAGE_INDEX, 0);
+006411  000372                  img_Show(hndl, l);      // only shows on current form
+006412  000373        
+006413  000374              endif
+006414  000375          endif
+006415  000376      next
+006416  000377      GObjectIdx := m ;     // Restore
+006417  000378      GObjectType := n ;    // Restore
+006418  000379  endfunc
+006419  000380        
+006420  000381        
+006421  000382  // WARNING, this code will crash if newval exceeds maximum displayable number
+006422  000383  func ledDigitsDisplay(var imgidx, var typeptr, var setptr)
+006423  000384      var i, j, k, l, lb, newval, num[4] ;
+006424  000385      if (!((img_GetWord(hndl, imgidx, IMAGE_FLAGS) & I_ENABLED))) return ;  // ;img_GetWord(hndl, imgidx, IMAGE_TAG2) ;if diabled then exit
+006425  000386      newval := img_GetWord(hndl, imgidx, IMAGE_TAG2) ;
+006426  000387      i := -1 ;
+006427  000388      j := *(typeptr) ;
+006428  000389      repeat
+006429  000390          typeptr += 2 ;
+006430  000391          i++ ;
+006431  000392          until (*(typeptr) == imgidx);
+006432  000393      j := setptr + i*10 ;
+006433  000394        
+006434  000395      l := 0x500a | (*(j+Ofs_Digits_Digits) << 8) ;       // UDECxZ
+006435  000396      to(num) ;
+006436  000397      putnum(l, newval) ;
+006437  000398      imgidx++ ;
+006438  000399      lb := *(j+Ofs_Digits_LeadingBlanks) ;
+006439  000400      l := str_Ptr(num) ;
+006440  000401      for (i := 0; i < *(j+Ofs_Digits_Digits); i++)
+006441  000402          k := str_GetByte(l++) & 0x0f ;
+006442  000403          if ( lb && (i < *(j+Ofs_Digits_Digits) - *(j+Ofs_Digits_MinDigits)) )
+006443  000404              if (k == 0)
+006444  000405                  k := 10 ;
+006445  000406              else
+006446  000407                  lb := 0 ;
+006447  000408              endif
+006448  000409          endif
+006449  000410          img_SetWord(hndl, imgidx, IMAGE_INDEX, k);
+006450  000411          img_SetWord(hndl, imgidx, IMAGE_XPOS, *(j+Ofs_Digits_Left)+i* *(j+Ofs_Digits_Widthdigit)) ;
+006451  000412          img_Show(hndl, imgidx);
+006452  000413      next
+006453  000414  endfunc
+006454  000415        
+006455  000416        
+006456  000417  func ActivateForm(var newform)
+006457  000418      var i, j, *p ;
+006458  000419        
+006459  000420          widget_Disable(wp, ALL) ;
+006460  000421      if (CurrentForm != -1) // deactivate old form, by disabling all inputs
+006461  000422          for (i := FormStartIndex[CurrentForm]; i <= FormEndIndex[CurrentForm]; i++)
+006462  000423              if (img_GetWord(hndl, i, IMAGE_TAG))
+006463  000424                  img_Disable(hndl,i) ;
+006464  000425              endif
+006465  000426          next
+006466  000427      endif
+006467  000428      CurrentForm := newform ;
+006468  000429      // display newform image or clear to image color
+006469  000430      if (FormBGcolors[CurrentForm] != ColorBGimage)
+006470  000431          gfx_Set(BACKGROUND_COLOUR,FormBGcolors[CurrentForm]);
+006471  000432          gfx_Cls() ;
+006472  000433          DoGFXObjects() ;                                    // display GFX 'widgets'
+006473  000434      endif
+006474  000435        
+006475  000436      // enable inputs
+006476  000437      for (i := FormStartIndex[CurrentForm]; i < FormEndIndex[CurrentForm]; i++)
+006477  000438          j := img_GetWord(hndl, i, IMAGE_TAG) ;
+006478  000439          if (j)
+006479  000440              j-- ;
+006480  000441              img_SetAttributes(hndl, i, I_STAYONTOP+I_ENABLED);        // make sure this is on top of form, if applicable
+006481  000442              //if (j != tKeyboard)
+006482  000443              if (((j <= tWinButton) || (j >= t4Dbutton)) && (j != tSmartGauge) )               // enable inputs
+006483  000444                  img_ClearAttributes(hndl, i, I_TOUCH_DISABLE);        // ensure touch is enabled
+006484  000445              endif
+006485  000446              img_Show(hndl,i) ; // show initialy, if required
+006486  000447              if (j == tForm)
+006487  000448                  DoGFXObjects() ;                                    // display GFX 'widgets' for image backgruobds
+006488  000449              else if (j == tLeddigits)
+006489  000450                  ledDigitsDisplay(i, oLeddigitss, oLedDigitsn) ;
+006490  000451              endif
+006491  000452          endif
+006492  000453      next
+006493  000454        
+006494  000455      // enable inputs
+006495  000456         var a, f ; 
+006496  000467  */
+006497  000468      for (i := iFormStartIndex[CurrentForm]; i < iFormEndIndex[CurrentForm]; i++)
+006498  000469          addressInternalWidget(i, 0) ;
+006499  000470          widget_Enable(wp,i) ;
+006500  000471          if (GObjectType != tiLabelB) widget_ClearAttributes(wp,i,WIDGET_F_INITIALISED) ; // don't clear initialised for tiLabelB
+006501  000472                  j := GObjectRAM[WIDGET_VAL1] ;
+006502  000473                  GObjectFunc(j, GObjectRAM, GObjectDATA) ; 
+006503  000474      next
+006504  000475      for (i := iFormStartIndex[CurrentForm]; i < iFormEndIndex[CurrentForm]; i++)
+006505  000476          if (InternalInputControls[i] != -1)
+006506  000477              widget_SetAttributes(wp,i,WIDGET_F_TOUCH_ENABLE) ;
+006507  000478          endif
+006508  000479      next
+006509  000480        
+006510  000481        
+006511  000482  endfunc
+006512  000483        
+006513  000484  func UpdateObjects(var newval)
+006514  000485      var IPidx, otherOBJ, oldvalue ;
+006515  000486      if (GObjectType < tiLedDigitsH)
+006516  000487          oldvalue := img_GetWord(hndl, *(pInputIndex), IMAGE_INDEX) ;
+006517  000488      else
+006518  000489          oldvalue := GObjectRAM[WIDGET_VAL1] ;
+006519  000490      endif
+006520  000491      if ( ( oldvalue != newval) || (TouchState == Ofs_IPD_RELEASE) ) // only bother if values changed, or release
+006521  000492      if (GObjectType < tiLedDigitsH)
+006522  000493          img_SetWord(hndl, *(pInputIndex), IMAGE_INDEX, newval);
+006523  000494              img_Show(hndl, *(pInputIndex));      // only shows on current form
+006524  000495      else
+006525  000496          WriteObject(GObjectType, GObjectIdx, newval) ;
+006526  000497      endif
+006527  000498          if ((GObjectType == t4Dbutton) || (GObjectType == tUserButton) || (GObjectType == tWinButton))
+006528  000499              if (*(CurInputData+Ofs_IPD_P1))
+006529  000500                  newval &= 1;
+006530  000501              else
+006531  000502                  newval &= 3;
+006532  000503              endif
+006533  000504              if (newval > 1) newval := 1;
+006534  000505          endif
+006535  000506          IPidx := *(CurInputData+TouchState) ;
+006536  000507          while(IPidx != 0)
+006537  000508              otherOBJ := IPidx + InputData;
+006538  000509              if (*(otherOBJ) == OT_REPORT)
+006539  000510          SendReport(REPORT_EVENT, GObjectType, *(otherOBJ+Ofs_IPD_OBJVIDX), newval) ;
+006540  000511              else if (*(otherOBJ) == OT_MAGIC)
+006541  000512                  IPidx := *(otherOBJ+Ofs_IPD_P5) ;
+006542  000513                  IPidx(newval) ;
+006543  000514  //            else if (TouchState == *(otherOBJ+Ofs_IPD_P4))  // test prior to Workshop 6.5.0.0
+006544  000515              else if ((TouchState == *(otherOBJ+Ofs_IPD_P4)) || (*(CurInputData+Ofs_IPD_P1) && ((GObjectType == t4Dbutton) || (GObjectType == tUserButton) || (GObjectType == tWinButton))))
+006545  000516                  if (*(otherOBJ) == OT_ACTIVATE)
+006546  000517                      ActivateForm(*(otherOBJ+Ofs_IPD_P2) ) ;
+006547  000518                      GObjectType := tForm ;
+006548  000519                  else if (*(otherOBJ) == OT_SETCONST)
+006549  000520                      newval := *(otherOBJ+Ofs_IPD_P3) ;
+006550  000521                      WriteObject(*(otherOBJ+Ofs_IPD_P1), *(otherOBJ+Ofs_IPD_P2), newval) ;
+006551  000522                  else if (*(otherOBJ) == OT_SETANOTHER)
+006552  000523                      WriteObject(*(otherOBJ+Ofs_IPD_P1), *(otherOBJ+Ofs_IPD_P2), newval) ;
+006553  000524                  else if (*(otherOBJ) == OT_PREVFRAME)
+006554  000525                      if (img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX))
+006555  000526                          WriteObject(*(otherOBJ+Ofs_IPD_P5),*(otherOBJ+Ofs_IPD_P2),img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX)-1) ;
+006556  000527                      endif
+006557  000528                      newval := img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) ;
+006558  000529                  else if (*(otherOBJ) == OT_NEXTFRAME)
+006559  000530                      if (img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) < *(otherOBJ+Ofs_IPD_P3))
+006560  000531                          WriteObject(*(otherOBJ+Ofs_IPD_P5),*(otherOBJ+Ofs_IPD_P2),img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX)+1) ;
+006561  000532                      endif
+006562  000533                      newval := img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) ;
+006563  000534                  endif
+006564  000535              endif
+006565  000536              IPidx := *(otherOBJ+TouchState) ;
+006566  000537          wend
+006567  000538      endif
+006568  000539  endfunc
+006569  000540        
+006570  000541  // End P2.inc
+006571  000542  func DoGFXObjects()
+006572  000543  endfunc
+006573  000544        
+006574  000545  // Start P3.inc
+006575  000546  func main()
+006576  000547      var comTX[50], cmdi, i, j, TouchStatus ;
+006577  000548        
+006578  000549        
+006579  000550      gfx_ScreenMode(LANDSCAPE) ;
+006580  000551        
+006581  000552      putstr("Mounting...\n");
+006582  000553      if (!(file_Mount()))
+006583  000554          while(!(file_Mount()))
+006584  000555              putstr("Drive not mounted...");
+006585  000556              pause(200);
+006586  000557              gfx_Cls();
+006587  000558              pause(200);
+006588  000559          wend
+006589  000560      endif
+006590  000561        
+006591  000562  //    if (file_CheckUpdate("TESTNE~1.4xe", CHECKUPDATE_QUERY) == CHECKUPDATE_NEWFILE)
+006592  000563  //        putstr("Program will now update") ;
+006593  000564  //        file_CheckUpdate("TESTNE~1.4xe", CHECKUPDATE_UPDATENEWER) ;
+006594  000565  //    endif
+006595  000566  //    gfx_MoveTo(0, 0);
+006596  000567  //    print(mem_Heap()," ") ;
+006597  000568  //    gfx_TransparentColour(0x0020);
+006598  000569  //    gfx_Transparency(ON);
+006599  000570        
+006600  000571        
+006601  000572      // open image control
+006602  000573      hndl := file_LoadImageControl("TESTNE~1.dat", "TESTNE~1.gci", 1);
+006603  000574        
+006604  000575        
+006605  000576      // init 'constants'
+006606  000577  // End P3.inc
+006607  000578        
+006608  000579      oObjects[tDipSwitch] := oDipSwitchs ; // dummy as no object there
+006609  000580      oObjects[tKnob] := oDipSwitchs ; // dummy as no object there
+006610  000581      oObjects[tRockerSwitch] := oDipSwitchs ; // dummy as no object there
+006611  000582      oObjects[tRotarySwitch] := oDipSwitchs ; // dummy as no object there
+006612  000583      oObjects[tGSlider] := oDipSwitchs ; // dummy as no object there
+006613  000584      oObjects[tTrackbar] := oDipSwitchs ; // dummy as no object there
+006614  000585      oObjects[tWinButton] := oWinButtons ;
+006615  000586      oObjects[tAngularmeter] := oDipSwitchs ; // dummy as no object there
+006616  000587      oObjects[tCoolgauge] := oDipSwitchs ; // dummy as no object there
+006617  000588      oObjects[tCustomdigits] := oDipSwitchs ; // dummy as no object there
+006618  000589      oObjects[tForm] := oForms ;
+006619  000590      oObjects[tGauge] := oDipSwitchs ; // dummy as no object there
+006620  000591      oObjects[tImage] := oDipSwitchs ; // dummy as no object there
+006621  000592      oObjects[tKeyboard] := oDipSwitchs ; // dummy as no object there
+006622  000593      oObjects[tLed] := oDipSwitchs ; // dummy as no object there
+006623  000594      oObjects[tLeddigits] := oLeddigitss ;
+006624  000595      oObjects[tMeter] := oDipSwitchs ; // dummy as no object there
+006625  000596      oObjects[tStrings] := oDipSwitchs ; // dummy as no object there
+006626  000597      oObjects[tThermometer] := oDipSwitchs ; // dummy as no object there
+006627  000598      oObjects[tUserled] := oUserleds ;
+006628  000599      oObjects[tVideo] := oDipSwitchs ; // dummy as no object there
+006629  000600      oObjects[tStaticText] := oStaticTexts ;
+006630  000601      oObjects[tSounds] := oDipSwitchs ; // dummy as no object there
+006631  000602      oObjects[tTimer] := oDipSwitchs ; // dummy as no object there
+006632  000603      oObjects[tSpectrum] := oDipSwitchs ; // dummy as no object there
+006633  000604      oObjects[tTank] := oDipSwitchs ; // dummy as no object there
+006634  000605      oObjects[tUserImages] := oDipSwitchs ; // dummy as no object there
+006635  000606      oObjects[tPinOutput] := oDipSwitchs ; // dummy as no object there
+006636  000607      oObjects[tPinInput] := oDipSwitchs ; // dummy as no object there
+006637  000608      oObjects[t4Dbutton] := oDipSwitchs ; // dummy as no object there
+006638  000609      oObjects[tAniButton] := oDipSwitchs ; // dummy as no object there
+006639  000610      oObjects[tColorPicker] := oDipSwitchs ; // dummy as no object there
+006640  000611      oObjects[tUserButton] := oDipSwitchs ; // dummy as no object there
+006641  000612      oObjects[tMagicObject] := oDipSwitchs ; // dummy as no object there
+006642  000613      oObjects[tSmartGauge] := oDipSwitchs ; // dummy as no object there
+006643  000614      oObjects[tSmartSlider] := oDipSwitchs ; // dummy as no object there
+006644  000615      oObjects[tSmartKnob] := oDipSwitchs ; // dummy as no object there
+006645  000616      oObjects[tiLedDigitsH] := oDipSwitchs ; // dummy as no object there
+006646  000617      oObjects[tiAngularMeter] := oDipSwitchs ; // dummy as no object there
+006647  000618      oObjects[tiGauge] := oDipSwitchs ; // dummy as no object there
+006648  000619      oObjects[tiLabelB] := oDipSwitchs ; // dummy as no object there
+006649  000620      oObjects[tiUserGauge] := oDipSwitchs ; // dummy as no object there
+006650  000621      oObjects[tiMediaGauge] := oDipSwitchs ; // dummy as no object there
+006651  000622      oObjects[tiMediaThermometer] := oDipSwitchs ; // dummy as no object there
+006652  000623      oObjects[tiLed] := oDipSwitchs ; // dummy as no object there
+006653  000624      oObjects[tiMediaLed] := oDipSwitchs ; // dummy as no object there
+006654  000625      oObjects[tiLedDigits] := oDipSwitchs ; // dummy as no object there
+006655  000626      oObjects[tiNeedle] := oDipSwitchs ; // dummy as no object there
+006656  000627      oObjects[tiRuler] := oDipSwitchs ; // dummy as no object there
+006657  000628      oObjects[tiLedDigit] := oDipSwitchs ; // dummy as no object there
+006658  000629      oObjects[tiButtonD] := oDipSwitchs ; // dummy as no object there
+006659  000630      oObjects[tiButtonE] := oDipSwitchs ; // dummy as no object there
+006660  000631      oObjects[tiMediaButton] := oDipSwitchs ; // dummy as no object there
+006661  000632      oObjects[tiToggleInput] := oDipSwitchs ; // dummy as no object there
+006662  000633      oObjects[tiDial] := oDipSwitchs ; // dummy as no object there
+006663  000634      oObjects[tiMediaRotary] := oDipSwitchs ; // dummy as no object there
+006664  000635      oObjects[tiRotaryInput] := oDipSwitchs ; // dummy as no object there
+006665  000636      oObjects[tiSwitch] := oiSwitchs ;
+006666  000637      oObjects[tiSwitchB] := oDipSwitchs ; // dummy as no object there
+006667  000638      oObjects[tiSliderE] := oDipSwitchs ; // dummy as no object there
+006668  000639      oObjects[tiMediaSlider] := oDipSwitchs ; // dummy as no object there
+006669  000640      oObjects[tiSliderH] := oDipSwitchs ; // dummy as no object there
+006670  000641      oObjects[tiSliderG] := oDipSwitchs ; // dummy as no object there
+006671  000642      oObjects[tiSliderF] := oDipSwitchs ; // dummy as no object there
+006672  000643      oObjects[tiSliderD] := oDipSwitchs ; // dummy as no object there
+006673  000644      oObjects[tiSliderC] := oDipSwitchs ; // dummy as no object there
+006674  000645      oObjects[tiLinearInput] := oDipSwitchs ; // dummy as no object there
+006675  000646      vObjects[19] := oiviSwitch ;
+006676  000647  // Start P4.inc
+006677  000648      wp := widget_Create(1) ;
+006678  000649      for (i := 0; i < 1; i++)
+006679  000650  	addressInternalWidget(i, 0) ;
+006680  000651          if (GObjectType != tiLedDigit) widget_Add(wp, i, GObjectRAM) ;    // don't add tiLedDigit objects as they are only 1 word long
+006681  000652  //        if (GObjectType == tiLabelB)			// code to cause 'early' allocation of 'buffer' storage in LabelB widgets
+006682  000653  //            widget_Disable(wp, i) ;
+006683  000654  //            img_FunctionCall(hndl, GObjectFunc, j, GObjectRAM, GObjectDATA, GObjectParms, GObjectStrings) ;
+006684  000655  //        endif
+006685  000656      next
+006686  000657        
+006687  000658      // init comms
+006688  000659      com_Init(comRX,CMDLenMAX,0);
+006689  000660      com_SetBaud(COM0,960);
+006690  000661      com_TXbuffer(comTX, 100, 0);
+006691  000662      // tag 'real' objects
+006692  000663      for (i := 0; i <= MaxTotObjects; i++)
+006693  000664          if (   (i != tSounds)
+006694  000665              && (i != tTimer)
+006695  000666              && (i != tPinOutput)
+006696  000667              && (i != tMagicObject)
+006697  000668              && (i != tPinInput) )
+006698  000669              TouchXpos := oObjects[i] ;
+006699  000670              TouchYpos := *(TouchXpos) ;
+006700  000671              for (ImageTouched := 1; ImageTouched <= TouchYpos; ImageTouched++)
+006701  000672                  oldn := *(TouchXpos+ImageTouched*2) ;
+006702  000673                  img_SetAttributes(hndl, oldn, I_TOUCH_DISABLE);  // ensure touch is enabled
+006703  000674                  if (oldn != -1)
+006704  000675                      img_SetWord(hndl, oldn, IMAGE_TAG, i+1);
+006705  000676                      img_Disable(hndl, oldn) ;
+006706  000677                  endif
+006707  000678              next
+006708  000679          endif
+006709  000680      next
+006710  000681        
+006711  000682        
+006712  000683      // display initial form
+006713  000684      CurrentForm := -1 ;
+006714  000685  // End P4.inc
+006715  000686  // Start P5.inc
+006716  000687      ActivateForm(0) ; // need to change this according to first actual form
+006717  000688        
+006718  000689  // End P5.inc
+006719  000690  // Start P6.inc Diablo
+006720  000691      touch_Set(TOUCH_ENABLE);                            // enable the touch screen
+006721  000692      oldn := -1 ;
+006722  000693      repeat
+006723  000694        
+006724  000695          // check comms for command, how to NAK invalid command
+006725  000696          if (com_Count() != 0)
+006726  000697              i := serin() ;
+006727  000698              InputCS ^= i ;               // update checksum
+006728  000699                  cmd[cmdi++] := i ;
+006729  000700                   if (   (cmd[0] == READ_OBJ)
+006730  000701                           && (cmdi == 4)         )
+006731  000702                      if (InputCS)
+006732  000703                          nak0() ;
+006733  000704                      else
+006734  000705                          ReadObject(cmd[1], cmd[2]) ;
+006735  000706                      endif
+006736  000707                      cmdi := 0 ;
+006737  000708                  else if (   (cmd[0] == WRITE_OBJ)    // 6 byte write command (gen option)
+006738  000709                           && (cmdi == 6)          )
+006739  000710                      if (InputCS)
+006740  000711                          nak0() ;
+006741  000712                      else
+006742  000713                          WriteObject(cmd[1], cmd[2], cmd[3] << 8 + cmd[4]) ;
+006743  000714                          serout(ACK) ;
+006744  000715                      endif
+006745  000716                      cmdi := 0 ;
+006746  000717                  else if (   (cmd[0] == WRITE_CONTRAST)
+006747  000718                           && (cmdi == 3)         )
+006748  000719                      if (InputCS)
+006749  000720                          nak0() ;
+006750  000721                      else
+006751  000722                          gfx_Contrast(cmd[1]) ;
+006752  000723                          serout(ACK) ;
+006753  000724                      endif
+006754  000725                      cmdi := 0 ;
+006755  000726                  else if (cmdi == 6)    // we have 6 bytes and we've gotten here -> something wrong
+006756  000727                      nak0() ;
+006757  000728                      cmdi := 0 ;
+006758  000729                  endif
+006759  000730          endif   // a character is available
+006760  000731        
+006761  000732        
+006762  000733      // touch code processing
+006763  000734        
+006764  000735          TouchStatus := touch_Get(TOUCH_STATUS);               // get touchscreen status
+006765  000736          if ((TouchStatus == TOUCH_PRESSED) || (TouchStatus == TOUCH_RELEASED) || (TouchStatus == TOUCH_MOVING))
+006766  000737              ImageTouched := img_Touched(hndl,-1) ;
+006767  000738              if (ImageTouched == -1)
+006768  000739                  ImageTouched := widget_Touched(wp, ALL) ;
+006769  000740                  if (ImageTouched != -1) ImageTouched := -2 - ImageTouched ;
+006770  000741              endif
+006771  000742              if ((TouchStatus != TOUCH_RELEASED) && (ImageTouched != oldn) && (oldn != -1))
+006772  000743                  TouchStatus := TOUCH_RELEASED ;       // simulate release if we move off object
+006773  000744              endif
+006774  000745              if (TouchStatus != TOUCH_RELEASED)        // if not released
+006775  000746                  if (oldn != -1)
+006776  000747                      ImageTouched := oldn ;
+006777  000748                  else
+006778  000749                      if (oldn != ImageTouched)
+006779  000750                  oldn := ImageTouched ;
+006780  000751                          TouchStatus := TOUCH_PRESSED ;
+006781  000752                      endif
+006782  000753                  endif
+006783  000754                  TouchXpos  := touch_Get(TOUCH_GETX);
+006784  000755                  TouchYpos  := touch_Get(TOUCH_GETY);
+006785  000756                  TouchState := Ofs_IPD_DOWN ;
+006786  000757              else
+006787  000758                  ImageTouched := oldn ;                     // simulate release of what we touched
+006788  000759                  oldn := -1 ;                    // prevent double release
+006789  000760                  TouchState := Ofs_IPD_RELEASE ;
+006790  000761              endif
+006791  000762              if (ImageTouched >= 0)
+006792  000763                          CurInputData := InputControls[ImageTouched] + InputData;
+006793  000764                          GObjectType := *(CurInputData) ;
+006794  000765                          if (GObjectType == tSmartSlider)
+006795  000766                              i := tTrackbar ; // GSlider ;
+006796  000767                          else if (GObjectType == tSmartKnob)
+006797  000768                              i := tKnob ;
+006798  000769                          else if (GObjectType >= t4Dbutton) 
+006799  000770                              i := GObjectType - 23 ; // adjust to ensure next in gosub
+006800  000771                          else 
+006801  000772                              i := GObjectType ;
+006802  000773                          endif
+006803  000774                          gosub (i), (cDipswitch, cKnob, cRockerswitch, cRotaryswitch, cSlider, cTrackbar, cWinbutton, c4DButton, cAniButton, cColorPicker, cUserButton) ;
+006804  000775                          ImageTouched := -1 ; // show processed here
+006805  000776              endif
+006806  000777              if (ImageTouched != -1) ImageTouched := -2 - ImageTouched ;
+006807  000778              if (ImageTouched >= 0)
+006808  000779  //print(ImageTouched," ") ;
+006809  000780  //                        CurInputData := InternalInputControls[ImageTouched] + InternalInputData;
+006810  000781                          CurInputData := InternalInputControls[ImageTouched] + InputData;
+006811  000782  //                        GObjectType := *(CurInputData) ;
+006812  000783  //                        i := GObjectType ;
+006813  000784  //                        if (GObjectType >= t4Dbutton) i -= 23 ; // adjust to ensure next in gosub
+006814  000785  //                        gosub (i), (cDipswitch, cKnob, cRockerswitch, cRotaryswitch, cSlider, cTrackbar, cWinbutton, c4DButton, cAniButton, cColorPicker, cUserButton) ;
+006815  000786                          addressInternalWidget(ImageTouched, 0) ;
+006816  000787  //                        i := xobj2iiobj[ImageTouched] ;                            // address object type and hash from ram index
+006817  000788  //                        GObjectIdx := i & 0xff ;
+006818  000789  //                        GObjectType := (i>>8) ;                                   // extract object type
+006819  000790                          if (GObjectType <= tiToggleInput) 
+006820  000791                              i := 0 ;
+006821  000792                          else if (GObjectType <= tiRotaryInput) 
+006822  000793                              i := 1 ;
+006823  000794                          else if (GObjectType <= tiSwitchB) 
+006824  000795                              i := 2 ;
+006825  000796                          else 
+006826  000797                              i := 3 ;
+006827  000798                          endif
+006828  000799  //to(COM0) ; print(i, "\r\n") ;  
+006829  000800        
+006830  000801                          gosub (i), (ciButton, ciDial, ciSwitch, ciSlider) ;
+006831  000802        
+006832  000803        
+006833  000804  //            ImageTouched := widget_Touched(wp, ALL) ;
+006834  000805              endif
+006835  000806          endif
+006836  000807   //       if ((n != -1) && (oldn == -1)) oldn := n ;    // save what we touched in case we move off it
+006837  000808        
+006838  000809          sys_EventsResume() ;
+006839  000810      forever
+006840  000811        
+006841  000812  ciSwitch:
+006842  000813  cDipswitch:
+006843  000814      pInputIndex := oObjects[GObjectType]  + *(CurInputData+Ofs_IPD_OBJVIDX) ;
+006844  000815  #IF EXISTS OLDCOMPILE
+006845  000816      if (*(CurInputData+Ofs_IPD_P1))
+006846  000817          i := (TouchXpos - *(CurInputData+Ofs_IPD_P2)) / *(CurInputData+Ofs_IPD_P3) ;
+006847  000818      else
+006848  000819          i := (TouchYpos - *(CurInputData+Ofs_IPD_P2)) / *(CurInputData+Ofs_IPD_P3) ;
+006849  000820      endif
+006850  000821      if (i > *(CurInputData+Ofs_IPD_P4)) i := *(CurInputData+Ofs_IPD_P4) ;
+006851  000822  #ELSE
+006852  000823      i := gfx_XYlinToVal(TouchXpos, TouchYpos, *(CurInputData+Ofs_IPD_P1),
+006853  000824                   *(CurInputData+Ofs_IPD_P2), *(CurInputData+Ofs_IPD_P3), 0, *(CurInputData+Ofs_IPD_P4) ) ;
+006854  000825  #ENDIF
+006855  000830  */
+006856  000831      UpdateObjects(i) ;
+006857  000832  endsub ;
+006858  000833        
+006859  000834  cKnob:
+006860  000835  ciDial:
+006861  000836        
+006862  000837  cRockerswitch:
+006863  000838        
+006864  000839  cRotaryswitch:
+006865  000840        
+006866  000841  cSlider:
+006867  000842  cTrackbar:
+006868  000843  ciSlider:
+006869  000844        
+006870  000845  ciButton:
+006871  000846        
+006872  000847  c4DButton:
+006873  000848  cUserButton:
+006874  000849  cWinbutton:
+006875  000850      pInputIndex := oObjects[GObjectType]  + *(CurInputData+Ofs_IPD_OBJVIDX) ;
+006876  000851      i := img_GetWord(hndl, *(pInputIndex), IMAGE_INDEX) ; // current state
+006877  000852  CommonButtons:
+006878  000853      if (*(CurInputData+Ofs_IPD_P1))                                 // momentary, reports 0, but should report 1
+006879  000854          if (TouchStatus == TOUCH_RELEASED)
+006880  000855              i &= 0xfffe ;
+006881  000856              TouchState == Ofs_IPD_DOWN ;
+006882  000857          else
+006883  000858              i |= 1 ;
+006884  000859              TouchState == Ofs_IPD_RELEASE ;
+006885  000860          endif
+006886  000861      else if (*(CurInputData+Ofs_IPD_P2) == -1)                      // Toggle, reports 0+2, but should report 0+1
+006887  000862          if (TouchStatus == TOUCH_RELEASED)                     // only truly change on release
+006888  000863              if ((i & 3) == 3)
+006889  000864                  i &= 0xfffc ;
+006890  000865              else
+006891  000866                  i++ ;
+006892  000867              endif
+006893  000868          else
+006894  000869              i |= 1 ;                                      // make down regardless of current state
+006895  000870          endif
+006896  000871      else                        // group action, up all other buttons on touch press, reports 0 for button down
+006897  000872          if (TouchStatus == TOUCH_PRESSED)                     // only truly change on release
+006898  000873              TurnOffButtons(*(CurInputData+Ofs_IPD_P2)) ;
+006899  000874          endif
+006900  000875          if (GObjectType < tiLedDigits)
+006901  000876              i := (i & 0xfffc) | 2 ;         // uSD button, four, grouping and blocking states
+006902  000877          else
+006903  000878              i := 1 ;                        // Internal button two states
+006904  000879          endif
+006905  000880      endif
+006906  000881        
+006907  000882      UpdateObjects(i) ;
+006908  000883  endsub ;
+006909  000884        
+006910  000885  cAniButton:
+006911  000886        
+006912  000887  cColorPicker:
+006913  000888        
+006914  000889  endfunc
+006915  000890  // End P6.inc
+Notice: local var 'j' in func 'main' is never used (line 547 file:TestNEW.4DGenieS)
+Notice: variable 'GObjectRAM' is being indexed (line 489 file:TestNEW.4DGenieS)
+Notice: Check that the function called via pointer  'IPidx' requires 1 argument (line 513 file:TestNEW.4DGenieS)
+Notice: variable 'GObjectRAM' is being indexed (line 472 file:TestNEW.4DGenieS)
+Notice: Check that the function called via pointer  'GObjectFunc' requires 3 arguments (line 473 file:TestNEW.4DGenieS)
+Notice: local var 'p' in func 'ActivateForm' is never used (line 418 file:TestNEW.4DGenieS)
+Notice: local var 'a' in func 'ActivateForm' is never used (line 456 file:TestNEW.4DGenieS)
+Notice: local var 'f' in func 'ActivateForm' is never used (line 456 file:TestNEW.4DGenieS)
+Notice: local var 'o' in func 'TurnOffButtons' is never used (line 362 file:TestNEW.4DGenieS)
+Notice: local var 'p' in func 'TurnOffButtons' is never used (line 362 file:TestNEW.4DGenieS)
+Notice: variable 'i' is being indexed (line 321 file:TestNEW.4DGenieS)
+Notice: variable 'k' is being indexed (line 323 file:TestNEW.4DGenieS)
+Notice: Check that the function called via pointer  'Objects' requires 3 arguments (line 326 file:TestNEW.4DGenieS)
+Notice: variable 'k' is being indexed (line 281 file:TestNEW.4DGenieS)
+Notice: variable 'k' is being indexed (line 283 file:TestNEW.4DGenieS)
+Notice: variable 'k' is being indexed (line 285 file:TestNEW.4DGenieS)
+Notice: variable 'i' is being indexed (line 239 file:TestNEW.4DGenieS)
+Notice: variable 'i' is being indexed (line 241 file:TestNEW.4DGenieS)
 
 
 Symbol Table:
@@ -7872,9 +7002,8 @@ __reserved9                         -110  0xffffff92 (PmmC func) args[0] r=0  (n
 __translate                           -8  0xfffffff8 (PmmC func) args[4] r=1  (not used)
 ABS                                  -53  0xffffffcb (PmmC func) args[1] r=1  (not used)
 ACK                                    6  0x00000006 (const dword)  (usage 6)
-ActivateForm                        4047  0x00000fcf (User func) args[1] r=0  (usage 9)
-ActiveKeyboard                        48  0x00000030 (mem) word (global)  (usage 36)
-addressInternalWidget               5733  0x00001665 (User func) args[2] r=0  (usage 9)
+ActivateForm                        2993  0x00000bb1 (User func) args[1] r=0  (usage 9)
+addressInternalWidget               4671  0x0000123f (User func) args[2] r=0  (usage 9)
 ALICEBLUE                          63455  0x0000f7df (const dword)  (not used)
 ALL                                65535  0x0000ffff (const dword)  (usage 6)
 ana_HS                              -533  0xfffffdeb (PmmC func) args[7] r=0  (not used)
@@ -8003,7 +7132,7 @@ BIN9ZB                             10498  0x00002902 (const dword)  (not used)
 BINZ                                4098  0x00001002 (const dword)  (not used)
 BINZB                               8194  0x00002002 (const dword)  (not used)
 BISQUE                             65336  0x0000ff38 (const dword)  (not used)
-BLACK                                  0  0x00000000 (const dword)  (not used)
+BLACK                                  0  0x00000000 (const dword)  (usage 3)
 BLANCHEDALMOND                     65369  0x0000ff59 (const dword)  (not used)
 BLUE                                  31  0x0000001f (const dword)  (not used)
 BLUEVIOLET                         35164  0x0000895c (const dword)  (not used)
@@ -8045,12 +7174,12 @@ BUTTON_DOWN                            0  0x00000000 (const dword)  (not used)
 BUTTON_UP                              1  0x00000001 (const dword)  (not used)
 ByteSwap                             -49  0xffffffcf (PmmC func) args[1] r=1  (not used)
 c4DButton                         UNRESOLVED  (not used)
-C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS    2806  0x00000af6 (const ??? 0)  (not used)
+C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS    2806  0x00000af6 (const ??? 0)  (not used)
 CADETBLUE                          23796  0x00005cf4 (const dword)  (not used)
 cAniButton                        UNRESOLVED  (not used)
 cColorPicker                      UNRESOLVED  (not used)
 cDipswitch                        UNRESOLVED  (not used)
-CfISwitch0                           264  0x00000108CfISwitch0                           264  0x00000108 (mem) byte[12] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 1)
+CfISwitch0                           224  0x000000e0CfISwitch0                           224  0x000000e0 (mem) byte[4] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 1)
 CfISwitch0                        UNRESOLVED  (usage 2)
 charheight                           -12  0xfffffff4 (PmmC func) args[1] r=1  (not used)
 CHARTREUSE                         32736  0x00007fe0 (const dword)  (not used)
@@ -8072,27 +7201,27 @@ ciSlider                          UNRESOLVED  (not used)
 ciSwitch                          UNRESOLVED  (not used)
 cKnob                             UNRESOLVED  (not used)
 CLIPPING                              19  0x00000013 (const dword)  (not used)
-cmd                                  352  0x00000160 (mem) word[80] (global)  (usage 33)
+cmd                                  324  0x00000144 (mem) word[80] (global)  (usage 33)
 CMDLenMAX                             80  0x00000050 (const dword)  (usage 6)
-CnISwitch0                           257  0x00000101CnISwitch0                           257  0x00000101 (mem) byte[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 1)
+CnISwitch0                           221  0x000000ddCnISwitch0                           221  0x000000dd (mem) byte[3] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 1)
 CnISwitch0                        UNRESOLVED  (usage 2)
 ColorBGimage                          32  0x00000020 (const dword)  (usage 3)
 COLOUR16                               0  0x00000000 (const dword)  (not used)
 COLOUR8                                1  0x00000001 (const dword)  (not used)
-COM0                               63492  0x0000f804 (const dword)  (not used)
-COM1                               63493  0x0000f805 (const dword)  (usage 3)
-com1_Count                          -249  0xffffff07 (PmmC func) args[0] r=1  (usage 3)
+COM0                               63492  0x0000f804 (const dword)  (usage 3)
+COM1                               63493  0x0000f805 (const dword)  (not used)
+com1_Count                          -249  0xffffff07 (PmmC func) args[0] r=1  (not used)
 com1_Error                          -257  0xfffffeff (PmmC func) args[0] r=1  (not used)
 com1_Full                           -253  0xffffff03 (PmmC func) args[0] r=1  (not used)
-com1_Init                           -233  0xffffff17 (PmmC func) args[3] r=0  (usage 3)
+com1_Init                           -233  0xffffff17 (PmmC func) args[3] r=0  (not used)
 com1_InitBrk                        -578  0xfffffdbe (PmmC func) args[3] r=0  (not used)
 com1_Reset                          -245  0xffffff0b (PmmC func) args[0] r=0  (not used)
-COM1_RX_pin                         -226  0xffffff1e (PmmC func) args[1] r=1  (usage 3)
+COM1_RX_pin                         -226  0xffffff1e (PmmC func) args[1] r=1  (not used)
 com1_RXblock                        -558  0xfffffdd2 (PmmC func) args[2] r=0  (not used)
 com1_Sync                           -261  0xfffffefb (PmmC func) args[0] r=1  (not used)
-COM1_TX_pin                         -229  0xffffff1b (PmmC func) args[1] r=1  (usage 3)
+COM1_TX_pin                         -229  0xffffff1b (PmmC func) args[1] r=1  (not used)
 com1_TXblock                        -557  0xfffffdd3 (PmmC func) args[2] r=0  (not used)
-com1_TXbuffer                       -265  0xfffffef7 (PmmC func) args[3] r=0  (usage 3)
+com1_TXbuffer                       -265  0xfffffef7 (PmmC func) args[3] r=0  (not used)
 com1_TXbufferBrk                    -574  0xfffffdc2 (PmmC func) args[3] r=0  (not used)
 com1_TXbufferHold                   -277  0xfffffeeb (PmmC func) args[1] r=1  (not used)
 com1_TXcount                        -269  0xfffffef3 (PmmC func) args[0] r=1  (not used)
@@ -8131,10 +7260,10 @@ com3_TXbufferBrk                    -576  0xfffffdc0 (PmmC func) args[3] r=0  (n
 com3_TXbufferHold                   -279  0xfffffee9 (PmmC func) args[1] r=1  (not used)
 com3_TXcount                        -271  0xfffffef1 (PmmC func) args[0] r=1  (not used)
 com3_TXemptyEvent                   -275  0xfffffeed (PmmC func) args[1] r=1  (not used)
-com_Count                           -248  0xffffff08 (PmmC func) args[0] r=1  (not used)
+com_Count                           -248  0xffffff08 (PmmC func) args[0] r=1  (usage 3)
 com_Error                           -256  0xffffff00 (PmmC func) args[0] r=1  (not used)
 com_Full                            -252  0xffffff04 (PmmC func) args[0] r=1  (not used)
-com_Init                            -232  0xffffff18 (PmmC func) args[3] r=0  (not used)
+com_Init                            -232  0xffffff18 (PmmC func) args[3] r=0  (usage 3)
 com_InitBrk                         -577  0xfffffdbf (PmmC func) args[3] r=0  (not used)
 com_Mode                            -280  0xfffffee8 (PmmC func) args[4] r=1  (not used)
 com_Reset                           -244  0xffffff0c (PmmC func) args[0] r=0  (not used)
@@ -8142,12 +7271,12 @@ com_RXblock                         -282  0xfffffee6 (PmmC func) args[2] r=0  (n
 com_SetBaud                         -225  0xffffff1f (PmmC func) args[2] r=1  (usage 3)
 com_Sync                            -260  0xfffffefc (PmmC func) args[0] r=1  (not used)
 com_TXblock                         -281  0xfffffee7 (PmmC func) args[2] r=0  (not used)
-com_TXbuffer                        -264  0xfffffef8 (PmmC func) args[3] r=0  (not used)
+com_TXbuffer                        -264  0xfffffef8 (PmmC func) args[3] r=0  (usage 3)
 com_TXbufferBrk                     -573  0xfffffdc3 (PmmC func) args[3] r=0  (not used)
 com_TXbufferHold                    -276  0xfffffeec (PmmC func) args[1] r=1  (not used)
 com_TXcount                         -268  0xfffffef4 (PmmC func) args[0] r=1  (not used)
 com_TXemptyEvent                    -272  0xfffffef0 (PmmC func) args[1] r=1  (not used)
-comRX                                272  0x00000110 (mem) word[40] (global)  (usage 3)
+comRX                                244  0x000000f4 (mem) word[40] (global)  (usage 3)
 CONTRAST                              25  0x00000019 (const dword)  (not used)
 CORAL                              64490  0x0000fbea (const dword)  (not used)
 CORNFLOWERBLUE                     25789  0x000064bd (const dword)  (not used)
@@ -8166,8 +7295,8 @@ cRockerswitch                     UNRESOLVED  (not used)
 cRotaryswitch                     UNRESOLVED  (not used)
 cSlider                           UNRESOLVED  (not used)
 cTrackbar                         UNRESOLVED  (not used)
-CurInputData                         268  0x0000010c (mem) word (global)  (usage 45)
-CurrentForm                          254  0x000000fe (mem) word (global)  (usage 42)
+CurInputData                         240  0x000000f0 (mem) word (global)  (usage 45)
+CurrentForm                          226  0x000000e2 (mem) word (global)  (usage 42)
 cUserButton                       UNRESOLVED  (not used)
 cWinbutton                        UNRESOLVED  (not used)
 CY                                   -64  0xffffffc0 (PmmC func) args[0] r=1  (not used)
@@ -8182,7 +7311,7 @@ DARKMAGENTA                        34833  0x00008811 (const dword)  (not used)
 DARKOLIVEGREEN                     21317  0x00005345 (const dword)  (not used)
 DARKORANGE                         64608  0x0000fc60 (const dword)  (not used)
 DARKORCHID                         39321  0x00009999 (const dword)  (not used)
-DARKRED                            34816  0x00008800 (const dword)  (usage 6)
+DARKRED                            34816  0x00008800 (const dword)  (usage 3)
 DARKSALMON                         60591  0x0000ecaf (const dword)  (not used)
 DARKSEAGREEN                       36337  0x00008df1 (const dword)  (not used)
 DARKSLATEBLUE                      18929  0x000049f1 (const dword)  (not used)
@@ -8296,9 +7425,8 @@ disp_WrGRAM                         -364  0xfffffe94 (PmmC func) args[1] r=0  (n
 disp_WriteControl                   -365  0xfffffe93 (PmmC func) args[1] r=0  (not used)
 disp_WriteWord                      -366  0xfffffe92 (PmmC func) args[1] r=0  (not used)
 DISPLAY_PAGE                          33  0x00000021 (const dword)  (not used)
-dKeyboard                             46  0x0000002e (mem) word[1] (global)  (usage 15)
 DODGERBLUE                          7327  0x00001c9f (const dword)  (not used)
-DoGFXObjects                        3432  0x00000d68 (User func) args[0] r=0  (usage 6)
+DoGFXObjects                        2378  0x0000094a (User func) args[0] r=0  (usage 6)
 DOWN                                   0  0x00000000 (const dword)  (not used)
 DSK                                63490  0x0000f802 (const dword)  (not used)
 ENABLE                                 1  0x00000001 (const dword)  (not used)
@@ -8495,9 +7623,9 @@ FONT_9                                 9  0x00000009 (const dword)  (not used)
 FONT_ID                                2  0x00000002 (const dword)  (not used)
 FONT_SIZE                              2  0x00000002 (const dword)  (not used)
 FORESTGREEN                         9284  0x00002444 (const dword)  (not used)
-FormBGcolors                        1020  0x000003fcFormBGcolors                        1020  0x000003fc (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-FormEndIndex                         290  0x00000122FormEndIndex                         290  0x00000122 (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-FormStartIndex                       276  0x00000114FormStartIndex                       276  0x00000114 (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
+FormBGcolors                         372  0x00000174FormBGcolors                         372  0x00000174 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+FormEndIndex                         230  0x000000e6FormEndIndex                         230  0x000000e6 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+FormStartIndex                       228  0x000000e4FormStartIndex                       228  0x000000e4 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
 FRAME_DELAY                           22  0x00000016 (const dword)  (not used)
 FUCHSIA                            63519  0x0000f81f (const dword)  (not used)
 GAINSBORO                          57083  0x0000defb (const dword)  (not used)
@@ -8651,17 +7779,17 @@ GFX_Y2                                55  0x00000037 (const dword)  (not used)
 GFX_Y_ORG                             57  0x00000039 (const dword)  (not used)
 GFX_YMAX                              47  0x0000002f (const dword)  (not used)
 gfx_Yorigin                         -198  0xffffff3a (PmmC func) args[1] r=1  (not used)
-gfxInternals                          43  0x0000002bgfxInternals                          43  0x0000002b (mem) word[29] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-gfxIntParms                          101  0x00000065gfxIntParms                          101  0x00000065 (mem) word[29] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-gfxIntStrings                        159  0x0000009fgfxIntStrings                        159  0x0000009f (mem) word[29] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
+gfxInternals                           7  0x00000007gfxInternals                           7  0x00000007 (mem) word[29] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+gfxIntParms                           65  0x00000041gfxIntParms                           65  0x00000041 (mem) word[29] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
+gfxIntStrings                        123  0x0000007bgfxIntStrings                        123  0x0000007b (mem) word[29] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
 GHOSTWHITE                         65503  0x0000ffdf (const dword)  (not used)
-GObjectDATA                          112  0x00000070 (mem) word (global)  (usage 6)
-GObjectFunc                          108  0x0000006c (mem) word (global)  (usage 6)
-GObjectIdx                           106  0x0000006a (mem) word (global)  (usage 24)
-GObjectParms                         114  0x00000072 (mem) word (global)  (usage 3)
-GObjectRAM                           110  0x0000006e (mem) word (global)  (usage 15)
-GObjectStrings                       116  0x00000074 (mem) word (global)  (usage 3)
-GObjectType                          264  0x00000108 (mem) word (global)  (usage 93)
+GObjectDATA                           84  0x00000054 (mem) word (global)  (usage 6)
+GObjectFunc                           80  0x00000050 (mem) word (global)  (usage 6)
+GObjectIdx                            78  0x0000004e (mem) word (global)  (usage 24)
+GObjectParms                          86  0x00000056 (mem) word (global)  (usage 3)
+GObjectRAM                            82  0x00000052 (mem) word (global)  (usage 15)
+GObjectStrings                        88  0x00000058 (mem) word (global)  (usage 3)
+GObjectType                          236  0x000000ec (mem) word (global)  (usage 93)
 GOLD                               65184  0x0000fea0 (const dword)  (not used)
 GOLDENROD                          56612  0x0000dd24 (const dword)  (not used)
 GRAD_DOWN                             32  0x00000020 (const dword)  (not used)
@@ -8672,7 +7800,7 @@ GRAD_WAVE_HOR                        112  0x00000070 (const dword)  (not used)
 GRAD_WAVE_VER                         96  0x00000060 (const dword)  (not used)
 GRAM_PIXEL_COUNT_HI                  116  0x00000074 (const dword)  (not used)
 GRAM_PIXEL_COUNT_LO                  115  0x00000073 (const dword)  (not used)
-GRAY                               33808  0x00008410 (const dword)  (usage 3)
+GRAY                               33808  0x00008410 (const dword)  (not used)
 GREEN                               1024  0x00000400 (const dword)  (not used)
 GREENYELLOW                        45029  0x0000afe5 (const dword)  (not used)
 HEX                                 5136  0x00001410 (const dword)  (not used)
@@ -8693,7 +7821,7 @@ HEXZB                               9232  0x00002410 (const dword)  (not used)
 HI                                     1  0x00000001 (const dword)  (not used)
 HIbyte                               -48  0xffffffd0 (PmmC func) args[1] r=1  (not used)
 HIDE                                   2  0x00000002 (const dword)  (not used)
-hndl                                   0  0x00000000 (mem) word (global)  (usage 111)
+hndl                                   0  0x00000000 (mem) word (global)  (usage 102)
 HONEYDEW                           63486  0x0000f7fe (const dword)  (not used)
 HOTPINK                            64342  0x0000fb56 (const dword)  (not used)
 HYPER                                  3  0x00000003 (const dword)  (not used)
@@ -8776,31 +7904,14 @@ I_TOUCHED                           4096  0x00001000 (const dword)  (not used)
 I_X_LOCK                            1024  0x00000400 (const dword)  (not used)
 I_Y_LOCK                            2048  0x00000800 (const dword)  (not used)
 IFONT_OFFSET                           0  0x00000000 (const dword)  (not used)
-iFormEndIndex                        318  0x0000013eiFormEndIndex                        318  0x0000013e (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-iFormStartIndex                      304  0x00000130iFormStartIndex                      304  0x00000130 (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-iiFormEndIndex                       346  0x0000015aiiFormEndIndex                       346  0x0000015a (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (not used)
-iiFormStartIndex                     332  0x0000014ciiFormStartIndex                     332  0x0000014c (mem) word[7] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (not used)
-iiLeddigits0                           3  0x00000003 (const ??? 0)  (not used)
-iiLeddigits1                          25  0x00000019 (const ??? 0)  (not used)
-iImage0                                0  0x00000000 (const ??? 0)  (usage 3)
+iFormEndIndex                        234  0x000000eaiFormEndIndex                        234  0x000000ea (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+iFormStartIndex                      232  0x000000e8iFormStartIndex                      232  0x000000e8 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+iiFormEndIndex                       238  0x000000eeiiFormEndIndex                       238  0x000000ee (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (not used)
+iiFormStartIndex                     236  0x000000eciiFormStartIndex                     236  0x000000ec (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (not used)
+iiLeddigits0                           5  0x00000005 (const ??? 0)  (not used)
 iISwitch0                              0  0x00000000 (const ??? 0)  (not used)
-IISwitch0                            223  0x000000dfIISwitch0                            223  0x000000df (mem) word[17] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-iKeyboard0                            11  0x0000000b (const ??? 0)  (usage 3)
-iKeyboard0_0                          12  0x0000000c (const ??? 0)  (not used)
-iKeyboard0_1                          13  0x0000000d (const ??? 0)  (not used)
-iKeyboard0_10                         22  0x00000016 (const ??? 0)  (not used)
-iKeyboard0_11                         23  0x00000017 (const ??? 0)  (not used)
-iKeyboard0_2                          14  0x0000000e (const ??? 0)  (not used)
-iKeyboard0_3                          15  0x0000000f (const ??? 0)  (not used)
-iKeyboard0_4                          16  0x00000010 (const ??? 0)  (not used)
-iKeyboard0_5                          17  0x00000011 (const ??? 0)  (not used)
-iKeyboard0_6                          18  0x00000012 (const ??? 0)  (not used)
-iKeyboard0_7                          19  0x00000013 (const ??? 0)  (not used)
-iKeyboard0_8                          20  0x00000014 (const ??? 0)  (not used)
-iKeyboard0_9                          21  0x00000015 (const ??? 0)  (not used)
-iKeyboard0keystrokes                   7  0x00000007iKeyboard0keystrokes                   7  0x00000007 (mem) byte[12] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-iLeddigits0                            2  0x00000002 (const ??? 0)  (usage 3)
-iLeddigits1                           24  0x00000018 (const ??? 0)  (usage 3)
+IISwitch0                            187  0x000000bbIISwitch0                            187  0x000000bb (mem) word[17] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
+iLeddigits0                            4  0x00000004 (const ??? 0)  (usage 3)
 ILINEARIP_COLOR1                      12  0x0000000c (const dword)  (not used)
 ILINEARIP_COLOR2                      14  0x0000000e (const dword)  (not used)
 ILINEARIP_COLOR3                      16  0x00000010 (const dword)  (not used)
@@ -8832,15 +7943,15 @@ IMAGE_FLAGS                            6  0x00000006 (const dword)  (usage 3)
 IMAGE_FRAMES                           8  0x00000008 (const dword)  (not used)
 IMAGE_HEIGHT                           5  0x00000005 (const dword)  (not used)
 IMAGE_HIWORD                           1  0x00000001 (const dword)  (not used)
-IMAGE_INDEX                            9  0x00000009 (const dword)  (usage 45)
+IMAGE_INDEX                            9  0x00000009 (const dword)  (usage 42)
 IMAGE_LOWORD                           0  0x00000000 (const dword)  (not used)
 IMAGE_SECTOR                          11  0x0000000b (const dword)  (not used)
-IMAGE_TAG                             12  0x0000000c (const dword)  (usage 12)
+IMAGE_TAG                             12  0x0000000c (const dword)  (usage 9)
 IMAGE_TAG2                            13  0x0000000d (const dword)  (usage 9)
 IMAGE_WIDTH                            4  0x00000004 (const dword)  (not used)
 IMAGE_XPOS                             2  0x00000002 (const dword)  (usage 3)
 IMAGE_YPOS                             3  0x00000003 (const dword)  (not used)
-ImageTouched                         258  0x00000102 (mem) word (global)  (usage 93)
+ImageTouched                         230  0x000000e6 (mem) word (global)  (usage 72)
 img_ClearAttributes                 -383  0xfffffe81 (PmmC func) args[3] r=1  (usage 3)
 IMG_COUNT                              0  0x00000000 (const dword)  (not used)
 IMG_CURRENT_FRAME                     89  0x00000059 (const dword)  (not used)
@@ -8877,17 +7988,17 @@ img_SelectReadPosition              -385  0xfffffe7f (PmmC func) args[5] r=1  (n
 img_SequentialRead                  -386  0xfffffe7e (PmmC func) args[2] r=1  (not used)
 img_SetAttributes                   -382  0xfffffe82 (PmmC func) args[3] r=1  (usage 6)
 img_SetPosition                     -374  0xfffffe8a (PmmC func) args[4] r=1  (not used)
-img_SetWord                         -379  0xfffffe85 (PmmC func) args[4] r=1  (usage 27)
-img_Show                            -381  0xfffffe83 (PmmC func) args[2] r=1  (usage 18)
+img_SetWord                         -379  0xfffffe85 (PmmC func) args[4] r=1  (usage 21)
+img_Show                            -381  0xfffffe83 (PmmC func) args[2] r=1  (usage 15)
 img_Touched                         -384  0xfffffe80 (PmmC func) args[2] r=1  (usage 3)
 img_TxtFontID                       -621  0xfffffd93 (PmmC func) args[2] r=1  (not used)
 IMG_WIDTH                             82  0x00000052 (const dword)  (not used)
 INDIANRED                          51947  0x0000caeb (const dword)  (not used)
 INDIGO                             18448  0x00004810 (const dword)  (not used)
-InputControls                        360  0x00000168InputControls                        360  0x00000168 (mem) word[42] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-InputCS                              512  0x00000200 (mem) word (global)  (usage 15)
-InputData                            446  0x000001beInputData                            446  0x000001be (mem) word[242] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 27)
-InternalInputControls                444  0x000001bcInternalInputControls                444  0x000001bc (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
+InputControls                        240  0x000000f0InputControls                        240  0x000000f0 (mem) word[3] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+InputCS                              484  0x000001e4 (mem) word (global)  (usage 15)
+InputData                            248  0x000000f8InputData                            248  0x000000f8 (mem) word[44] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 27)
+InternalInputControls                246  0x000000f6InternalInputControls                246  0x000000f6 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
 INVERSE                               64  0x00000040 (const dword)  (not used)
 IPDatasize                            22  0x00000016 (const dword)  (usage 3)
 IROTARYIP_COLOR1                      10  0x0000000a (const dword)  (not used)
@@ -8920,19 +8031,10 @@ isdigit                              -36  0xffffffdc (PmmC func) args[1] r=1  (n
 islower                              -39  0xffffffd9 (PmmC func) args[1] r=1  (not used)
 isprint                              -42  0xffffffd6 (PmmC func) args[1] r=1  (not used)
 isspace                              -43  0xffffffd5 (PmmC func) args[1] r=1  (not used)
-iStatictext0                           1  0x00000001 (const ??? 0)  (usage 3)
-iStatictext1                           5  0x00000005 (const ??? 0)  (usage 3)
-iStatictext10                         36  0x00000024 (const ??? 0)  (usage 3)
-iStatictext11                         37  0x00000025 (const ??? 0)  (usage 3)
-iStatictext12                         39  0x00000027 (const ??? 0)  (usage 3)
-iStatictext2                           6  0x00000006 (const ??? 0)  (usage 3)
-iStatictext3                           8  0x00000008 (const ??? 0)  (usage 3)
-iStatictext4                          27  0x0000001b (const ??? 0)  (usage 3)
-iStatictext5                          28  0x0000001c (const ??? 0)  (usage 3)
-iStatictext6                          29  0x0000001d (const ??? 0)  (usage 3)
-iStatictext7                          30  0x0000001e (const ??? 0)  (usage 3)
-iStatictext8                          32  0x00000020 (const ??? 0)  (usage 3)
-iStatictext9                          33  0x00000021 (const ??? 0)  (usage 3)
+iStatictext0                           6  0x00000006 (const ??? 0)  (usage 3)
+iStatictext1                           7  0x00000007 (const ??? 0)  (usage 3)
+iStatictext2                           8  0x00000008 (const ??? 0)  (usage 3)
+iStatictext3                           9  0x00000009 (const ??? 0)  (usage 3)
 isupper                              -38  0xffffffda (PmmC func) args[1] r=1  (not used)
 iswhite                              -44  0xffffffd4 (PmmC func) args[1] r=1  (not used)
 isxdigit                             -37  0xffffffdb (PmmC func) args[1] r=1  (not used)
@@ -8980,26 +8082,13 @@ IUSERGAUGE_VALUE6                     32  0x00000020 (const dword)  (not used)
 IUSERGAUGE_W                           4  0x00000004 (const dword)  (not used)
 IUSERGAUGE_X                           0  0x00000000 (const dword)  (not used)
 IUSERGAUGE_Y                           2  0x00000002 (const dword)  (not used)
-iUserled0                              7  0x00000007 (const ??? 0)  (usage 3)
+iUserled0                              3  0x00000003 (const ??? 0)  (usage 3)
 IVORY                              65534  0x0000fffe (const dword)  (not used)
-iWinbutton0                            4  0x00000004 (const ??? 0)  (usage 3)
-iWinbutton1                            9  0x00000009 (const ??? 0)  (usage 3)
-iWinbutton2                           10  0x0000000a (const ??? 0)  (usage 3)
-iWinbutton3                           26  0x0000001a (const ??? 0)  (usage 3)
-iWinbutton4                           31  0x0000001f (const ??? 0)  (usage 3)
-iWinbutton5                           34  0x00000022 (const ??? 0)  (usage 3)
-iWinbutton6                           35  0x00000023 (const ??? 0)  (usage 3)
-iWinbutton7                           38  0x00000026 (const ??? 0)  (usage 3)
-iWinbutton8                           40  0x00000028 (const ??? 0)  (usage 3)
-iWinbutton9                           41  0x00000029 (const ??? 0)  (usage 3)
-KbCapsBit                              2  0x00000002 (const dword)  (usage 12)
-KbCtrlBit                              4  0x00000004 (const dword)  (usage 21)
-kbDown                              6051  0x000017a3 (User func) args[4] r=0  (usage 3)
-KbShiftBit                             1  0x00000001 (const dword)  (usage 18)
-KbShiftCapsBits                        3  0x00000003 (const dword)  (usage 18)
-kbUp                                5884  0x000016fc (User func) args[2] r=0  (usage 3)
+iWinbutton0                            0  0x00000000 (const ??? 0)  (usage 3)
+iWinbutton1                            1  0x00000001 (const ??? 0)  (usage 3)
+iWinbutton2                            2  0x00000002 (const ??? 0)  (usage 3)
 KHAKI                              63281  0x0000f731 (const dword)  (not used)
-kKeyboardKeystrokes                 1034  0x0000040akKeyboardKeystrokes                 1034  0x0000040a (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
+kKeyboardKeystrokes                  374  0x00000176kKeyboardKeystrokes                  374  0x00000176 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (not used)
 LANDSCAPE                              0  0x00000000 (const dword)  (usage 3)
 LANDSCAPE_R                            1  0x00000001 (const dword)  (not used)
 LAVENDER                           59199  0x0000e73f (const dword)  (not used)
@@ -9048,7 +8137,7 @@ LEDDIGITS_oncolour                    16  0x00000010 (const dword)  (not used)
 LEDDIGITS_w                            4  0x00000004 (const dword)  (not used)
 LEDDIGITS_x                            0  0x00000000 (const dword)  (not used)
 LEDDIGITS_y                            2  0x00000002 (const dword)  (not used)
-ledDigitsDisplay                    4535  0x000011b7 (User func) args[3] r=0  (usage 6)
+ledDigitsDisplay                    3477  0x00000d95 (User func) args[3] r=0  (usage 6)
 LEFT_POS                               2  0x00000002 (const dword)  (not used)
 LEMONCHIFFON                       65497  0x0000ffd9 (const dword)  (not used)
 LIGHTBLUE                          44764  0x0000aedc (const dword)  (not used)
@@ -9094,7 +8183,7 @@ M_PA7                                128  0x00000080 (const dword)  (not used)
 M_PA8                                256  0x00000100 (const dword)  (not used)
 M_PA9                                512  0x00000200 (const dword)  (not used)
 MAGENTA                            63519  0x0000f81f (const dword)  (not used)
-main                                1161  0x00000489 (User func) args[0] r=0  (not used)
+main                                 482  0x000001e2 (User func) args[0] r=0  (not used)
 MAROON                             32768  0x00008000 (const dword)  (not used)
 MAX                                  -55  0xffffffc9 (PmmC func) args[2] r=1  (not used)
 MaxIntObjects                         27  0x0000001b (const dword)  (usage 3)
@@ -9145,7 +8234,7 @@ MINTCREAM                          63487  0x0000f7ff (const dword)  (not used)
 MISTYROSE                          65340  0x0000ff3c (const dword)  (not used)
 MOCCASIN                           65334  0x0000ff36 (const dword)  (not used)
 NAK                                   21  0x00000015 (const dword)  (usage 3)
-nak0                                5698  0x00001642 (User func) args[0] r=0  (usage 12)
+nak0                                4638  0x0000121e (User func) args[0] r=0  (usage 12)
 nAniTimers                             0  0x00000000 (const dword)  (not used)
 NAVAJOWHITE                        65269  0x0000fef5 (const dword)  (not used)
 NAVY                                  16  0x00000010 (const dword)  (not used)
@@ -9176,9 +8265,8 @@ NEEDLE_style                          24  0x00000018 (const dword)  (not used)
 NEEDLE_w                               4  0x00000004 (const dword)  (not used)
 NEEDLE_x                               0  0x00000000 (const dword)  (not used)
 NEEDLE_y                               2  0x00000002 (const dword)  (not used)
-nInputs                               22  0x00000016 (const dword)  (usage 3)
-nKeyboards                             1  0x00000001 (const dword)  (usage 9)
-nObjects                              42  0x0000002a (const dword)  (not used)
+nInputs                                4  0x00000004 (const dword)  (usage 3)
+nObjects                              10  0x0000000a (const dword)  (not used)
 NOTOUCH                                0  0x00000000 (const dword)  (not used)
 NP_565                                 0  0x00000000 (const dword)  (not used)
 NP_RGB                                 1  0x00000001 (const dword)  (not used)
@@ -9186,9 +8274,9 @@ NP_Write                            -535  0xfffffde9 (PmmC func) args[7] r=1  (n
 NP_XRGB                                2  0x00000002 (const dword)  (not used)
 NybleSwap                            -50  0xffffffce (PmmC func) args[1] r=1  (not used)
 OBJECT_COLOUR                         18  0x00000012 (const dword)  (not used)
-oDipSwitchs                          930  0x000003a2oDipSwitchs                          930  0x000003a2 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 177)
+oDipSwitchs                          336  0x00000150oDipSwitchs                          336  0x00000150 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 183)
 OFF                                    0  0x00000000 (const dword)  (not used)
-oForms                               954  0x000003baoForms                               954  0x000003ba (mem) word[8] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
+oForms                               346  0x0000015aoForms                               346  0x0000015a (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
 Ofs_Digits_Digits                      2  0x00000002 (const dword)  (usage 9)
 Ofs_Digits_LeadingBlanks               8  0x00000008 (const dword)  (usage 3)
 Ofs_Digits_Left                        0  0x00000000 (const dword)  (usage 3)
@@ -9204,18 +8292,6 @@ Ofs_IPD_P5                            10  0x0000000a (const dword)  (usage 9)
 Ofs_IPD_P6                            12  0x0000000c (const dword)  (usage 18)
 Ofs_IPD_P7                            14  0x0000000e (const dword)  (not used)
 Ofs_IPD_RELEASE                       18  0x00000012 (const dword)  (usage 9)
-Ofs_kb_Buttons                        10  0x0000000a (const ??? 0)  (usage 12)
-Ofs_kb_Caps                            4  0x00000004 (const ??? 0)  (usage 12)
-Ofs_kb_Ctrl1                           7  0x00000007 (const ??? 0)  (usage 12)
-Ofs_kb_Ctrl2                           8  0x00000008 (const ??? 0)  (usage 12)
-Ofs_kb_Down                            0  0x00000000 (const ??? 0)  (usage 9)
-Ofs_kb_Ign                             3  0x00000003 (const ??? 0)  (usage 18)
-Ofs_kb_Lock                            9  0x00000009 (const ??? 0)  (usage 6)
-Ofs_kb_Mvt                             1  0x00000001 (const ??? 0)  (usage 18)
-Ofs_kb_Shift1                          5  0x00000005 (const ??? 0)  (usage 6)
-Ofs_kb_Shift2                          6  0x00000006 (const ??? 0)  (usage 6)
-Ofs_kb_ShiftCaps                      11  0x0000000b (const ??? 0)  (usage 3)
-Ofs_kb_State                           2  0x00000002 (const ??? 0)  (usage 63)
 Ofs_String_Ansi                       22  0x00000016 (const dword)  (not used)
 Ofs_String_BGColor                    16  0x00000010 (const dword)  (not used)
 Ofs_String_FGColor                    14  0x0000000e (const dword)  (not used)
@@ -9230,19 +8306,16 @@ Ofs_String_x1                          6  0x00000006 (const dword)  (not used)
 Ofs_String_x2                         10  0x0000000a (const dword)  (not used)
 Ofs_String_y1                          8  0x00000008 (const dword)  (not used)
 Ofs_String_y2                         12  0x0000000c (const dword)  (not used)
-oImages                              970  0x000003caoImages                              970  0x000003ca (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-oiSwitchs                           1016  0x000003f8oiSwitchs                           1016  0x000003f8 (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-oiviSwitch                           217  0x000000d9oiviSwitch                           217  0x000000d9 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-oKeyboard0                             2  0x00000002 (mem) word[12] (global)  (usage 3)
-oKeyboards                           974  0x000003ceoKeyboards                           974  0x000003ce (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 30)
+oiSwitchs                            368  0x00000170oiSwitchs                            368  0x00000170 (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
+oiviSwitch                           181  0x000000b5oiviSwitch                           181  0x000000b5 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
 OLDLACE                            65468  0x0000ffbc (const dword)  (not used)
-oldn                                 256  0x00000100 (mem) word (global)  (usage 42)
-oLedDigitsn                         1038  0x0000040eoLedDigitsn                         1038  0x0000040e (mem) word[10] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 6)
-oLeddigitss                          978  0x000003d2oLeddigitss                          978  0x000003d2 (mem) word[3] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 9)
+oldn                                 228  0x000000e4 (mem) word (global)  (usage 42)
+oLedDigitsn                          378  0x0000017aoLedDigitsn                          378  0x0000017a (mem) word[5] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 6)
+oLeddigitss                          350  0x0000015eoLeddigitss                          350  0x0000015e (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 9)
 OLIVE                              33792  0x00008400 (const dword)  (not used)
 OLIVEDRAB                          27748  0x00006c64 (const dword)  (not used)
 ON                                     1  0x00000001 (const dword)  (not used)
-oObjects                             118  0x00000076 (mem) word[68] (global)  (usage 222)
+oObjects                              90  0x0000005a (mem) word[68] (global)  (usage 222)
 OP1_ADD                                5  0x00000005 (const dword)  (not used)
 OP1_AND                                2  0x00000002 (const dword)  (not used)
 OP1_BLACKEN                           16  0x00000010 (const dword)  (not used)
@@ -9275,28 +8348,28 @@ OPAQUE                                 1  0x00000001 (const dword)  (not used)
 ORANGE                             64800  0x0000fd20 (const dword)  (not used)
 ORANGERED                          64032  0x0000fa20 (const dword)  (not used)
 ORCHID                             56218  0x0000db9a (const dword)  (not used)
-oStaticTexts                         988  0x000003dcoStaticTexts                         988  0x000003dc (mem) word[14] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
+oStaticTexts                         358  0x00000166oStaticTexts                         358  0x00000166 (mem) word[5] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
 OT_ACTIVATE                          103  0x00000067 (const dword)  (usage 3)
 OT_MAGIC                             108  0x0000006c (const dword)  (usage 3)
 OT_NEXTFRAME                         104  0x00000068 (const dword)  (usage 3)
 OT_NEXTSTRING                        106  0x0000006a (const dword)  (not used)
 OT_PREVFRAME                         105  0x00000069 (const dword)  (usage 3)
 OT_PREVSTRING                        107  0x0000006b (const dword)  (not used)
-OT_REPORT                            100  0x00000064 (const dword)  (usage 36)
+OT_REPORT                            100  0x00000064 (const dword)  (usage 3)
 OT_SETANOTHER                        102  0x00000066 (const dword)  (usage 3)
 OT_SETCONST                          101  0x00000065 (const dword)  (usage 3)
-oUserleds                            984  0x000003d8oUserleds                            984  0x000003d8 (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
+oUserleds                            354  0x00000162oUserleds                            354  0x00000162 (mem) word[2] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
 OUTLINE                                1  0x00000001 (const dword)  (not used)
 OUTLINE_COLOUR                        24  0x00000018 (const dword)  (not used)
-OutputCS                             514  0x00000202 (mem) word (global)  (usage 9)
+OutputCS                             486  0x000001e6 (mem) word (global)  (usage 9)
 OVF                                  -63  0xffffffc1 (PmmC func) args[0] r=1  (usage 3)
 OW_Read                             -523  0xfffffdf5 (PmmC func) args[1] r=1  (not used)
 OW_Read9                            -524  0xfffffdf4 (PmmC func) args[1] r=1  (not used)
 OW_Reset                            -522  0xfffffdf6 (PmmC func) args[1] r=1  (not used)
 OW_Write                            -525  0xfffffdf3 (PmmC func) args[2] r=0  (not used)
-oWinButtons                          932  0x000003a4oWinButtons                          932  0x000003a4 (mem) word[11] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 9)
-PA0                                    1  0x00000001 (const dword)  (usage 3)
-PA1                                    2  0x00000002 (const dword)  (usage 3)
+oWinButtons                          338  0x00000152oWinButtons                          338  0x00000152 (mem) word[4] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 9)
+PA0                                    1  0x00000001 (const dword)  (not used)
+PA1                                    2  0x00000002 (const dword)  (not used)
 PA10                                  11  0x0000000b (const dword)  (not used)
 PA11                                  12  0x0000000c (const dword)  (not used)
 PA12                                  13  0x0000000d (const dword)  (not used)
@@ -9354,8 +8427,8 @@ pin_PulseoutCount                   -519  0xfffffdf9 (PmmC func) args[4] r=1  (n
 pin_Read                            -116  0xffffff8c (PmmC func) args[1] r=1  (not used)
 pin_Set                             -112  0xffffff90 (PmmC func) args[2] r=1  (not used)
 pin_Val                             -115  0xffffff8d (PmmC func) args[2] r=0  (not used)
-PINK                               65049  0x0000fe19 (const dword)  (not used)
-pInputIndex                          270  0x0000010e (mem) word (global)  (usage 18)
+PINK                               65049  0x0000fe19 (const dword)  (usage 3)
+pInputIndex                          242  0x000000f2 (mem) word (global)  (usage 18)
 PLUM                               56603  0x0000dd1b (const dword)  (not used)
 pokeW                                -35  0xffffffdd (PmmC func) args[2] r=0  (not used)
 PORTRAIT                               2  0x00000002 (const dword)  (not used)
@@ -9437,16 +8510,14 @@ RANDVAL                              -60  0xffffffc4 (PmmC func) args[2] r=1  (n
 READ_OBJ                               0  0x00000000 (const dword)  (usage 3)
 READ_PAGE                             34  0x00000022 (const dword)  (not used)
 ReadCmd                              128  0x00000080 (const dword)  (not used)
-ReadObject                          5382  0x00001506 (User func) args[2] r=0  (usage 3)
-RED                                63488  0x0000f800 (const dword)  (not used)
-refreshstate                        6572  0x000019ac (User func) args[2] r=0  (usage 9)
-REPORT_EVENT                           7  0x00000007 (const dword)  (usage 6)
+ReadObject                          4324  0x000010e4 (User func) args[2] r=0  (usage 3)
+RED                                63488  0x0000f800 (const dword)  (usage 3)
+REPORT_EVENT                           7  0x00000007 (const dword)  (usage 3)
 REPORT_MAGIC_EVENT_BYTES              10  0x0000000a (const dword)  (not used)
 REPORT_MAGIC_EVENT_DBYTES             11  0x0000000b (const dword)  (not used)
 REPORT_OBJ                             5  0x00000005 (const dword)  (usage 3)
 RIGHT_POS                              4  0x00000004 (const dword)  (not used)
-rKeyboardRoutines                   1036  0x0000040crKeyboardRoutines                   1036  0x0000040c (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 1)
-rKeyboardRoutines                 UNRESOLVED  (usage 2)
+rKeyboardRoutines                    376  0x00000178rKeyboardRoutines                    376  0x00000178 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (not used)
 ROSYBROWN                          48241  0x0000bc71 (const dword)  (not used)
 ROYALBLUE                          17244  0x0000435c (const dword)  (not used)
 RULERGAUGE_F_ORIENT_VERT               2  0x00000002 (const dword)  (not used)
@@ -9507,23 +8578,22 @@ SCREEN_MODE                           23  0x00000017 (const dword)  (not used)
 SEAGREEN                           11338  0x00002c4a (const dword)  (not used)
 SEASHELL                           65469  0x0000ffbd (const dword)  (not used)
 SEED                                 -61  0xffffffc3 (PmmC func) args[1] r=0  (not used)
-SendReport                          5631  0x000015ff (User func) args[4] r=0  (usage 9)
-serin                               -236  0xffffff14 (PmmC func) args[0] r=1  (not used)
-serin1                              -237  0xffffff13 (PmmC func) args[0] r=1  (usage 3)
+SendReport                          4573  0x000011dd (User func) args[4] r=0  (usage 6)
+serin                               -236  0xffffff14 (PmmC func) args[0] r=1  (usage 3)
+serin1                              -237  0xffffff13 (PmmC func) args[0] r=1  (not used)
 serin2                              -238  0xffffff12 (PmmC func) args[0] r=1  (not used)
 serin3                              -239  0xffffff11 (PmmC func) args[0] r=1  (not used)
-serinX                               N/A         N/A (macro) serin1   (not used)
-serout                              -240  0xffffff10 (PmmC func) args[1] r=0  (not used)
-serout1                             -241  0xffffff0f (PmmC func) args[1] r=0  (usage 15)
+serinX                               N/A         N/A (macro) serin   (not used)
+serout                              -240  0xffffff10 (PmmC func) args[1] r=0  (usage 15)
+serout1                             -241  0xffffff0f (PmmC func) args[1] r=0  (not used)
 serout2                             -242  0xffffff0e (PmmC func) args[1] r=0  (not used)
 serout3                             -243  0xffffff0d (PmmC func) args[1] r=0  (not used)
-seroutCS                            5714  0x00001652 (User func) args[1] r=0  (usage 15)
-seroutOcs                           5681  0x00001631 (User func) args[0] r=0  (usage 3)
-seroutX                              N/A         N/A (macro) serout1   (not used)
+seroutCS                            4653  0x0000122d (User func) args[1] r=0  (usage 15)
+seroutOcs                           4623  0x0000120f (User func) args[0] r=0  (usage 3)
+seroutX                              N/A         N/A (macro) serout   (not used)
 setbaud                             -224  0xffffff20 (PmmC func) args[1] r=0  (not used)
-setkeystate                         6026  0x0000178a (User func) args[2] r=0  (usage 33)
 SIENNA                             41605  0x0000a285 (const dword)  (not used)
-SILVER                             50712  0x0000c618 (const dword)  (usage 3)
+SILVER                             50712  0x0000c618 (const dword)  (not used)
 SIN                                  -57  0xffffffc7 (PmmC func) args[1] r=1  (not used)
 SKYBLUE                            34429  0x0000867d (const dword)  (not used)
 SLATEBLUE                          27353  0x00006ad9 (const dword)  (not used)
@@ -9891,7 +8961,7 @@ tiSwitch                              58  0x0000003a (const dword)  (usage 6)
 tiSwitchB                             59  0x0000003b (const dword)  (usage 6)
 tiToggleInput                         54  0x00000036 (const dword)  (usage 6)
 tiUserGauge                           42  0x0000002a (const dword)  (usage 3)
-tKeyboard                             13  0x0000000d (const dword)  (usage 6)
+tKeyboard                             13  0x0000000d (const dword)  (usage 3)
 tKnob                                  1  0x00000001 (const dword)  (usage 6)
 tLed                                  14  0x0000000e (const dword)  (usage 3)
 tLeddigits                            15  0x0000000f (const dword)  (usage 12)
@@ -9916,11 +8986,11 @@ touch_Get                           -408  0xfffffe68 (PmmC func) args[1] r=1  (u
 TOUCH_GETX                             1  0x00000001 (const dword)  (usage 3)
 TOUCH_GETY                             2  0x00000002 (const dword)  (usage 3)
 TOUCH_MOVING                           3  0x00000003 (const dword)  (usage 3)
-TOUCH_PRESSED                          1  0x00000001 (const dword)  (usage 12)
+TOUCH_PRESSED                          1  0x00000001 (const dword)  (usage 9)
 TOUCH_RAW_X                          117  0x00000075 (const dword)  (not used)
 TOUCH_RAW_Y                          118  0x00000076 (const dword)  (not used)
 TOUCH_REGIONDEFAULT                    2  0x00000002 (const dword)  (not used)
-TOUCH_RELEASED                         2  0x00000002 (const dword)  (usage 21)
+TOUCH_RELEASED                         2  0x00000002 (const dword)  (usage 18)
 touch_Set                           -407  0xfffffe69 (PmmC func) args[1] r=0  (usage 3)
 TOUCH_STATUS                           0  0x00000000 (const dword)  (usage 3)
 touch_TestArea                      -410  0xfffffe66 (PmmC func) args[1] r=1  (not used)
@@ -9929,9 +8999,9 @@ TOUCH_XMAXCAL                         80  0x00000050 (const dword)  (not used)
 TOUCH_XMINCAL                         78  0x0000004e (const dword)  (not used)
 TOUCH_YMAXCAL                         81  0x00000051 (const dword)  (not used)
 TOUCH_YMINCAL                         79  0x0000004f (const dword)  (not used)
-TouchState                           266  0x0000010a (mem) word (global)  (usage 24)
-TouchXpos                            260  0x00000104 (mem) word (global)  (usage 15)
-TouchYpos                            262  0x00000106 (mem) word (global)  (usage 12)
+TouchState                           238  0x000000ee (mem) word (global)  (usage 24)
+TouchXpos                            232  0x000000e8 (mem) word (global)  (usage 15)
+TouchYpos                            234  0x000000ea (mem) word (global)  (usage 12)
 toupper                              -45  0xffffffd3 (PmmC func) args[1] r=1  (not used)
 tPinInput                             29  0x0000001d (const dword)  (usage 6)
 tPinOutput                            28  0x0000001c (const dword)  (usage 6)
@@ -9952,13 +9022,13 @@ tTank                                 26  0x0000001a (const dword)  (usage 3)
 tThermometer                          18  0x00000012 (const dword)  (usage 3)
 tTimer                                23  0x00000017 (const dword)  (usage 6)
 tTrackbar                              5  0x00000005 (const dword)  (usage 6)
-TurnOffButtons                      4831  0x000012df (User func) args[1] r=0  (usage 6)
+TurnOffButtons                      3773  0x00000ebd (User func) args[1] r=0  (usage 6)
 TURQUOISE                          18202  0x0000471a (const dword)  (not used)
 tUserButton                           33  0x00000021 (const dword)  (usage 12)
 tUserImages                           27  0x0000001b (const dword)  (usage 3)
 tUserled                              19  0x00000013 (const dword)  (usage 3)
 tVideo                                20  0x00000014 (const dword)  (usage 3)
-tWinButton                             6  0x00000006 (const dword)  (usage 51)
+tWinButton                             6  0x00000006 (const dword)  (usage 30)
 txt_Angle                            -33  0xffffffdf (PmmC func) args[1] r=1  (not used)
 txt_Attributes                       -31  0xffffffe1 (PmmC func) args[1] r=1  (not used)
 txt_BGcolour                         -19  0xffffffed (PmmC func) args[1] r=1  (not used)
@@ -10009,14 +9079,14 @@ UNCHECKED                              1  0x00000001 (const dword)  (not used)
 UNDERLINED                           128  0x00000080 (const dword)  (not used)
 unicode_page                         -15  0xfffffff1 (PmmC func) args[3] r=1  (not used)
 UP                                     1  0x00000001 (const dword)  (not used)
-UpdateObjects                       3433  0x00000d69 (User func) args[1] r=0  (usage 6)
+UpdateObjects                       2379  0x0000094b (User func) args[1] r=0  (usage 6)
 USD_ENABLE                            18  0x00000012 (const dword)  (not used)
 usub_3232                            -72  0xffffffb8 (PmmC func) args[3] r=1  (not used)
 VIOLET                             60445  0x0000ec1d (const dword)  (not used)
-vISwitch0                             26  0x0000001a (mem) word[10] (global)  (usage 3)
-vObjects                              50  0x00000032 (mem) word[28] (global)  (usage 12)
+vISwitch0                              2  0x00000002 (mem) word[10] (global)  (usage 3)
+vObjects                              22  0x00000016 (mem) word[28] (global)  (usage 12)
 WHEAT                              63222  0x0000f6f6 (const dword)  (not used)
-WHITE                              65535  0x0000ffff (const dword)  (usage 6)
+WHITE                              65535  0x0000ffff (const dword)  (usage 3)
 WHITESMOKE                         63422  0x0000f7be (const dword)  (not used)
 widget_Add                          -590  0xfffffdb2 (PmmC func) args[3] r=1  (usage 3)
 widget_ClearAttributes              -599  0xfffffda9 (PmmC func) args[3] r=1  (usage 3)
@@ -10054,7 +9124,7 @@ WIDGET_XOTHER                          4  0x00000004 (const dword)  (not used)
 WIDGET_XPOS                            0  0x00000000 (const dword)  (not used)
 WIDGET_YOTHER                          5  0x00000005 (const dword)  (not used)
 WIDGET_YPOS                            1  0x00000001 (const dword)  (not used)
-wp                                   516  0x00000204 (mem) word (global)  (usage 21)
+wp                                   488  0x000001e8 (mem) word (global)  (usage 21)
 WRITE_CONTRAST                         4  0x00000004 (const dword)  (usage 3)
 WRITE_LABEL                           12  0x0000000c (const dword)  (not used)
 WRITE_MAGIC_BYTES                      8  0x00000008 (const dword)  (not used)
@@ -10064,12 +9134,12 @@ WRITE_PAGE                            35  0x00000023 (const dword)  (not used)
 WRITE_STR                              2  0x00000002 (const dword)  (not used)
 WRITE_STRU                             3  0x00000003 (const dword)  (not used)
 WriteCmd                               0  0x00000000 (const dword)  (not used)
-WriteObject                         4980  0x00001374 (User func) args[3] r=0  (usage 18)
+WriteObject                         3922  0x00000f52 (User func) args[3] r=0  (usage 18)
 X_MAX                                  0  0x00000000 (const dword)  (not used)
 X_ORG                                  6  0x00000006 (const dword)  (not used)
 X_ORIGIN                              30  0x0000001e (const dword)  (not used)
-xobj2iiobj                           219  0x000000dbxobj2iiobj                           219  0x000000db (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
-xobj2iobj                            221  0x000000ddxobj2iobj                            221  0x000000dd (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\4D-Systems-HMI-Program\4D-ClearCore-Demo-No1.4DWork\4D-ClearCore-Demo-No1.4DGenieS)  (usage 3)
+xobj2iiobj                           183  0x000000b7xobj2iiobj                           183  0x000000b7 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
+xobj2iobj                            185  0x000000b9xobj2iobj                            185  0x000000b9 (mem) word[1] (member of C:\Users\oars0\Documents\GitHub\Team-4\HMIBeta\TestNEW.4DWork\TestNEW.4DGenieS)  (usage 3)
 XYLIN_X                                1  0x00000001 (const dword)  (not used)
 XYLIN_Y                                0  0x00000000 (const dword)  (not used)
 XYROT_EAST                             0  0x00000000 (const dword)  (not used)
