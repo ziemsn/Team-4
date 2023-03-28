@@ -50,7 +50,7 @@ Genie genie;
 //----------------------------------------------------------------------------------------
 
 // ClearCore Baud Rate, for 4D Display
-#define baudRate 115200
+#define baudRate 9600
 
 
 int i, k;
@@ -80,22 +80,27 @@ int UnitMin = 0;
 int UnitMax = 1;
 
 //Genie Form Item indeces
-int DistGenieNum = 7;
-int StartProcessGenieNum = 12;
+int DistGenieNum = 0;
+int StartProcessGenieNum = 0;
+int faultLEDGenieNum = 0;
+int ClrfaultGenieNum = 1;
+int DistEditGenieNum = 2;
+int UnitSwitchNum = 0;
 
-int faultLEDGenieNum = 1;
-int ClrfaultGenieNum = 8;
+int StopMotionGenieNum = 3;
 
-int BackGenieNum = 3;
-int DistEditGenieNum = 9;
-int EditInputDigitNum = 18;
-int FinishedCuttingGenieNum = 1;
+int GoMainGenieNum = 4;
+int ClampConfirmGenieNum = 5;
 
-int StopMotionGenieNum = 4;
-int ClampConfirmGenieNum = 0;
-int GoMainGenieNum = 3;
-int CutSameGenieNum = 2;
-int NewCutGenieNum = 10;
+int FinishedCuttingGenieNum = 6;
+
+int CutSameGenieNum = 7;
+int NewCutGenieNum = 8;
+
+int EditRangeTextNum = 10;
+int EditInputDigitNum = 1;
+int BackGenieNum = 9;
+int KeypadGenieNum = 0;
 
 char keyvalue[10];                    // Array to hold keyboard character values
 int counter = 0;                      // Keyboard number of characters
@@ -158,42 +163,47 @@ void loop() {
       case 0:         // If the current Form is 0 - Splash Screen
         // Keeping the splash screen open for 5 seconds
         delay(5000);
-        genie.SetForm(3); // Change to main screen
+        genie.SetForm(1); // Change to main screen
         break;
 
       /************************************* FORM actions *********************************************/
-
-      case 1: //Motor In Motion Screen 
-        if(MotorLocationState == LoadPosition)
-        {
-          if(MotorRunState == MOTOR_STOPPED)
-          {
-            delay(500);
-            genie.SetForm(NextForm); //Switch to Clamp Confirmation screen
-          }
-        }   
-        break;
-
-      case 2:
-
-        break;
-
-      case 3: //main screen
+      
+      case 1: //main screen
         if (MoveDist != MoveDistLast)
           {
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, DistGenieNum, MoveDist); // Update Move Distance
             MoveDistLast = MoveDist;
           }
           
-          break;            
+        break;
+
+      case 2: //Motor In Motion Screen 
+        if(MotorLocationState == LoadPosition)
+        {
+          if(MotorRunState == MOTOR_STOPPED)
+          {
+            delay(500);
+            genie.SetForm(NextForm); //Switch to whatever NextForm is
+          }
+        }   
+        break;
+
+      case 3: //Bolt Clamp Confirmation screen
+
+        break;
+
+      case 4://Start Cut Screen
+
+        break;
+
+      case 5: //Cut Finished Screen
+        
+        break;
       
-      case 4://Bolt Confirmation Screen
-
+      case 6: //Edit Length Screen
+        
         break;
-
-      case 5: // If the current Form is 5 - Edit Parameter
-        // Do something here if required
-        break;
+      
     }
 
       // If a new fault is detected, turn on the  fault LED
@@ -237,7 +247,7 @@ void myGenieEventHandler(void)
       /***************************** Form Switch **************************/
         
       //Check for Switch Change
-      if (Event.reportObject.index == 0)                         //0 is the index of the UnitSelect Switch 
+      if (Event.reportObject.index == UnitSwitchNum)                         //the index of the UnitSelect Switch 
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
         //ON is Inches, Off is millimeters
@@ -291,12 +301,12 @@ void myGenieEventHandler(void)
         { 
           if (MotorRunState == MOTOR_STOPPED)
           {
-            PreviousForm = 3;                                         // Always eturn to the main screen
+            PreviousForm = 1;                                         // Always return to the main screen
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
             DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-            genie.genieWriteStr(5, 0, "Enter length between " + UnitMin + " and " + UnitMax + " " + Units);
-            genie.SetForm(5);                                               // Change to Form 5 - Edit Parameter
+            genie.genieWriteStr(EditRangeTextNum, 0, "Enter length between " + UnitMin + " and " + UnitMax + " " + Units);
+            genie.SetForm(6);                                               // Change to Form 6 - Edit Parameter
           }//else alert user something here
         }
 
@@ -305,8 +315,8 @@ void myGenieEventHandler(void)
         {
           if (MotorRunState == MOTOR_STOPPED)
           {
-            NextForm = 4; //form to go to after MotorMotion screen
-            genie.SetForm(1); //Switch to motor in motion screen
+            NextForm = 3; //Go to Clamp Confirmation after MotorMotion screen
+            genie.SetForm(2); //Switch to motor in motion screen
             delay(1000);
             MoveAbsolutePosition(LoadPosition); //Move to Loading position
             
@@ -318,7 +328,7 @@ void myGenieEventHandler(void)
       if (Event.reportObject.index == StopMotionGenieNum)                             // If the stop button is pressed
       {
         motor.MoveStopAbrupt(); //Immediately stop the motor
-        genie.SetForm(3); //return to main screen
+        genie.SetForm(1); //return to main screen
       }
 
       /***************************** Clamp Confirmation Screen Winbuttons **************************/
@@ -326,7 +336,7 @@ void myGenieEventHandler(void)
       {
         if (MotorRunState == MOTOR_STOPPED)
         {
-          genie.SetForm(3); //Return to main screen
+          genie.SetForm(1); //Return to main screen
         }
       }
 
@@ -336,7 +346,7 @@ void myGenieEventHandler(void)
         {
           if (BladeState == BLADE_UP)
           {
-            NextForm = 6; //go to Begin cutting screen after MotorMotion Screen
+            NextForm = 4; //go to Begin cutting screen after MotorMotion Screen
             genie.SetForm(1); //Motor in Motion Screen
             delay(1000);
             CutPosition = UserDist*UnitFactor-LengthMin;
@@ -363,7 +373,7 @@ void myGenieEventHandler(void)
         {
           if (BladeState == BLADE_DOWN)
           {
-            genie.SetForm(7);
+            genie.SetForm(5);//Go to cut finished screen
           }
         }
       }
@@ -374,7 +384,7 @@ void myGenieEventHandler(void)
       {
         if (MotorRunState == MOTOR_STOPPED)
         {
-          genie.SetForm(4);
+          genie.SetForm(3); //Go back to Clamp Confirmation
         }
       }
 
@@ -382,7 +392,7 @@ void myGenieEventHandler(void)
       {
         if (MotorRunState == MOTOR_STOPPED)
         {
-          genie.SetForm(3);
+          genie.SetForm(1); //Go back to main screen
         }
       }
 
