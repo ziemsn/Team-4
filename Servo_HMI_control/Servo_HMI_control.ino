@@ -71,11 +71,12 @@ bool fault = false;
 int NextForm = 0;
 int CutPosition = 0;
 int UserDist = 0;
-int UnitFactor = 0;
+int UnitFactor = 1;
 int LengthMin = 0;
 int LengthMax = 1;
 bool UserUnits = true;
-char Units;
+String Units = "Millimeters";
+char RangeText[100] = "";
 int UnitMin = 0;
 int UnitMax = 1;
 
@@ -108,18 +109,18 @@ int temp, sumTemp;                    // Keyboard Temp values
 
 
 void setup() {
-
-  initMotorParams();
+  delay(5000);
+  //initMotorParams();
 
   // Sets up serial communication and waits up to 5 seconds for a port to open.
   // Serial communication is not required for this example to run.
   Serial.begin(baudRate);
-
+  
   // Open the HMI serial port and wait until communication has been established
   ConnectorCOM1.RtsMode(SerialBase::LINE_OFF);
   SerialPort.ttl(true);     // Set the Clearcore UART to be TTL
-  SerialPort.begin(115200); // Set up Serial1 using the Arduino Serial Class @ 115200 Baud
-
+  SerialPort.begin(baudRate); // Set up Serial1 using the Arduino Serial Class @ 9600 Baud
+  Serial.println("Comms Open");
   while (!SerialPort) {
     continue;
   }
@@ -131,14 +132,14 @@ void setup() {
   if (genie.IsOnline()) // When the display has responded above, do the following once its online
   {
     genie.AttachEventHandler(myGenieEventHandler); // Attach the user function Event Handler for processing events
+    Serial.println("Genie attached"); 
   }
-  resetMotor();
+  //resetMotor();
 
   genie.SetForm(1); // Change to Form 0 //should add INIT_FORM variable?
   CurrentForm = 1;
 
-  genie.WriteContrast(7); // Max Brightness (0-15 range)
-
+  genie.WriteContrast(15); // Max Brightness (0-15 range)
 }
 
 void loop() {
@@ -210,7 +211,7 @@ void loop() {
       if (motor.StatusReg().bit.AlertsPresent && !fault)
       {
         fault = true;
-        Serial.print(motorConnectorNames[0]); Serial.println(" status: 'In Alert'");
+        Serial.println(" status: 'In Alert'");
         genie.WriteObject(GENIE_OBJ_USER_LED, 1, 1);//Set user led 1, to value 1(On)
       }
       // If the fault has sucessfully been cleared, turn off the  fault LED
@@ -264,6 +265,7 @@ void myGenieEventHandler(void)
           UnitMin = LengthMin/UnitFactor;//steps to mm
           UnitMax = LengthMax/UnitFactor;//steps to mm
         }
+        sprintf(RangeText, "Enter length between %i and %i %s", UnitMin, UnitMax, Units.c_str());
       }
     
     }
@@ -283,7 +285,7 @@ void myGenieEventHandler(void)
         //Check for clear fault press
         if (Event.reportObject.index == ClrfaultGenieNum)                         //8 is the index of the clear fault button 
         {
-          Serial.print(motorConnectorNames[0]); Serial.println(" Clearing fault if present");
+          Serial.println(" Clearing fault if present");
           if (motor.StatusReg().bit.AlertsPresent)                     // If the ClearLink has an Alert present
           {
             if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
@@ -305,7 +307,7 @@ void myGenieEventHandler(void)
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
             DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-            genie.genieWriteStr(EditRangeTextNum, 0, "Enter length between " + UnitMin + " and " + UnitMax + " " + Units);
+            genie.WriteStr(EditRangeTextNum, RangeText);
             genie.SetForm(6);                                               // Change to Form 6 - Edit Parameter
           }//else alert user something here
         }
