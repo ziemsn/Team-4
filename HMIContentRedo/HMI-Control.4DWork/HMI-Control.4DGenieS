@@ -3,7 +3,7 @@
 //#constant OLDCOMPILE
 
 
-// generated 3/28/2023 12:19:47 PM
+// generated 3/28/2023 5:47:14 PM
 // uSDRequired:- 1   InternalRequired:- 1
 
 #MODE FLASHBANK_1
@@ -168,7 +168,7 @@
 
 // End P1.inc
     nObjects        40
-    nInputs         11
+    nInputs         22
     nAniTimers      0
     nKeyboards      1
 #END
@@ -296,7 +296,7 @@ endfunc
     word oiviSwitch vISwitch0
     word xobj2iiobj 0x3A00
     word xobj2iobj 0x3A00
-    word IISwitch0 343, 83, 136, 35, 0x0, PINK, BLACK, 4, 3, DARKRED, 0x3186,
+    word IISwitch0 344, 88, 136, 35, 0x0, PINK, BLACK, 4, 3, DARKRED, 0x3186,
         CnISwitch0, CfISwitch0, 2, 1, WHITE, RED
     byte CnISwitch0 "Inches",0 
     byte CfISwitch0 "Millimeters",0 
@@ -306,19 +306,30 @@ endfunc
     word iFormEndIndex 0, 1, 1, 1, 1, 1, 1
     word iiFormStartIndex 0, 0, 1, 1, 1, 1, 1
     word iiFormEndIndex 0, 1, 1, 1, 1, 1, 1
-    word InputControls -1, 0, 22, 44, -1, -1, -1, -1, -1, -1, -1, 88, -1, -1, -1, 110, 132, -1, -1, 154, 176, 198, -1, 220, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 220
-    word InternalInputControls 66
-    word InputData tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 2,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 4,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 6,
-                tiSwitch, 1, 343, 478, 1, -1, -1, -1, 0, 0, 2,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 8,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 10,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 12,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 14,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 16,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 18,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 0, 20
+    word InputControls -1, 0, 44, 88, -1, -1, -1, -1, -1, -1, -1, 176, -1, -1, -1, 220, 264, -1, -1, 308, 352, 396, -1, 440, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 440
+    word InternalInputControls 132
+    word InputData tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 22, 2,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 66, 4,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 110, 6,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
+                tiSwitch, 1, 344, 479, 1, -1, -1, -1, 0, 154, 2,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 198, 8,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 242, 10,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 286, 12,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 330, 14,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 374, 16,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 418, 18,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 462, 20,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9
     word oDipSwitchs 0
     word oWinButtons 10, iWinbutton0, iWinbutton1, iWinbutton2, iWinbutton3, iWinbutton4, iWinbutton5, iWinbutton6, iWinbutton7, iWinbutton8, iWinbutton9
     word oForms 7, -1, -1, -1, -1, -1, -1, -1
@@ -332,7 +343,7 @@ endfunc
     word kKeyboardKeystrokes iKeyboard0keystrokes
     word rKeyboardRoutines SendReport
     word oLedDigitsn 0, 6, 4, 32, 0,
-                284, 6, 4, 30, 0
+                252, 6, 4, 30, 0
 #END
 
     var vISwitch0[WIDGET_RAM_SPACE] ;

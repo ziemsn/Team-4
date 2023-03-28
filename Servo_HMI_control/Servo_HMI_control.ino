@@ -54,6 +54,7 @@ Genie genie;
 
 
 int i, k;
+char text[100];
 int loops = 0;                        // Used for the Form0 animation sequence
 int CurrentForm = -1;                 // The current Form/Page we are on right now
 int PreviousForm = -1;                // The Form/Page we came from
@@ -71,9 +72,9 @@ bool fault = false;
 int NextForm = 0;
 int CutPosition = 0;
 int UserDist = 0;
-int UnitFactor = 1;
+double UnitFactor = 1255.8599997413; //Default: Millimeters to steps
 int LengthMin = 0;
-int LengthMax = 1;
+int LengthMax = 12000;
 bool UserUnits = true;
 String Units = "Millimeters";
 char RangeText[100] = "";
@@ -109,7 +110,6 @@ int temp, sumTemp;                    // Keyboard Temp values
 
 
 void setup() {
-  delay(5000);
   InitMotorParams();
   InitHoming();
 
@@ -136,9 +136,10 @@ void setup() {
     Serial.println("Genie attached"); 
   }
   resetMotor();
+  //HomeMotor();
 
-  genie.SetForm(1); // Change to Form 0 //should add INIT_FORM variable?
-  CurrentForm = 1;
+  genie.SetForm(0); // Change to Form 0 
+  CurrentForm = 0;
 
   genie.WriteContrast(15); // Max Brightness (0-15 range)
 }
@@ -148,15 +149,13 @@ void loop() {
   static unsigned long waitPeriod = millis();
 
   //Need to keep monitoring both home sensor and blade states
-  detectMotorStates();
+  detectMotorStates(CutPosition);
   detectHomeSensorState();
   detectBladeState();
 
-  Serial.println("States Blade: %i , Home: %i, ServoLocation: %i, ServoMoving: %i", BladeState, HomeSensorState, MotorLocationState, MotorRunState);
-
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
 
-  // waitPeriod later is set to millis()+50, running this code every 50ms
+  // waitPeriod later is set to millis()+50, running this zcode every 50ms
   if (millis() >= waitPeriod)
   {
     CurrentForm = genie.GetForm(); // Check what form the display is currently on
@@ -167,23 +166,23 @@ void loop() {
 
       case 0:         // If the current Form is 0 - Splash Screen
         // Keeping the splash screen open for 5 seconds
-        delay(5000);
+        delay(1000);
         genie.SetForm(1); // Change to main screen
         break;
 
       /************************************* FORM actions *********************************************/
       
       case 1: //main screen
-        if (MoveDist != MoveDistLast)
+        if (UserDist != MoveDistLast)
           {
-            genie.WriteObject(GENIE_OBJ_LED_DIGITS, DistGenieNum, MoveDist); // Update Move Distance
-            MoveDistLast = MoveDist;
+            genie.WriteObject(GENIE_OBJ_LED_DIGITS, DistGenieNum, UserDist); // Update Move Distance
+            MoveDistLast = UserDist;
           }
           
         break;
 
       case 2: //Motor In Motion Screen 
-        if(MotorLocationState == LoadPosition)
+        if(MotorLocationState == MOTOR_IN_CUT_POSITION)
         {
           if(MotorRunState == MOTOR_STOPPED)
           {
@@ -258,13 +257,13 @@ void myGenieEventHandler(void)
         //ON is Inches, Off is millimeters
         if(UserUnits)
         {
-          //UnitFactor = Inches to steps
+          UnitFactor = 31899.0458995371; //Inches to steps
           Units = "Inches";
           UnitMin = LengthMin/UnitFactor;//steps to inches
           UnitMax = LengthMax/UnitFactor;//steps to inches
         }else
         {
-          //UnitFactor = Millimeters to steps
+          UnitFactor = 1255.8599997413;//Millimeters to steps
           Units   = "Millimeters";
           UnitMin = LengthMin/UnitFactor;//steps to mm
           UnitMax = LengthMax/UnitFactor;//steps to mm
@@ -304,15 +303,17 @@ void myGenieEventHandler(void)
         
         //check for edit press
         else if (Event.reportObject.index == DistEditGenieNum)                        // If Winbutton6 (Index = 6) - 0 Move Distance Edit
-        { 
+        { Serial.println("Edit pressed");
           if (MotorRunState == MOTOR_STOPPED)
           {
+            
             PreviousForm = 1;                                         // Always return to the main screen
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
             DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-            genie.WriteStr(EditRangeTextNum, RangeText);
+            //genie.WriteStr(EditRangeTextNum, RangeText);
             genie.SetForm(6);                                               // Change to Form 6 - Edit Parameter
+            Serial.println("Edit passed");
           }//else alert user something here
         }
 
@@ -325,7 +326,7 @@ void myGenieEventHandler(void)
             genie.SetForm(2); //Switch to motor in motion screen
             delay(1000);
             MoveAbsolutePosition(LoadPosition); //Move to Loading position
-            
+            Serial.println("Start passed");
           }
         }
 
@@ -353,9 +354,12 @@ void myGenieEventHandler(void)
           if (BladeState == BLADE_UP)
           {
             NextForm = 4; //go to Begin cutting screen after MotorMotion Screen
-            genie.SetForm(1); //Motor in Motion Screen
+            genie.SetForm(2); //Motor in Motion Screen
             delay(1000);
             CutPosition = UserDist*UnitFactor-LengthMin;
+            Serial.println(CutPosition);
+            Serial.println(UserDist);
+            Serial.println(UnitFactor);
             MoveAbsolutePosition(CutPosition); 
             /*
             Needs to be scaled from user input (Inches/millimeters) to steps
@@ -425,8 +429,6 @@ void myGenieEventHandler(void)
 
     if (Event.reportObject.object == GENIE_OBJ_KEYBOARD)
     {
-      if (MotorRunState == MOTOR_IS_MOVING)
-      {
       if (Event.reportObject.index == 0)                                  // If keyboard0
       {
         temp = genie.GetEventData(&Event);                                // Store the value of the key pressed
@@ -475,15 +477,14 @@ void myGenieEventHandler(void)
           }
           counter = 0;
 
-          MoveDist = newValue; 
+          UserDist = newValue; 
           //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
           //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
           
           
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
+        }
       }
     }
   }
-    }
-}
 }

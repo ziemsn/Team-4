@@ -122,7 +122,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          195
     Width                        169
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -170,7 +170,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          174
     Width                        121
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -218,7 +218,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          92
     Width                        74
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -243,7 +243,7 @@ iSwitch
     SwitchBevel                  3
     Top                          88
     Width                        136
-    OnChanged                    ''
+    OnChanged                    'Report Message'
 end
 LedDigits
     Name                         Leddigits0
@@ -433,7 +433,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          212
     Width                        124
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -555,7 +555,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          205
     Width                        132
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -603,7 +603,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          201
     Width                        140
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -706,7 +706,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          212
     Width                        123
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -771,7 +771,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          184
     Width                        157
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -819,7 +819,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          184
     Width                        155
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -882,7 +882,7 @@ Keyboard
     SmallFont.Style              []
     Top                          51
     Width                        319
-    OnChanged                    ''
+    OnChanged                    'Report Message'
 end
 WinButton
     Name                         Winbutton9
@@ -927,7 +927,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          225
     Width                        114
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''

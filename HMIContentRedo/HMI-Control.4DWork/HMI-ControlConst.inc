@@ -1,4 +1,4 @@
-// File generated 3/28/2023 12:19:42 PM
+// File generated 3/28/2023 5:47:08 PM
 // Warning! This is a generated file, any manual changes will be
 // lost during the next generation.
 
@@ -17,44 +17,44 @@
 #CONST
     iImage0         // offset 0x0
     iWinbutton0     // offset 0x3F000
-    iWinbutton1     // offset 0x43200
-    iWinbutton2     // offset 0x44A00
-    iLeddigits0     // offset 0x48C00
-    iiLeddigits0    // offset 0x4D600
-    iStatictext0    // offset 0x55000
-    iStatictext1    // offset 0x56A00
-    iStatictext2    // offset 0x57200
-    iStatictext3    // offset 0x57600
-    iUserled0       // offset 0x57A00
-    iWinbutton3     // offset 0x59000
-    iStatictext4    // offset 0x5D200
-    iStatictext5    // offset 0x7EA00
-    iStatictext6    // offset 0x7F600
-    iWinbutton4     // offset 0x81A00
-    iWinbutton5     // offset 0x85C00
-    iStatictext7    // offset 0x88A00
-    iStatictext8    // offset 0x89400
-    iWinbutton6     // offset 0x8B600
-    iWinbutton7     // offset 0x8F000
-    iWinbutton8     // offset 0x93200
-    iStatictext9    // offset 0x96400
-    iKeyboard0      // offset 0x97E00
-    iKeyboard0_0    // offset 0xBB600
-    iKeyboard0_1    // offset 0xC1200
-    iKeyboard0_2    // offset 0xC6E00
-    iKeyboard0_3    // offset 0xCCA00
-    iKeyboard0_4    // offset 0xD2600
-    iKeyboard0_5    // offset 0xD8200
-    iKeyboard0_6    // offset 0xDDE00
-    iKeyboard0_7    // offset 0xE3A00
-    iKeyboard0_8    // offset 0xE9600
-    iKeyboard0_9    // offset 0xEF200
-    iKeyboard0_10   // offset 0xF4E00
-    iKeyboard0_11   // offset 0xFAA00
-    iWinbutton9     // offset 0x100600
-    iLeddigits1     // offset 0x105400
-    iiLeddigits1    // offset 0x108E00
-    iStatictext10   // offset 0x10EC00
+    iWinbutton1     // offset 0x4BA00
+    iWinbutton2     // offset 0x51800
+    iLeddigits0     // offset 0x54200
+    iiLeddigits0    // offset 0x58C00
+    iStatictext0    // offset 0x60600
+    iStatictext1    // offset 0x62200
+    iStatictext2    // offset 0x64E00
+    iStatictext3    // offset 0x65200
+    iUserled0       // offset 0x65600
+    iWinbutton3     // offset 0x6AE00
+    iStatictext4    // offset 0x70C00
+    iStatictext5    // offset 0x94200
+    iStatictext6    // offset 0x96600
+    iWinbutton4     // offset 0xA3E00
+    iWinbutton5     // offset 0xA9E00
+    iStatictext7    // offset 0xB1000
+    iStatictext8    // offset 0xB4000
+    iWinbutton6     // offset 0xC1400
+    iWinbutton7     // offset 0xC8200
+    iWinbutton8     // offset 0xD2800
+    iStatictext9    // offset 0xDD000
+    iKeyboard0      // offset 0xE5800
+    iKeyboard0_0    // offset 0x108C00
+    iKeyboard0_1    // offset 0x10E800
+    iKeyboard0_2    // offset 0x114400
+    iKeyboard0_3    // offset 0x11A000
+    iKeyboard0_4    // offset 0x11FC00
+    iKeyboard0_5    // offset 0x125800
+    iKeyboard0_6    // offset 0x12B400
+    iKeyboard0_7    // offset 0x131000
+    iKeyboard0_8    // offset 0x136C00
+    iKeyboard0_9    // offset 0x13C800
+    iKeyboard0_10   // offset 0x142400
+    iKeyboard0_11   // offset 0x148000
+    iWinbutton9     // offset 0x14DC00
+    iLeddigits1     // offset 0x152A00
+    iiLeddigits1    // offset 0x156400
+    iStatictext10   // offset 0x15C200
 #END
 
 

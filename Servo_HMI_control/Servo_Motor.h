@@ -15,8 +15,10 @@
 int MotorRunState;
 int MotorLocationState;
 
-int LoadPosition;
+int LoadPosition = 10000;
 
+const uint8_t motorChannel = 0;
+const uint8_t encoderChannel = 0;
 
 void InitMotorParams() {
 
@@ -32,9 +34,10 @@ void InitMotorParams() {
   // Set the HFLB carrier frequency to 482 Hz
   motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
   // Sets the maximum velocity for each move
-  motor.VelMax(3000);//FIXME, this depends on system
+  motor.VelMax(9000);//FIXME, this depends on system
   // Set the maximum acceleration for each move
-  motor.AccelMax(2000);
+  motor.AccelMax(18000);
+
   
 }
 
@@ -62,16 +65,16 @@ int getMotorLocationState() {
   return MotorLocationState;
 }
 
-void detectMotorStates()
+void detectMotorStates(int CutPosition)
 {
-  if(motor.getPosition() == CutPosition)//FIXME: Need to find current motor encoder position in steps
+  if(motor.PositionRefCommanded() == CutPosition)
     {
       MotorLocationState = MOTOR_IN_CUT_POSITION;
     }else
     {
       MotorLocationState = MOTOR_NOT_IN_CUT_POSITION;
     }
-  if(motor.HlfbState() != MotorDriver::HLFB_ASSERTED)
+  if(motor.StatusReg().bit.StepsActive)
     {
       MotorRunState = MOTOR_IS_MOVING;
     }else
@@ -123,11 +126,11 @@ void UserSeeksHome(void){//Check step direection, whether clockwise or anticlock
     // Commands a speed of 4000 pulses/sec towards the hardstop for 2 seconds
     Serial.println("Homing . . . Waiting for motor to finish");
     motor.MoveVelocity(4000);
-    Delay_ms(2000);
+    delay(2000);
     // Then slows down to 1000 pulses/sec until clamping into the hard stop
     motor.MoveVelocity(1000);
     // Delay so HLFB has time to deassert
-    Delay_ms(10);
+    delay(10);
     // Waits for HLFB to assert again, meaning the hardstop has been reached
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
@@ -141,7 +144,7 @@ void UserSeeksHome(void){//Check step direection, whether clockwise or anticlock
     //Repeat, but much slower to prevent blade deflection
     motor.MoveVelocity(500);
     // Delay so HLFB has time to deassert
-    Delay_ms(10);
+    delay(10);
     // Waits for HLFB to assert again, meaning the hardstop has been reached
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
