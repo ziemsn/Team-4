@@ -398,7 +398,7 @@ void myGenieEventHandler(void)
 
       /***************************** Keypad Screen Winbuttons **************************/
 
-      if (Event.reportObject.index == EditInputDigitNum)                             // If Winbutton18 (Index = 18) - Edit Parameter Cancel
+      if (Event.reportObject.index == EditInputDigitNum)                             // If Cancel is pressed
       {
         if (MotorRunState == MOTOR_IS_MOVING)
         {
@@ -409,7 +409,7 @@ void myGenieEventHandler(void)
           }
           counter = 0;
   
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, 0);               // Clear any data from the Edit Parameter LED Digit
+          genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any data from the Edit Parameter LED Digit
           genie.SetForm(PreviousForm);                                  // Change to Previous Form
         }
       }
@@ -444,7 +444,7 @@ void myGenieEventHandler(void)
             }
           }
 
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, sumTemp);           // Prints to LED Digit 18 on Form 5 (max the LED digits can take is 65535)
+          genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, sumTemp);           // Prints to LED Digit 18 on Form 5 (max the LED digits can take is 65535)
           counter = counter + 1;                                          // Increment array to next position ready for next key press
         }
         else if (temp == 8)                                               // Check if 'Backspace' Key
@@ -453,7 +453,7 @@ void myGenieEventHandler(void)
           {
             counter--;                                                    // Decrement the counter to the previous key
             keyvalue[counter] = 0;                                        // Overwrite the position in the array with 0 / null
-            genie.WriteObject(GENIE_OBJ_LED_DIGITS, 18, atoi(keyvalue));  // Prints the current array value (as an integer) to LED Digit 18 on Form 5
+            genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, atoi(keyvalue));  // Prints the current array value (as an integer) to LED Digit 18 on Form 5
           }
         }
         else if (temp == 13)                                              // Check if 'Enter' Key
