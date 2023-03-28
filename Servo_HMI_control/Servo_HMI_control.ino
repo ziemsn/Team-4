@@ -110,7 +110,8 @@ int temp, sumTemp;                    // Keyboard Temp values
 
 void setup() {
   delay(5000);
-  //initMotorParams();
+  InitMotorParams();
+  InitHoming();
 
   // Sets up serial communication and waits up to 5 seconds for a port to open.
   // Serial communication is not required for this example to run.
@@ -134,7 +135,7 @@ void setup() {
     genie.AttachEventHandler(myGenieEventHandler); // Attach the user function Event Handler for processing events
     Serial.println("Genie attached"); 
   }
-  //resetMotor();
+  resetMotor();
 
   genie.SetForm(1); // Change to Form 0 //should add INIT_FORM variable?
   CurrentForm = 1;
@@ -147,8 +148,11 @@ void loop() {
   static unsigned long waitPeriod = millis();
 
   //Need to keep monitoring both home sensor and blade states
+  detectMotorStates();
   detectHomeSensorState();
   detectBladeState();
+
+  Serial.println("States Blade: %i , Home: %i, ServoLocation: %i, ServoMoving: %i", BladeState, HomeSensorState, MotorLocationState, MotorRunState);
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
 

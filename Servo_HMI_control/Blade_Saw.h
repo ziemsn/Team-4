@@ -5,9 +5,10 @@
 
 #define BLADE_UP 7
 #define BLADE_DOWN 8
-#define Blade_State_Pin DI6
+#define Blade_State_Pin DI6 //Connect Saw limit switch to DI6
 
 int BladeState;
+
 
 void setBladeState(int state) {
   BladeState = state;
@@ -16,6 +17,7 @@ void setBladeState(int state) {
 int getBladeState() {
   return BladeState;
 }
+
 
 
 //Put the bladesaw's state based on switch on and off on ClearCore

@@ -1,4 +1,4 @@
-
+//Clockwise rotation moves the sled towards the blade
 #include "ClearCore.h"
 
 #define MOTOR_IS_MOVING 3
@@ -18,7 +18,7 @@ int MotorLocationState;
 int LoadPosition;
 
 
-void initMotorParams() {
+void InitMotorParams() {
 
   // Sets the input clocking rate. This normal rate is ideal for ClearPath
   // step and direction applications.
@@ -60,6 +60,24 @@ int getMotorRunState() {
 
 int getMotorLocationState() {
   return MotorLocationState;
+}
+
+void detectMotorStates()
+{
+  if(motor.getPosition() == CutPosition)//FIXME: Need to find current motor encoder position in steps
+    {
+      MotorLocationState = MOTOR_IN_CUT_POSITION;
+    }else
+    {
+      MotorLocationState = MOTOR_NOT_IN_CUT_POSITION;
+    }
+  if(motor.HlfbState() != MotorDriver::HLFB_ASSERTED)
+    {
+      MotorRunState = MOTOR_IS_MOVING;
+    }else
+    {
+      MotorRunState = MOTOR_STOPPED;
+    }
 }
 
 //bool isMotorInitialized() {
