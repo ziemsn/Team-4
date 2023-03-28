@@ -1,9 +1,9 @@
-#platform "Gen4-uLCD-43D-CLB"
+#platform "Gen4-uLCD-43DCT-CLB"
 
 //#constant OLDCOMPILE
 
 
-// generated 3/28/2023 11:39:46 AM
+// generated 3/28/2023 12:19:47 PM
 // uSDRequired:- 1   InternalRequired:- 1
 
 #MODE FLASHBANK_1

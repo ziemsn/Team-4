@@ -1,12 +1,12 @@
 file C:\Users\oars0\Documents\GitHub\Team-4\HMIContentRedo\HMI-Control.4DWork\HMI-Control.4DGenieS
 
-file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Gen4-uLCD-43D-CLB.fnc
+file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Gen4-uLCD-43DCT-CLB.fnc
 
-000001  000001  #platform "Gen4-uLCD-43D-CLB"
-000002  000001  #platform "Gen4-uLCD-43D-CLB"
+000001  000001  #platform "Gen4-uLCD-43DCT-CLB"
+000002  000001  #platform "Gen4-uLCD-43DCT-CLB"
 000003  000008  */
-000004  000009      #constant Gen4_ULCD_43D_CLB_DIABLO16_GFX
-000005  000009      #constant Gen4_ULCD_43D_CLB_DIABLO16_GFX
+000004  000009      #constant Gen4_ULCD_43DCT_CLB_DIABLO16_GFX
+000005  000009      #constant Gen4_ULCD_43DCT_CLB_DIABLO16_GFX
 000006  000010        
 000007  000011      #IFNOT EXISTS DIABLO16_GFX2_FUNCTIONS
 file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Diablo16_Functions.fnc
@@ -5803,7 +5803,7 @@ file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Diablo16_Functions
 005797  000003  //#constant OLDCOMPILE
 005798  000004        
 005799  000005        
-005800  000006  // generated 3/28/2023 11:39:46 AM
+005800  000006  // generated 3/28/2023 12:19:47 PM
 005801  000007  // uSDRequired:- 1   InternalRequired:- 1
 005802  000008        
 005803  000009  #MODE FLASHBANK_1
@@ -5843,7 +5843,7 @@ file C:\Users\oars0\Documents\GitHub\Team-4\HMIContentRedo\HMI-Control.4DWork\HM
 
 005832  000016  #inherit "HMI-ControlConst.inc"
 005833  000016  #inherit "HMI-ControlConst.inc"
-005834  000001  // File generated 3/28/2023 11:39:40 AM
+005834  000001  // File generated 3/28/2023 12:19:42 PM
 005835  000002  // Warning! This is a generated file, any manual changes will be
 005836  000003  // lost during the next generation.
 005837  000004        
@@ -8264,7 +8264,7 @@ GAUGE_TICKH                           14  0x0000000e (const dword)  (not used)
 GAUGE_W                                4  0x00000004 (const dword)  (not used)
 GAUGE_X                                0  0x00000000 (const dword)  (not used)
 GAUGE_Y                                2  0x00000002 (const dword)  (not used)
-Gen4_ULCD_43D_CLB_DIABLO16_GFX         0  0x00000000 (const ??? 0)  (not used)
+Gen4_ULCD_43DCT_CLB_DIABLO16_GFX       0  0x00000000 (const ??? 0)  (not used)
 GFX                                63489  0x0000f801 (const dword)  (not used)
 gfx_332to565                        -165  0xffffff5b (PmmC func) args[1] r=1  (not used)
 gfx_565to332                        -166  0xffffff5a (PmmC func) args[1] r=1  (not used)
