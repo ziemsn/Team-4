@@ -27,8 +27,8 @@ Setup:
   4D systems display to COM1
 
 */
-#include "Servo_Motor.h"
 #include "Blade_Saw.h"
+#include "Servo_Motor.h"
 #include "HomeSensor.h"
 #include <genieArduinoDEV.h>
 #include <ClearCore.h>
@@ -151,7 +151,7 @@ void loop() {
 
   //Need to keep monitoring both home sensor and blade states
   detectMotorStates(CutPosition);
-  detectHomeSensorState();
+//  detectHomeSensorState();
   detectBladeState();
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
@@ -183,7 +183,7 @@ void loop() {
         break;
 
       case 2: //Motor In Motion Screen 
-        detectMotorStates();
+        detectMotorStates(PositionTarget);
         if(MotorLocationState == MOTOR_IN_CUT_POSITION)
         {
           if(MotorRunState == MOTOR_STOPPED)
@@ -217,7 +217,7 @@ void loop() {
       {
         fault = true;
         Serial.println(" status: 'In Alert'");
-        genie.WriteObject(GENIE_OBJ_USER_LED, 1, 1);//Set user led 1, to value 1(On)
+        genie.WriteObject(GENIE_OBJ_USER_LED, 0, 1);//Set user led 1, to value 1(On)
       }
       // If the fault has sucessfully been cleared, turn off the  fault LED
       else if (!motor.StatusReg().bit.AlertsPresent && fault)
@@ -326,9 +326,11 @@ void myGenieEventHandler(void)
           {
             NextForm = 3; //Go to Clamp Confirmation after MotorMotion screen
             PositionTarget = LoadPosition;
+            genie.SetForm(2);
+            delay(2500);//Let user see the screen
             motor.MoveVelocity(-8000);
             Serial.println("set vel to -8000, homing");
-            delay(50);
+            delay(500);
             detectMotorStates(PositionTarget);
             while (MotorRunState != MOTOR_STOPPED) //This while loop stops the motor in motion screen from processing anything
             {              
@@ -336,8 +338,8 @@ void myGenieEventHandler(void)
               detectHomeSensorState();
               continue;
             }
-            Serial.println("Broke home loop, States: Running,Location");
-            Serial.println(MotorRunState);
+            Serial.print("Broke home loop, States: (Running,Location)");
+            Serial.print(MotorRunState);
             Serial.println(MotorLocationState);
             delay(100);
             MoveAbsolutePosition(LoadPosition); //Move to Loading position

@@ -15,7 +15,7 @@
 int MotorRunState;
 int MotorLocationState;
 
-int LoadPosition = 250000; //Arbitrary distance from blade for loading bolts
+int LoadPosition = 250000;
 
 const uint8_t motorChannel = 0;
 const uint8_t encoderChannel = 0;
@@ -47,7 +47,7 @@ void resetMotor() {
   motor.EnableRequest(false);
   delay(10);
   motor.EnableRequest(true); 
-  Serial.println("Motor Enabled");
+  Serial.println("Motor Reset");
   delay(10);
 }
 
@@ -125,49 +125,51 @@ void UserSeeksHome(void){//Check step direection, whether clockwise or anticlock
   /* Move towards the blade for homing, then repeat much more slowly to prevent blade deflection. Needs to be adjusted to use limit switch as probe */
     // Commands a speed of 4000 pulses/sec towards the hardstop for 2 seconds
     Serial.println("Homing . . . Waiting for motor to finish");
-    motor.MoveVelocity(4000);
+    motor.MoveVelocity(-8000);
     delay(2000);
     // Then slows down to 1000 pulses/sec until clamping into the hard stop
-    motor.MoveVelocity(1000);
+    motor.MoveVelocity(-3000);
     // Delay so HLFB has time to deassert
-    delay(10);
+//    delay(10);
     // Waits for HLFB to assert again, meaning the hardstop has been reached
     while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
         continue;
     }
     // Stop the velocity move now that the hardstop is reached
     motor.MoveStopAbrupt();
-    // Move away from the hard stop. Any move away from the hardstop will
-    // conclude the homing sequence.
-    motor.Move(-1000);
-
-    //Repeat, but much slower to prevent blade deflection
-    motor.MoveVelocity(500);
-    // Delay so HLFB has time to deassert
-    delay(10);
-    // Waits for HLFB to assert again, meaning the hardstop has been reached
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
-    // Stop the velocity move now that the hardstop is reached
-    motor.MoveStopAbrupt();
-    // Zero the motor's reference position after homing to allow for accurate
-    // absolute position moves
     motor.PositionRefSet(0);
-    // Move away from the hard stop. Any move away from the hardstop will
-    // conclude the homing sequence.
-    motor.Move(-1000);
-    LoadPosition = 1000;
+    Serial.println("Homed - UserSeeksHome(), triggered by HLFB assertion (hardstop)");
+//    // Move away from the hard stop. Any move away from the hardstop will
+//    // conclude the homing sequence.
+//    motor.Move(-1000);
+//
+//    //Repeat, but much slower to prevent blade deflection
+//    motor.MoveVelocity(500);
+//    // Delay so HLFB has time to deassert
+//    delay(10);
+//    // Waits for HLFB to assert again, meaning the hardstop has been reached
+//    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+//        continue;
+//    }
+//    // Stop the velocity move now that the hardstop is reached
+//    motor.MoveStopAbrupt();
+//    // Zero the motor's reference position after homing to allow for accurate
+//    // absolute position moves
+//    motor.PositionRefSet(0);
+//    // Move away from the hard stop. Any move away from the hardstop will
+//    // conclude the homing sequence.
+//    motor.Move(-1000);
+//    LoadPosition = 1000;
 
 
-    // Delay so HLFB has time to deassert
-    Delay_ms(10);
-    // Waits for HLFB to assert, meaning homing is complete
-    Serial.println("Moving away from hardstop... Waiting for motor");
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
-    Serial.println("Homing Complete. Motor Ready.");
-    
+//    // Delay so HLFB has time to deassert
+//    Delay_ms(10);
+//    // Waits for HLFB to assert, meaning homing is complete
+//    Serial.println("Moving away from hardstop... Waiting for motor");
+//    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
+//        continue;
+//    }
+//    Serial.println("Homing Complete. Motor Ready.");
+//    
     return;
 }

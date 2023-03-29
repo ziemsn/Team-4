@@ -49,12 +49,11 @@ void detectHomeSensorState() {
 
 // Read the state of the limit switch connected to digital pin 7
   int switchState = analogRead(Home_pin);
-  Serial.println(switchState);
   // If the switch is  triggered, set Motr at home
   if (switchState < 500) {
     motor.MoveStopAbrupt();
     motor.PositionRefSet(0);
-    Serial.println("Homed - loop");
+    Serial.print("Homed - sensor, triggered at "); Serial.print(switchState);
     HomeSensorState = MOTOR_AT_HOME;
     
   }
