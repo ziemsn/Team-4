@@ -123,12 +123,14 @@ bool MoveAbsolutePosition(int position) {
 
 void UserSeeksHome(void){//Check step direection, whether clockwise or anticlockwise is toward blade
   /* Move towards the blade for homing, then repeat much more slowly to prevent blade deflection. Needs to be adjusted to use limit switch as probe */
-    // Commands a speed of 4000 pulses/sec towards the hardstop for 2 seconds
+    // Commands a speed of 8000 pulses/sec towards the hardstop for 2 seconds
     Serial.println("Homing . . . Waiting for motor to finish");
+    motor.Move(4000);
+    delay(1000);
     motor.MoveVelocity(-8000);
     delay(2000);
-    // Then slows down to 1000 pulses/sec until clamping into the hard stop
-    motor.MoveVelocity(-3000);
+    // Then slows down to 3200 pulses/sec until clamping into the hard stop
+    motor.MoveVelocity(-3200);
     // Delay so HLFB has time to deassert
 //    delay(10);
     // Waits for HLFB to assert again, meaning the hardstop has been reached

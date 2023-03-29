@@ -74,12 +74,12 @@ int CutPosition = 0;
 int PositionTarget = 0;
 int UserDist = 0;
 double UnitFactor = 1255.8599997413;  //Default: Millimeters to steps
-int LengthMin = 0;                    //Offset to account for clamp depth and distance from blade
+int LengthMin = 148191;               //Offset to account for clamp depth and distance from blade
 int LengthMax = 350000;               //Length in steps from blade
 bool UserUnits = true;
 String Units = "Millimeters";         //Default Units
 char RangeText[100] = "";
-int UnitMin = 0;
+int UnitMin = 120; //Default: millimeters, ~5inches
 int UnitMax = 1;
 
 //Genie Form Item indeces
@@ -372,7 +372,7 @@ void myGenieEventHandler(void)
           if (BladeState == BLADE_UP)
           {
             NextForm = 4; //go to Begin cutting screen after MotorMotion Screen
-            CutPosition = UserDist*UnitFactor-LengthMin;
+            CutPosition = abs(UserDist*UnitFactor-LengthMin);
             PositionTarget = CutPosition;
             genie.SetForm(2); //Motor in Motion Screen
             delay(1000);
