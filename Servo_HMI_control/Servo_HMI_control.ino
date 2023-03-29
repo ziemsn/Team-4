@@ -71,6 +71,7 @@ int MoveDistLast = 0;
 bool fault = false;
 int NextForm = 0;
 int CutPosition = 0;
+int PositionTarget = 0;
 int UserDist = 0;
 double UnitFactor = 1255.8599997413;  //Default: Millimeters to steps
 int LengthMin = 0;                    //Offset to account for clamp depth and distance from blade
@@ -324,7 +325,7 @@ void myGenieEventHandler(void)
           if (MotorRunState == MOTOR_STOPPED)
           {
             NextForm = 3; //Go to Clamp Confirmation after MotorMotion screen
-            PositionTarget = LoadPosition
+            PositionTarget = LoadPosition;
             motor.MoveVelocity(-8000);
             Serial.println("set vel to -8000, homing");
             delay(50);
@@ -369,9 +370,11 @@ void myGenieEventHandler(void)
           if (BladeState == BLADE_UP)
           {
             NextForm = 4; //go to Begin cutting screen after MotorMotion Screen
+            CutPosition = UserDist*UnitFactor-LengthMin;
+            PositionTarget = CutPosition;
             genie.SetForm(2); //Motor in Motion Screen
             delay(1000);
-            CutPosition = UserDist*UnitFactor-LengthMin;
+            
             Serial.println(CutPosition);
             Serial.println(UserDist);
             Serial.println(UnitFactor);
