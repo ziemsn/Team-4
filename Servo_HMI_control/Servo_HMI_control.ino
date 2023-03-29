@@ -72,11 +72,11 @@ bool fault = false;
 int NextForm = 0;
 int CutPosition = 0;
 int UserDist = 0;
-double UnitFactor = 1255.8599997413; //Default: Millimeters to steps
-int LengthMin = 0;
-int LengthMax = 12000;
+double UnitFactor = 1255.8599997413;  //Default: Millimeters to steps
+int LengthMin = 0;                    //Offset to account for clamp depth and distance from blade
+int LengthMax = 350000;               //Length in steps from blade
 bool UserUnits = true;
-String Units = "Millimeters";
+String Units = "Millimeters";         //Default Units
 char RangeText[100] = "";
 int UnitMin = 0;
 int UnitMax = 1;
@@ -182,6 +182,7 @@ void loop() {
         break;
 
       case 2: //Motor In Motion Screen 
+        detectMotorStates();
         if(MotorLocationState == MOTOR_IN_CUT_POSITION)
         {
           if(MotorRunState == MOTOR_STOPPED)
@@ -323,10 +324,24 @@ void myGenieEventHandler(void)
           if (MotorRunState == MOTOR_STOPPED)
           {
             NextForm = 3; //Go to Clamp Confirmation after MotorMotion screen
-            genie.SetForm(2); //Switch to motor in motion screen
-            delay(1000);
+            PositionTarget = LoadPosition
+            motor.MoveVelocity(-8000);
+            Serial.println("set vel to -8000, homing");
+            delay(50);
+            detectMotorStates(PositionTarget);
+            while (MotorRunState != MOTOR_STOPPED) //This while loop stops the motor in motion screen from processing anything
+            {              
+              detectMotorStates(0);
+              detectHomeSensorState();
+              continue;
+            }
+            Serial.println("Broke home loop, States: Running,Location");
+            Serial.println(MotorRunState);
+            Serial.println(MotorLocationState);
+            delay(100);
             MoveAbsolutePosition(LoadPosition); //Move to Loading position
             Serial.println("Start passed");
+            // Serial.println(NextForm);
           }
         }
 

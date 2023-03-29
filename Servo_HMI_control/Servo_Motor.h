@@ -15,7 +15,7 @@
 int MotorRunState;
 int MotorLocationState;
 
-int LoadPosition = 10000;
+int LoadPosition = 250000; //Arbitrary distance from blade for loading bolts
 
 const uint8_t motorChannel = 0;
 const uint8_t encoderChannel = 0;
