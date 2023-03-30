@@ -5803,7 +5803,7 @@ file C:\Program Files (x86)\4D Labs\4D Workshop 4 IDE\include\Diablo16_Functions
 005797  000003  //#constant OLDCOMPILE
 005798  000004        
 005799  000005        
-005800  000006  // generated 3/30/2023 10:52:25 AM
+005800  000006  // generated 3/30/2023 12:13:12 PM
 005801  000007  // uSDRequired:- 1   InternalRequired:- 1
 005802  000008        
 005803  000009  #MODE FLASHBANK_1
@@ -5843,7 +5843,7 @@ file C:\Users\oars0\Documents\GitHub\Team-4\HMIContentRedo\HMI-Control.4DWork\HM
 
 005832  000016  #inherit "HMI-ControlConst.inc"
 005833  000016  #inherit "HMI-ControlConst.inc"
-005834  000001  // File generated 3/30/2023 10:52:15 AM
+005834  000001  // File generated 3/30/2023 12:13:02 PM
 005835  000002  // Warning! This is a generated file, any manual changes will be
 005836  000003  // lost during the next generation.
 005837  000004        

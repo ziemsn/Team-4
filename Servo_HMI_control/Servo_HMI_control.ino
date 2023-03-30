@@ -25,6 +25,8 @@ Setup:
   
   Connect motor to port labelled "M0" on the Clearcore
   4D systems display to COM1
+  Homing probe to A-9
+  Bandsaw limit switch to DI-6
 
 */
 #include "Blade_Saw.h"
@@ -61,7 +63,7 @@ int PreviousForm = -1;                // The Form/Page we came from
 int LEDDigitToEdit = -1;              // The LED Digit index which will be edited
 int DigitsToEdit = -1;                // The number of digits in the LED Digit being edited
 
-int MotorProgInputRes = 6400;          // Motor Programmed Input Resolution (Change this if you change the motor value in MSP)
+int MotorProgInputRes = 6400;         // Motor Programmed Input Resolution (Change this if you change the motor value in MSP)
 int SecondsInMinute = 60;             // Seconds in a minute
 
 
@@ -73,12 +75,12 @@ int NextForm = 0;
 int CutPosition = 0;
 int PositionTarget = 0;
 int UserDist = 0;
-double UnitFactor = 1255.8599997413;  //Default: Millimeters to steps
-int LengthMin = 148191;               //Offset to account for clamp depth and distance from blade
+double UnitFactor = 1262.5341530055;  //Default: Millimeters to steps
+int LengthMin = 116.75*1262.5341530055;            //Offset to account for clamp depth and distance from blade
 int LengthMax = 350000;               //Length in steps from blade
 bool UserUnits = true;
 String Units = "Millimeters";         //Default Units
-char RangeText[100] = "";
+char RangeText[100] = "sup";
 int UnitMin = 120; //Default: millimeters, ~5inches
 int UnitMax = 1;
 
@@ -156,7 +158,7 @@ void loop() {
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
 
-  // waitPeriod later is set to millis()+50, running this zcode every 50ms
+  // waitPeriod later is set to millis()+50, running this code every 50ms
   if (millis() >= waitPeriod)
   {
     CurrentForm = genie.GetForm(); // Check what form the display is currently on
@@ -257,20 +259,25 @@ void myGenieEventHandler(void)
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
         //ON is Inches, Off is millimeters
+        Serial.print("Units changed. ");
         if(UserUnits)
         {
           UnitFactor = 31899.0458995371; //Inches to steps
           Units = "Inches";
-          UnitMin = LengthMin/UnitFactor;//steps to inches
-          UnitMax = LengthMax/UnitFactor;//steps to inches
+          UnitMin = LengthMin/UnitFactor + 0.2;//steps to inches
+          UnitMax = LengthMax/UnitFactor + 0.2;//steps to inches
+          
         }else
         {
           UnitFactor = 1255.8599997413;//Millimeters to steps
           Units   = "Millimeters";
-          UnitMin = LengthMin/UnitFactor;//steps to mm
-          UnitMax = LengthMax/UnitFactor;//steps to mm
+          UnitMin = LengthMin/UnitFactor + 3;//steps to mm
+          UnitMax = LengthMax/UnitFactor + 3;//steps to mm
         }
+        Serial.print(Units);
+        Serial.print(" RangeText: ");
         sprintf(RangeText, "Enter length between %i and %i %s", UnitMin, UnitMax, Units.c_str());
+        Serial.println(RangeText);
       }
     
     }
@@ -313,7 +320,7 @@ void myGenieEventHandler(void)
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
             DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-            //genie.WriteStr(EditRangeTextNum, RangeText);
+            genie.WriteStr(EditRangeTextNum, RangeText);
             genie.SetForm(6);                                               // Change to Form 6 - Edit Parameter
             Serial.println("Edit passed");
           }//else alert user something here
@@ -322,13 +329,16 @@ void myGenieEventHandler(void)
         //Check for Start Process press
         else if (Event.reportObject.index == StartProcessGenieNum)
         {
-          if (MotorRunState == MOTOR_STOPPED)
+          if (!motor.StatusReg().bit.AlertsPresent && (MotorRunState == MOTOR_STOPPED) && (BladeState == BLADE_DOWN))
           {
+            
             NextForm = 3; //Go to Clamp Confirmation after MotorMotion screen
             PositionTarget = LoadPosition;
             genie.SetForm(2);
-            delay(2500);//Let user see the screen
-            motor.MoveVelocity(-8000);
+            delay(1500);//Let user see the screen
+            motor.MoveVelocity(10000);//Move away from blade
+            delay(500);
+            motor.MoveVelocity(-9000);//Move towards blade
             Serial.println("set vel to -8000, homing");
             delay(500);
             detectMotorStates(PositionTarget);
@@ -336,6 +346,11 @@ void myGenieEventHandler(void)
             {              
               detectMotorStates(0);
               detectHomeSensorState();
+              if (Event.reportObject.index == StopMotionGenieNum)                             // If the stop button is pressed
+                {
+                  motor.MoveStopAbrupt(); //Immediately stop the motor
+                  genie.SetForm(1); //return to main screen
+                }
               continue;
             }
             Serial.print("Broke home loop, States: (Running,Location)");
@@ -345,6 +360,7 @@ void myGenieEventHandler(void)
             MoveAbsolutePosition(LoadPosition); //Move to Loading position
             Serial.println("Start passed");
             // Serial.println(NextForm);
+          
           }
         }
 
@@ -372,7 +388,7 @@ void myGenieEventHandler(void)
           if (BladeState == BLADE_UP)
           {
             NextForm = 4; //go to Begin cutting screen after MotorMotion Screen
-            CutPosition = abs(UserDist*UnitFactor-LengthMin);
+            CutPosition = abs(UserDist/100*UnitFactor-LengthMin);
             PositionTarget = CutPosition;
             genie.SetForm(2); //Motor in Motion Screen
             delay(1000);
@@ -497,7 +513,7 @@ void myGenieEventHandler(void)
           }
           counter = 0;
 
-          UserDist = newValue / 1000; 
+          UserDist = newValue; 
           //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
           //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
           

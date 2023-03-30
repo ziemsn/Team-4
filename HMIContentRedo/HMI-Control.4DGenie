@@ -249,7 +249,7 @@ LedDigits
     Name                         Leddigits0
     Alias                        LengthDigits
     Color                        BLACK
-    Decimals                     3
+    Decimals                     2
     Digits                       6
     Height                       48
     LeadingZero                  Yes
@@ -898,7 +898,7 @@ LedDigits
     Name                         Leddigits1
     Alias                        Leddigits1
     Color                        BLACK
-    Decimals                     3
+    Decimals                     2
     Digits                       6
     Height                       40
     LeadingZero                  Yes
