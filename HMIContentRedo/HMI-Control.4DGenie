@@ -409,7 +409,7 @@ WinButton
     Font.Size                    12
     Font.Style                   []
     Height                       48
-    Left                         316
+    Left                         168
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -431,7 +431,7 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          212
+    Top                          204
     Width                        124
     OnChanged                    'Report Message'
     OnTouchMoving                ''
@@ -474,44 +474,6 @@ Form
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
-StaticText
-    Name                         Statictext5
-    Alias                        RaiseSaw
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      'Raise Saw'
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    18
-    Font.Style                   []
-    Height                       35
-    Left                         8
-    Top                          12
-    Transparent                  Yes
-    Width                        125
-    WordWrap                     Yes
-end
-StaticText
-    Name                         Statictext6
-    Alias                        Statictext6
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      '   Confirm Bolt Clamped                   then Proceed'
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    22
-    Font.Style                   []
-    Height                       70
-    Left                         56
-    Top                          80
-    Transparent                  Yes
-    Width                        394
-    WordWrap                     Yes
-end
 WinButton
     Name                         Winbutton4
     Alias                        Cancel/Reset
@@ -523,7 +485,7 @@ WinButton
     AutoSizeToPicture            No
     Bevel                        Yes
     BevelColor                   clWhite
-    Caption                      'Go to Main Screen'
+    Caption                      'Go back to    Main Screen'
     Color                        clGray
     Font.Color                   clWindowText
     Font.Effects                 []
@@ -531,7 +493,7 @@ WinButton
     Font.Size                    12
     Font.Style                   []
     Height                       46
-    Left                         0
+    Left                         28
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -553,7 +515,7 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          205
+    Top                          204
     Width                        132
     OnChanged                    'Report Message'
     OnTouchMoving                ''
@@ -579,7 +541,7 @@ WinButton
     Font.Size                    12
     Font.Style                   []
     Height                       52
-    Left                         340
+    Left                         324
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -601,12 +563,31 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          201
+    Top                          200
     Width                        140
     OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
+end
+StaticText
+    Name                         Statictext5
+    Alias                        Statictext5
+    Alignment                    Left
+    AutoSize                     No
+    Caption                      'Raise the saw, Clamp the bolt(s) in, Proceed when ready'
+    Color                        BLACK
+    Font.Color                   WHITE
+    Font.Effects                 []
+    Font.Name                    Tahoma
+    Font.Size                    24
+    Font.Style                   []
+    Height                       136
+    Left                         96
+    Top                          32
+    Transparent                  Yes
+    Width                        301
+    WordWrap                     Yes
 end
 Form
     Name                         Form4
@@ -629,38 +610,19 @@ StaticText
     Name                         Statictext7
     Alias                        StartSaw
     Alignment                    Left
-    AutoSize                     Yes
-    Caption                      'Start Saw'
+    AutoSize                     No
+    Caption                      'Start saw,                       Begin cutting process,         Tap "Finished Cutting" when done'
     Color                        BLACK
     Font.Color                   WHITE
     Font.Effects                 []
     Font.Name                    Tahoma
-    Font.Size                    22
+    Font.Size                    24
     Font.Style                   []
-    Height                       46
-    Left                         8
-    Top                          12
+    Height                       189
+    Left                         40
+    Top                          20
     Transparent                  Yes
-    Width                        129
-    WordWrap                     Yes
-end
-StaticText
-    Name                         Statictext8
-    Alias                        BeginCutLabel
-    Alignment                    Left
-    AutoSize                     Yes
-    Caption                      '     Begin Cutting Process           Tap Button When Done'
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
-    Font.Name                    Tahoma
-    Font.Size                    22
-    Font.Style                   []
-    Height                       70
-    Left                         44
-    Top                          92
-    Transparent                  Yes
-    Width                        385
+    Width                        404
     WordWrap                     Yes
 end
 WinButton
@@ -682,7 +644,7 @@ WinButton
     Font.Size                    12
     Font.Style                   []
     Height                       57
-    Left                         357
+    Left                         216
     Matrix                       -1
     Momentary                    Yes
     Picture                      (None)
@@ -704,7 +666,7 @@ WinButton
     StatusWhenOn.Size            8
     StatusWhenOn.Style           []
     StatusWhenOn.Visible         Yes
-    Top                          212
+    Top                          200
     Width                        123
     OnChanged                    'Report Message'
     OnTouchMoving                ''
@@ -940,7 +902,7 @@ LedDigits
     Digits                       6
     Height                       40
     LeadingZero                  Yes
-    Left                         252
+    Left                         292
     OutlineColor                 BLACK
     Palette.High                 clLime
     Palette.Low                  0x005100
@@ -951,22 +913,25 @@ LedDigits
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
-StaticText
-    Name                         Statictext10
-    Alias                        UnitRangeLabel
+Strings
+    Name                         Strings0
+    Alias                        Strings0
     Alignment                    Left
-    AutoSize                     Yes
-    Caption                      'Enter length between __ and ___ (UNITS)'
-    Color                        BLACK
-    Font.Color                   WHITE
-    Font.Effects                 []
+    BGcolor                      BLACK
+    Height                       20
+    FGcolor                      WHITE
+    Font.Bold                    No
+    Font.CharSet                 Unicode
+    Font.Italic                  No
     Font.Name                    Tahoma
-    Font.Size                    9
-    Font.Style                   []
-    Height                       31
-    Left                         0
-    Top                          16
-    Transparent                  Yes
-    Width                        243
-    WordWrap                     Yes
+    Font.Opaque                  Yes
+    Font.Size                    -10
+    Font.Strikethrough           No
+    Font.Underline               No
+    Left                         8
+    Strings                      'Enter values between 120 and 300 Miliimeters\n'
+    StringsStyle                 Message
+    Top                          19
+    Width                        280
+    OnChanged                    ''
 end

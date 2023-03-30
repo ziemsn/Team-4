@@ -100,7 +100,7 @@ int FinishedCuttingGenieNum = 6;
 int CutSameGenieNum = 7;
 int NewCutGenieNum = 8;
 
-int EditRangeTextNum = 10;
+int EditRangeTextNum = 0;
 int EditInputDigitNum = 1;
 int BackGenieNum = 9;
 int KeypadGenieNum = 0;
@@ -428,9 +428,9 @@ void myGenieEventHandler(void)
 
       /***************************** Keypad Screen Winbuttons **************************/
 
-      if (Event.reportObject.index == EditInputDigitNum)                             // If Cancel is pressed
+      if (Event.reportObject.index == BackGenieNum)                             // If Cancel is pressed
       {
-        if (MotorRunState == MOTOR_IS_MOVING)
+        if (MotorRunState == MOTOR_STOPPED)
         {
           //Clear any partially entered values from Keyboard, ready for next time
           for (int f = 0; f < 5; f++)
@@ -439,7 +439,7 @@ void myGenieEventHandler(void)
           }
           counter = 0;
   
-          genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any data from the Edit Parameter LED Digit
+          genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Undo changes visible on keypad
           genie.SetForm(PreviousForm);                                  // Change to Previous Form
         }
       }
@@ -497,7 +497,7 @@ void myGenieEventHandler(void)
           }
           counter = 0;
 
-          UserDist = newValue; 
+          UserDist = newValue / 1000; 
           //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
           //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
           
