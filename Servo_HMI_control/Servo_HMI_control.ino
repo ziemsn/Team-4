@@ -75,8 +75,10 @@ int NextForm = 0;
 int CutPosition = 0;
 int PositionTarget = 0;
 int UserDist = 0;
+double UnitMM = 1262.5341530055;
+double UnitIN = 32068.2636347956;
 double UnitFactor = 1262.5341530055;  //Default: Millimeters to steps
-int LengthMin = 116.75*1262.5341530055;            //Offset to account for clamp depth and distance from blade
+int LengthMin = 116.5*1262.5341530055;            //Offset to account for clamp depth and distance from blade
 int LengthMax = 350000;               //Length in steps from blade
 bool UserUnits = true;
 String Units = "Millimeters";         //Default Units
@@ -262,14 +264,14 @@ void myGenieEventHandler(void)
         Serial.print("Units changed. ");
         if(UserUnits)
         {
-          UnitFactor = 31899.0458995371; //Inches to steps
+          UnitFactor = UnitIN;//Inches to steps
           Units = "Inches";
           UnitMin = LengthMin/UnitFactor + 0.2;//steps to inches
           UnitMax = LengthMax/UnitFactor + 0.2;//steps to inches
           
         }else
         {
-          UnitFactor = 1255.8599997413;//Millimeters to steps
+          UnitFactor = UnitMM;//Millimeters to steps
           Units   = "Millimeters";
           UnitMin = LengthMin/UnitFactor + 3;//steps to mm
           UnitMax = LengthMax/UnitFactor + 3;//steps to mm
@@ -336,23 +338,7 @@ void myGenieEventHandler(void)
             PositionTarget = LoadPosition;
             genie.SetForm(2);
             delay(1500);//Let user see the screen
-            motor.MoveVelocity(10000);//Move away from blade
-            delay(500);
-            motor.MoveVelocity(-9000);//Move towards blade
-            Serial.println("set vel to -8000, homing");
-            delay(500);
-            detectMotorStates(PositionTarget);
-            while (MotorRunState != MOTOR_STOPPED) //This while loop stops the motor in motion screen from processing anything
-            {              
-              detectMotorStates(0);
-              detectHomeSensorState();
-              if (Event.reportObject.index == StopMotionGenieNum)                             // If the stop button is pressed
-                {
-                  motor.MoveStopAbrupt(); //Immediately stop the motor
-                  genie.SetForm(1); //return to main screen
-                }
-              continue;
-            }
+            UserSeeksHome();
             Serial.print("Broke home loop, States: (Running,Location)");
             Serial.print(MotorRunState);
             Serial.println(MotorLocationState);

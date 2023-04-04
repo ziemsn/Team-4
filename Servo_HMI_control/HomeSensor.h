@@ -54,9 +54,9 @@ void detectHomeSensorState() {
   if (switchState < 2800) {
     motor.MoveStopAbrupt();
     motor.PositionRefSet(0);
-    Serial.print("Homed - sensor, triggered at "); Serial.print(switchState);
+    Serial.print("Homed - sensor, triggered at "); Serial.println(switchState);
     HomeSensorState = MOTOR_AT_HOME;
-    delay(2000); //Testing, change to 50
+    delay(1000); //Testing, change to 50
   }
   // If the switch is not triggered, motor is not home
   else {
@@ -71,10 +71,10 @@ void UserSeeksHome(void){//Check step direction, whether clockwise or anticlockw
     Serial.println("Homing . . . Waiting for motor to finish");
     motor.MoveVelocity(10000);//Move away from blade
     delay(500);
-    motor.MoveVelocity(-9000);//Move towards blade
-    Serial.println("set vel to -9000, homing");
+    motor.MoveVelocity(-12000);//Move towards blade
+    Serial.println("homing");
     
-    delay(500);
+    delay(100);
     detectMotorStates(0);
     
     while (MotorRunState != MOTOR_STOPPED || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) 
@@ -87,11 +87,11 @@ void UserSeeksHome(void){//Check step direction, whether clockwise or anticlockw
     }
 
     //Back out after touching the probe, like 3D-printer homing
-    motor.Move(6400); 
+    motor.MoveVelocity(6400); 
     delay(500);
-    motor.MoveVelocity(-800); //0.125 revolutions per second
+    motor.MoveVelocity(-400); //0.0625 revolutions per second
 
-    delay(500);
+    delay(100);
     detectMotorStates(0);
 
     while (MotorRunState != MOTOR_STOPPED || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) 
@@ -103,18 +103,7 @@ void UserSeeksHome(void){//Check step direction, whether clockwise or anticlockw
       continue;
     }
     
-    // Then slows down to 3200 pulses/sec until clamping into the hard stop
-    motor.MoveVelocity(-3200);
-    // Delay so HLFB has time to deassert
-//    delay(10);
-    // Waits for HLFB to assert again, meaning the hardstop has been reached
-    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-        continue;
-    }
-    // Stop the velocity move now that the hardstop is reached
-    motor.MoveStopAbrupt();
-    motor.PositionRefSet(0);
-    Serial.println("Homed - UserSeeksHome(), triggered by HLFB assertion (hardstop)");
+    
 
     return;
 }

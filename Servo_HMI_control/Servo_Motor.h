@@ -34,9 +34,9 @@ void InitMotorParams() {
   // Set the HFLB carrier frequency to 482 Hz
   motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
   // Sets the maximum velocity for each move
-  motor.VelMax(9000);//FIXME, this depends on system
+  motor.VelMax(3.5*6400);//FIXME, this depends on system
   // Set the maximum acceleration for each move
-  motor.AccelMax(18000);
+  motor.AccelMax(80000);
 
   
 }
