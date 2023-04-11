@@ -103,6 +103,7 @@ void UserSeeksHome(void){//Check step direction, whether clockwise or anticlockw
     delay(100);
     detectMotorStates(0);
 
+    // Wait for the motor to stop and for the HLFB state to be asserted
     while (MotorRunState != MOTOR_STOPPED || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) 
     {              
       
