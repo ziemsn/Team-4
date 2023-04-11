@@ -1,4 +1,7 @@
-//Clockwise rotation moves the sled towards the blade
+/* 
+* This is the header file for the servo controls
+* In short, this allows for motor setup and use based on user interactions 
+*/
 #include "ClearCore.h"
 
 #define MOTOR_IS_MOVING 3
@@ -7,15 +10,15 @@
 #define MOTOR_NOT_IN_CUT_POSITION 6
 
 
-// Specifies which motor to move.
-// Options are: ConnectorM0, ConnectorM1, ConnectorM2, or ConnectorM3.
+// Specifies which connector the motor is on
+//Make sure blue cable from motor connects to the M0 connector on the Clear Core
 #define motor ConnectorM0
 
 
 int MotorRunState;
 int MotorLocationState;
 
-int LoadPosition = 250000;
+int LoadPosition = 250000; //Arbitrary position away from blade, about 200 mm
 
 const uint8_t motorChannel = 0;
 const uint8_t encoderChannel = 0;
@@ -34,16 +37,16 @@ void InitMotorParams() {
   // Set the HFLB carrier frequency to 482 Hz
   motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
   // Sets the maximum velocity for each move
-  motor.VelMax(3.5*6400);//FIXME, this depends on system
+  motor.VelMax(3.5*6400);//3.5 Revolutions per second
   // Set the maximum acceleration for each move
   motor.AccelMax(80000);
 
   
 }
 
-//when the system restart. reset the motor by calling the following function
+//resetMotor cycles power on the motor. If this succesfully clears the fault state, the fault LED will go out
 void resetMotor() {
-  // Enables the motor; homing will begin automatically if "normal" ClearPath automatic homing is enabled
+
   motor.EnableRequest(false);
   delay(10);
   motor.EnableRequest(true); 
@@ -67,14 +70,14 @@ int getMotorLocationState() {
 
 void detectMotorStates(int CutPosition)
 {
-  if(motor.PositionRefCommanded() == CutPosition)
+  if(motor.PositionRefCommanded() == CutPosition) //Set state based on motor's reported position
     {
       MotorLocationState = MOTOR_IN_CUT_POSITION;
     }else
     {
       MotorLocationState = MOTOR_NOT_IN_CUT_POSITION;
     }
-  if(motor.StatusReg().bit.StepsActive)
+  if(motor.StatusReg().bit.StepsActive) //Set state based on motor's activity
     {
       MotorRunState = MOTOR_IS_MOVING;
     }else
@@ -83,12 +86,6 @@ void detectMotorStates(int CutPosition)
     }
 }
 
-//bool isMotorInitialized() {
-//  if (MotorState == MOTOR_HOME && MotorState == MOTOR_STOPPED) {
-//     return 1;
-//  }
-//  return 0;
-//}
 
 
 /*------------------------------------------------------------------------------
@@ -120,95 +117,3 @@ bool MoveAbsolutePosition(int position) {
     motor.Move(position, MotorDriver::MOVE_TARGET_ABSOLUTE);
     return true;
 }
-
-
-/*
-Userseekshome has been moved to HomeSensor.h
-*/
-//void UserSeeksHome(void){//Check step direction, whether clockwise or anticlockwise is toward blade
-//  /* Move towards the blade for homing, then repeat much more slowly to prevent blade deflection. Needs to be adjusted to use limit switch as probe */
-//    // Commands a speed of 10000 pulses/sec away from blade for 0.5 seconds
-//    Serial.println("Homing . . . Waiting for motor to finish");
-//    motor.MoveVelocity(10000);//Move away from blade
-//    delay(500);
-//    motor.MoveVelocity(-9000);//Move towards blade
-//    Serial.println("set vel to -9000, homing");
-//    
-//    delay(500);
-//    detectMotorStates(0);
-//    
-//    while (MotorRunState != MOTOR_STOPPED || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) 
-//    {              
-//      
-//      detectHomeSensorState();
-//      detectMotorStates(0);
-//          
-//      continue;
-//    }
-//
-//    //Back out after touching the probe, like 3D-printer homing
-//    motor.Move(6400); 
-//    delay(500);
-//    motor.MoveVelocity(-800); //0.125 revolutions per second
-//
-//    delay(500);
-//    detectMotorStates(0);
-//
-//    while (MotorRunState != MOTOR_STOPPED || motor.HlfbState() != MotorDriver::HLFB_ASSERTED) 
-//    {              
-//      
-//      detectHomeSensorState();
-//      detectMotorStates(0);
-//          
-//      continue;
-//    }
-//    
-//    // Then slows down to 3200 pulses/sec until clamping into the hard stop
-//    motor.MoveVelocity(-3200);
-//    // Delay so HLFB has time to deassert
-////    delay(10);
-//    // Waits for HLFB to assert again, meaning the hardstop has been reached
-//    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-//        continue;
-//    }
-//    // Stop the velocity move now that the hardstop is reached
-//    motor.MoveStopAbrupt();
-//    motor.PositionRefSet(0);
-//    Serial.println("Homed - UserSeeksHome(), triggered by HLFB assertion (hardstop)");
-//
-//    return;
-//}
-//    // Move away from the hard stop. Any move away from the hardstop will
-//    // conclude the homing sequence.
-//    motor.Move(-1000);
-//
-//    //Repeat, but much slower to prevent blade deflection
-//    motor.MoveVelocity(500);
-//    // Delay so HLFB has time to deassert
-//    delay(10);
-//    // Waits for HLFB to assert again, meaning the hardstop has been reached
-//    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-//        continue;
-//    }
-//    // Stop the velocity move now that the hardstop is reached
-//    motor.MoveStopAbrupt();
-//    // Zero the motor's reference position after homing to allow for accurate
-//    // absolute position moves
-//    motor.PositionRefSet(0);
-//    // Move away from the hard stop. Any move away from the hardstop will
-//    // conclude the homing sequence.
-//    motor.Move(-1000);
-//    LoadPosition = 1000;
-
-
-//    // Delay so HLFB has time to deassert
-//    Delay_ms(10);
-//    // Waits for HLFB to assert, meaning homing is complete
-//    Serial.println("Moving away from hardstop... Waiting for motor");
-//    while (motor.HlfbState() != MotorDriver::HLFB_ASSERTED) {
-//        continue;
-//    }
-//    Serial.println("Homing Complete. Motor Ready.");
-//    
-//    return;
-//}
