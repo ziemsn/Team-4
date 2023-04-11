@@ -139,7 +139,6 @@ void setup() {
     Serial.println("Genie attached"); 
   }
   resetMotor();
-  //HomeMotor();
 
   genie.SetForm(0); // Change to Form 0 
   CurrentForm = 0;
@@ -153,7 +152,6 @@ void loop() {
 
   //Need to keep monitoring both home sensor and blade states
   detectMotorStates(CutPosition);
-//  detectHomeSensorState();
   detectBladeState();
 
   genie.DoEvents(); // This calls the library each loop to process the queued responses from the display
