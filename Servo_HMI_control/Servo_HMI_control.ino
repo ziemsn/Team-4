@@ -7,15 +7,16 @@ R.B. Annis School of Engineering
 This is the most up-to-date version of the program that controls the ClearCore, Clearpath, and 4DSystems display.
 Controls display interactions and user I/O
 Controls servo motion
+Reads data from limit switches
 Processes user input to move a bolt clamp according to the requested cut length
 
-This program is intended for testing only
 Setup:
   Using Arduino IDE, compile and upload this program onto a Teknic Clearcore. 
   ***Make sure to have the Teknic libraries and board installed through their respective managers.
   Physical requirements:
     Clearcore Controller
     Clearpath Motor
+    Limit switches mounted on clamp/bandsaw
     4D Systems Display
     Appropriate power and data cables
     Respective power supplies (24VDC for Clearcore, 75VDC for Clearpath)
@@ -24,7 +25,7 @@ Setup:
   ***This requires a programming cable and the ClearPath MSP software
   
   Connect motor to port labelled "M0" on the Clearcore
-  4D systems display to COM1
+  4D systems display to COM1 via cat5 or better ethernet cable.
   Homing probe to A-9
   Bandsaw limit switch to DI-6
 
@@ -43,10 +44,7 @@ Genie genie;
 // This must be done using both the Arduino wrapper "Serialx" and ClearCore library "ConnectorCOMx"
 // because both interfaces are used below
 
-//#define SerialPort Serial0    // ClearCore UART Port, connected to 4D Display COM0
 #define SerialPort Serial1      // ClearCore UART Port, connected to 4D Display COM1
-
-//#define CcSerialPort ConnectorCOM0 // ClearCore UART Port, connected to 4D Display COM0
 #define CcSerialPort ConnectorCOM1   // ClearCore UART Port, connected to 4D Display COM1
 
 //----------------------------------------------------------------------------------------
@@ -67,7 +65,7 @@ int MotorProgInputRes = 6400;         // Motor Programmed Input Resolution (Chan
 int SecondsInMinute = 60;             // Seconds in a minute
 
 
-//Stored Variables
+//Stored Variables and defaults
 int MoveDist = 0;
 int MoveDistLast = 0;
 bool fault = false;
@@ -78,15 +76,15 @@ int UserDist = 0;
 double UnitMM = 1262.5341530055;
 double UnitIN = 32068.2636347956;
 double UnitFactor = 1262.5341530055;  //Default: Millimeters to steps
-int LengthMin = 116.5*1262.5341530055;            //Offset to account for clamp depth and distance from blade
+int LengthMin = 116.5*UnitMM;            //Offset to account for clamp depth and distance from blade
 int LengthMax = 350000;               //Length in steps from blade
 bool UserUnits = true;
 String Units = "Millimeters";         //Default Units
-char RangeText[100] = "sup";
+char RangeText[100] = "test";
 int UnitMin = 120; //Default: millimeters, ~5inches
-int UnitMax = 1;
+int UnitMax = 150;
 
-//Genie Form Item indeces
+//Genie Form Item indeces - These correspond to internal labels for the genie objects
 int DistGenieNum = 0;
 int StartProcessGenieNum = 0;
 int faultLEDGenieNum = 0;
