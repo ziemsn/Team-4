@@ -3,7 +3,7 @@
 //#constant OLDCOMPILE
 
 
-// generated 3/30/2023 12:13:12 PM
+// generated 4/13/2023 4:00:30 PM
 // uSDRequired:- 1   InternalRequired:- 1
 
 #MODE FLASHBANK_1
@@ -15,7 +15,6 @@
 
 #inherit "HMI-ControlConst.inc"
 
-#inherit "CLPrintStrings.inc"
 
 
 #constant IPDatasize 22
@@ -168,11 +167,10 @@
     WRITE_LABEL     12
 
 // End P1.inc
-    nObjects        37
-    nInputs         22
+    nObjects        38
+    nInputs         25
     nAniTimers      0
     nKeyboards      1
-    nStrings        1
 #END
 
 #CONST
@@ -295,21 +293,25 @@ endfunc
     word gfxInternals -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, gfx_Switch, -1, -1, -1, -1, -1, -1, -1, -1, -1
     word gfxIntParms -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
     word gfxIntStrings -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
-    word oiviSwitch vISwitch0
-    word xobj2iiobj 0x3A00
-    word xobj2iobj 0x3A00
+    word oiviSwitch vISwitch0, vISwitch1
+    word xobj2iiobj 0x3A00, 0x3A01
+    word xobj2iobj 0x3A00, 0x3A01
     word IISwitch0 344, 88, 136, 35, 0x0, PINK, BLACK, 4, 3, DARKRED, 0x3186,
         CnISwitch0, CfISwitch0, 2, 1, WHITE, RED
     byte CnISwitch0 "Inches",0 
     byte CfISwitch0 "Millimeters",0 
+    word IISwitch1 332, 92, 136, 35, 0x0, PINK, BLACK, 4, 3, DARKRED, 0x3186,
+        CnISwitch1, CfISwitch1, 2, 1, WHITE, RED
+    byte CnISwitch1 "Inches",0 
+    byte CfISwitch1 "Millimeters",0 
     word FormStartIndex 0, 1, 11, 13, 16, 18, 21
-    word FormEndIndex 1, 11, 13, 16, 18, 21, 37
+    word FormEndIndex 1, 11, 13, 16, 18, 21, 38
     word iFormStartIndex 0, 0, 1, 1, 1, 1, 1
-    word iFormEndIndex 0, 1, 1, 1, 1, 1, 1
+    word iFormEndIndex 0, 1, 1, 1, 1, 1, 2
     word iiFormStartIndex 0, 0, 1, 1, 1, 1, 1
-    word iiFormEndIndex 0, 1, 1, 1, 1, 1, 1
-    word InputControls -1, 0, 44, 88, -1, -1, -1, -1, -1, -1, -1, 176, -1, 220, 264, -1, -1, 308, 352, 396, -1, 440, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 440
-    word InternalInputControls 132
+    word iiFormEndIndex 0, 1, 1, 1, 1, 1, 2
+    word InputControls -1, 0, 44, 88, -1, -1, -1, -1, -1, -1, -1, 198, -1, 242, 286, -1, -1, 330, 374, 418, -1, 462, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 462
+    word InternalInputControls 132, 506
     word InputData tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 22, 2,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 66, 4,
@@ -317,41 +319,42 @@ endfunc
                 tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 110, 6,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
                 tiSwitch, 1, 344, 479, 1, -1, -1, -1, 0, 154, 2,
+                OT_SETANOTHER, 58, 1, 0, 18, 0, 0, 0, 0, 176, 1,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 198, 8,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 220, 8,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 242, 10,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 264, 10,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 286, 12,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 308, 12,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 330, 14,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 352, 14,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 374, 16,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 396, 16,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 418, 18,
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 440, 18,
                 OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8,
-                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 462, 20,
-                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9
-    word iStrings0  Strings0StartH, Strings0StartL, Strings0Size, 8, 19, 287, 38, WHITE, BLACK, 0, 1, 0, 6 
+                tWinButton, 1, -1, -1, -1, -1, -1, -1, 0, 484, 20,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+                tiSwitch, 1, 332, 467, 1, -1, -1, -1, 0, 528, 4,
+                OT_REPORT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
     word oDipSwitchs 0
     word oWinButtons 10, iWinbutton0, iWinbutton1, iWinbutton2, iWinbutton3, iWinbutton4, iWinbutton5, iWinbutton6, iWinbutton7, iWinbutton8, iWinbutton9
     word oForms 7, -1, -1, -1, -1, -1, -1, -1
     word oImages 1, iImage0
     word oKeyboards 1, iKeyboard0
     word oLeddigitss 2, iLeddigits0, iLeddigits1
-    word oStringss 1, iStrings0
     word oUserleds 1, iUserled0
-    word oStaticTexts 10, iStatictext0, iStatictext1, iStatictext2, iStatictext3, iStatictext4, iStatictext5, -1, iStatictext7, -1, iStatictext9
-    word oiSwitchs 1, IISwitch0
+    word oStaticTexts 10, iStatictext0, iStatictext1, iStatictext2, iStatictext3, iStatictext4, iStatictext5, iStatictext6, iStatictext7, -1, iStatictext9
+    word oiSwitchs 2, IISwitch0, IISwitch1
     word FormBGcolors 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
     word kKeyboardKeystrokes iKeyboard0keystrokes
     word rKeyboardRoutines SendReport
-    word oLedDigitsn 0, 6, 3, 32, 0,
-                292, 6, 3, 30, 0
+    word oLedDigitsn 0, 5, 3, 32, 0,
+                322, 5, 3, 30, 0
 #END
 
     var vISwitch0[WIDGET_RAM_SPACE] ;
-var stringsCV[1] := [0], hstrings ;
+    var vISwitch1[WIDGET_RAM_SPACE] ;
 var dKeyboard[1], ActiveKeyboard ;
 // Start P2.inc
 var vObjects[MaxIntObjects+1] ;              // address of RAM objects
@@ -437,8 +440,6 @@ func ReadObject(var ObjectType, var ObjectIdx)
         k := CurrentForm ;
     else if ((ObjectType == tCustomdigits) || (ObjectType == tLeddigits))
         k := img_GetWord(hndl, *j, IMAGE_TAG2);
-    else if (ObjectType == tStrings)
-        k := stringsCV[ObjectIdx];
         else
         k := img_GetWord(hndl, *j, IMAGE_INDEX);
         if (((ObjectType == tWinButton) || (ObjectType == tAniButton) || (ObjectType == tUserButton) || (ObjectType == t4Dbutton)) && (k)) k := 1 ; // this is not correct for blocked buttons and cannot be fixed as we cannot
@@ -497,10 +498,6 @@ func WriteObject(var ObjectType, var ObjectIdx, var NewVal)
         if (ObjectType == tLeddigits)
             img_SetWord(hndl, i , IMAGE_TAG2, NewVal); // where state is 0 to 2
             ledDigitsDisplay(i, oLeddigitss, oLedDigitsn) ;
-            return ;
-        endif 
-        if (ObjectType == tStrings)
-            PrintStrings(ObjectIdx, NewVal, 0);
             return ;
         endif 
             img_SetWord(hndl, i , IMAGE_INDEX, NewVal); // where state is 0 to 2
@@ -628,11 +625,6 @@ print([HEX4] gfxInternals, " ", [HEX4] gfx_AngularMeter, " ", [HEX4] gfx_Gauge, 
         endif
     next
 
-    for (i := 0; i < nStrings; i++)
-        if (stringsCV[i] != -1)
-            WriteObject(tStrings, i, stringsCV[i]) ;
-        endif
-    next
 
 endfunc
 
@@ -686,14 +678,6 @@ func UpdateObjects(var newval)
                         WriteObject(*(otherOBJ+Ofs_IPD_P5),*(otherOBJ+Ofs_IPD_P2),img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX)+1) ;
                     endif
                     newval := img_GetWord(hndl, *(otherOBJ+Ofs_IPD_P6), IMAGE_INDEX) ;
-                else if (*(otherOBJ) == OT_PREVSTRING)
-                    if (stringsCV[*(otherOBJ+Ofs_IPD_P2)])
-                        WriteObject(tStrings,*(otherOBJ+Ofs_IPD_P2),stringsCV[*(otherOBJ+Ofs_IPD_P2)]-1) ;
-                    endif
-                else if (*(otherOBJ) == OT_NEXTSTRING)
-                    if (stringsCV[*(otherOBJ+Ofs_IPD_P2)] < *(otherOBJ+Ofs_IPD_P3)) // fix IPD_P2 not filled in yet
-                        WriteObject(tStrings,*(otherOBJ+Ofs_IPD_P2),stringsCV[*(otherOBJ+Ofs_IPD_P2)]+1) ;
-                    endif
                 endif
             endif
             IPidx := *(otherOBJ+TouchState) ;
@@ -723,9 +707,9 @@ func main()
         wend
     endif
 
-//    if (file_CheckUpdate("HMI-CO~1.4xe", CHECKUPDATE_QUERY) == CHECKUPDATE_NEWFILE)
+//    if (file_CheckUpdate("HMI-CO~2.4xe", CHECKUPDATE_QUERY) == CHECKUPDATE_NEWFILE)
 //        putstr("Program will now update") ;
-//        file_CheckUpdate("HMI-CO~1.4xe", CHECKUPDATE_UPDATENEWER) ;
+//        file_CheckUpdate("HMI-CO~2.4xe", CHECKUPDATE_UPDATENEWER) ;
 //    endif
 //    gfx_MoveTo(0, 0);
 //    print(mem_Heap()," ") ;
@@ -734,7 +718,7 @@ func main()
 
 
     // open image control
-    hndl := file_LoadImageControl("HMI-CO~1.dat", "HMI-CO~1.gci", 1);
+    hndl := file_LoadImageControl("HMI-CO~2.dat", "HMI-CO~2.gci", 1);
 
 
     // init 'constants'
@@ -757,7 +741,7 @@ func main()
     oObjects[tLed] := oDipSwitchs ; // dummy as no object there
     oObjects[tLeddigits] := oLeddigitss ;
     oObjects[tMeter] := oDipSwitchs ; // dummy as no object there
-    oObjects[tStrings] := oStringss ;
+    oObjects[tStrings] := oDipSwitchs ; // dummy as no object there
     oObjects[tThermometer] := oDipSwitchs ; // dummy as no object there
     oObjects[tUserled] := oUserleds ;
     oObjects[tVideo] := oDipSwitchs ; // dummy as no object there
@@ -808,11 +792,10 @@ func main()
     oObjects[tiSliderC] := oDipSwitchs ; // dummy as no object there
     oObjects[tiLinearInput] := oDipSwitchs ; // dummy as no object there
     vObjects[19] := oiviSwitch ;
-    hFonts[0] := file_LoadImageControl("HMI-CO~1.d01", "HMI-CO~1.g01", 1)  ;
     dKeyboard[0] := oKeyboard0 ;
 // Start P4.inc
-    wp := widget_Create(1) ;
-    for (i := 0; i < 1; i++)
+    wp := widget_Create(2) ;
+    for (i := 0; i < 2; i++)
 	addressInternalWidget(i, 0) ;
         if (GObjectType != tiLedDigit) widget_Add(wp, i, GObjectRAM) ;    // don't add tiLedDigit objects as they are only 1 word long
 //        if (GObjectType == tiLabelB)			// code to cause 'early' allocation of 'buffer' storage in LabelB widgets
@@ -821,7 +804,6 @@ func main()
 //        endif
     next
 
-    hstrings := file_Open("HMI-CO~1.txf", 'r') ; // Open handle to access uSD strings, uncomment if required
     // init comms
     com_Init(comRX,CMDLenMAX,0);
     com_SetBaud(COM0,960);
@@ -870,56 +852,8 @@ func main()
         if (com_Count() != 0)
             i := serin() ;
             InputCS ^= i ;               // update checksum
-            if (   (cmdi > 2)
-                && (cmd[0] == WRITE_STRU) )
-                j := (cmdi-1) >> 1 + 2 ;
-                if (j == CMDLenMAX)    // max length exceeded
-                    nak0() ;
-                    cmdi := -1 ;
-                else if (cmdi & 1)
-                    cmd[j] := i ;
-                    if (cmd[2] == 0)    // if string complete
-                        if (InputCS)
-                            nak0() ;
-                        else
-                            if (cmd[0] == WRITE_STRU)
-                            cmd[j] := 0 ;                     // terminate it
-                            PrintStrings(cmd[1], &cmd[3], 1) ;
-                            serout(ACK) ;
-                            else
-                            endif
-                        endif
-                        cmdi := -1 ;
-                    endif
-                else
-                    cmd[j] := cmd[j] << 8 + i ;
-                    cmd[2]-- ;          // dec length
-                endif
-                cmdi++ ;
-            else // not unicode string
                 cmd[cmdi++] := i ;
-                 if ((cmd[0] == WRITE_STR) || (cmd[0] == WRITE_LABEL) )                  // Ansi String or Label
-                    if (cmdi == CMDLenMAX)      // max length exceeded
-                        nak0() ;
-                        cmdi := 0 ;
-                    else if (cmdi > 2)
-                        if (cmd[2] == -1)
-                            if (InputCS)
-                                nak0() ;
-                            else
-                                if ((cmd[0] == WRITE_STR) || (cmd[0] == WRITE_LABEL))
-                                cmd[cmdi-1] := 0 ;                     // terminate it
-                                PrintStrings(cmd[1], &cmd[3], 1) ;
-                                serout(ACK) ;
-                                else
-                                endif
-                            endif
-                            cmdi := 0 ;
-                        else
-                            cmd[2]-- ;          // dec length
-                        endif
-                    endif
-                else if (   (cmd[0] == READ_OBJ)
+                 if (   (cmd[0] == READ_OBJ)
                          && (cmdi == 4)         )
                     if (InputCS)
                         nak0() ;
@@ -949,7 +883,6 @@ func main()
                     nak0() ;
                     cmdi := 0 ;
                 endif
-            endif   // not unicode string
         endif   // a character is available
 
 

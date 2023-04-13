@@ -258,7 +258,7 @@ void myGenieEventHandler(void)
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
         // write object
-        genie.WriteObject(GENIE_OBJ_ISWITCH, UnitSwitchNum0, UserUnits);
+        genie.WriteObject(GENIE_OBJ_ISWITCH, UnitSwitchNum1, UserUnits);
         //ON is Inches, Off is millimeters
         Serial.print("Units changed. ");
         if(UserUnits)
@@ -284,7 +284,7 @@ void myGenieEventHandler(void)
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
         // write object
-        genie.WriteObject(GENIE_OBJ_ISWITCH, UnitSwitchNum1, UserUnits);
+        genie.WriteObject(GENIE_OBJ_ISWITCH, UnitSwitchNum0, UserUnits);
         //ON is Inches, Off is millimeters
         Serial.print("Units changed. ");
         if(UserUnits)
