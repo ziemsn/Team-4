@@ -257,6 +257,8 @@ void myGenieEventHandler(void)
       if (Event.reportObject.index == UnitSwitchNum0)                         //the index of the Main Screen UnitSelect Switch 
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
+        // write object
+        genie.WriteObject(GENIE_OBJ_ISWITCH, UnitSwitchNum0, UserUnits);
         //ON is Inches, Off is millimeters
         Serial.print("Units changed. ");
         if(UserUnits)
@@ -281,6 +283,8 @@ void myGenieEventHandler(void)
       }else if (Event.reportObject.index == UnitSwitchNum1)                 //the index of the Edit Screen UnitSelect Switch
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
+        // write object
+        genie.WriteObject(GENIE_OBJ_ISWITCH, UnitSwitchNum1, UserUnits);
         //ON is Inches, Off is millimeters
         Serial.print("Units changed. ");
         if(UserUnits)
