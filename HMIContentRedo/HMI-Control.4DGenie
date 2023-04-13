@@ -243,7 +243,7 @@ iSwitch
     SwitchBevel                  3
     Top                          88
     Width                        136
-    OnChanged                    'Report Message'
+    OnChanged                    ISwitch1Set
 end
 LedDigits
     Name                         Leddigits0
@@ -955,5 +955,5 @@ iSwitch
     SwitchBevel                  3
     Top                          88
     Width                        136
-    OnChanged                    ''
+    OnChanged                    ISwitch0Set
 end
