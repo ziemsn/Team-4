@@ -371,7 +371,7 @@ UserLed
     PaletteEx.Low2               BLACK
     Top                          227
     Width                        125
-    OnChanged                    ''
+    OnChanged                    'Report Message'
 end
 Form
     Name                         Form2
@@ -955,5 +955,5 @@ iSwitch
     SwitchBevel                  3
     Top                          88
     Width                        136
-    OnChanged                    ISwitch0Set
+    OnChanged                    'Report Message'
 end
