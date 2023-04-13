@@ -918,7 +918,7 @@ Strings
     Alias                        Strings0
     Alignment                    Left
     BGcolor                      BLACK
-    Height                       20
+    Height                       50
     FGcolor                      WHITE
     Font.Bold                    No
     Font.CharSet                 Unicode
@@ -928,10 +928,32 @@ Strings
     Font.Size                    -10
     Font.Strikethrough           No
     Font.Underline               No
-    Left                         8
-    Strings                      'Enter values between 120 and 300 Miliimeters\n'
-    StringsStyle                 Message
-    Top                          19
+    Left                         4
+    Strings                      'Enter values between 120 and 300 Miliimeters\n                               or\nEnter Values between 4.724 and 11.811 Inches\n'
+    StringsStyle                 Book
+    Top                          0
     Width                        280
+    OnChanged                    ''
+end
+iSwitch
+    Name                         ISwitch1
+    Alias                        ISwitch1
+    BevelMainColor               PINK
+    BevelShadowColor             BLACK
+    ContainerBevel               4
+    FontSize                     1
+    Font                         FONT2
+    Height                       35
+    Left                         344
+    OFFColor                     0x303030
+    OFFLabel                     Millimeters
+    OFFLabelColor                RED
+    ONColor                      DARKRED
+    ONLabel                      Inches
+    ONLabelColor                 WHITE
+    Orientation                  Horizontal
+    SwitchBevel                  3
+    Top                          88
+    Width                        136
     OnChanged                    ''
 end
