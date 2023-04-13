@@ -456,11 +456,11 @@ void myGenieEventHandler(void)
           sumTemp = atoi(keyvalue);                                       // Convert the array into a number
           if (DigitsToEdit == 5)                                          // If we are dealing with a parameter which takes a 5 digit number
           {
-            if(sumTemp > UnitMax)
+            if(sumTemp > UnitMax)                                         // If entered value is above maximum length, default to maximum length
             {
               sumTemp = UnitMax;
             }
-            if(sumTemp < UnitMin)
+            if(sumTemp < UnitMin)                                         // If entered value is below minimum length, default to minimum length
             {
               sumTemp = UnitMin;
             }
