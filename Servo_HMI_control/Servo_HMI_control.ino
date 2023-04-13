@@ -73,16 +73,15 @@ int NextForm = 0;
 int CutPosition = 0;
 int PositionTarget = 0;
 int UserDist = 0;
-double UnitMM = 1262.5341530055;
-double UnitIN = 32068.2636347956;
-double UnitFactor = 1262.5341530055;  //Default: Millimeters to steps
-int LengthMin = 116.5*UnitMM;            //Offset to account for clamp depth and distance from blade
-int LengthMax = 550000;               //Length in steps from blade
+float UnitMM = 1262.5341530055;
+float UnitIN = 32068.2636347956;
+float UnitFactor = UnitMM;  //Default: Millimeters to steps
+float LengthMin = 116.5*UnitMM;         //Offset to account for clamp depth and distance from blade
+float LengthMax = 550000;               //Length in steps from blade
 bool UserUnits = true;
 String Units = "Millimeters";         //Default Units
-char RangeText[100] = "test";
-int UnitMin = 120; //Default: millimeters, ~5inches
-int UnitMax = 150;
+float UnitMin = LengthMin/UnitMM; //Minimum length in millimeters, updated later
+float UnitMax = LengthMax/UnitMM; //Maximum length in millimeters, updated later
 
 //Genie Form Item indeces - These correspond to internal labels for the genie objects
 int DistGenieNum = 0;
@@ -103,7 +102,6 @@ int FinishedCuttingGenieNum = 6;
 int CutSameGenieNum = 7;
 int NewCutGenieNum = 8;
 
-int EditRangeTextNum = 0;
 int EditInputDigitNum = 1;
 int BackGenieNum = 9;
 int KeypadGenieNum = 0;
@@ -265,20 +263,18 @@ void myGenieEventHandler(void)
         {
           UnitFactor = UnitIN;//Inches to steps
           Units = "Inches";
-          UnitMin = LengthMin/UnitFactor + 0.2;//steps to inches
-          UnitMax = LengthMax/UnitFactor + 0.2;//steps to inches
+          UnitMin = LengthMin/UnitFactor;//steps to inches
+          UnitMax = LengthMax/UnitFactor;//steps to inches
           
         }else
         {
           UnitFactor = UnitMM;//Millimeters to steps
           Units   = "Millimeters";
-          UnitMin = LengthMin/UnitFactor + 3;//steps to mm
-          UnitMax = LengthMax/UnitFactor + 3;//steps to mm
+          UnitMin = LengthMin/UnitFactor;//steps to mm
+          UnitMax = LengthMax/UnitFactor;//steps to mm
         }
         Serial.print(Units);
-        Serial.print(" RangeText: ");
-        sprintf(RangeText, "Enter length between %i and %i %s", UnitMin, UnitMax, Units.c_str());
-        Serial.println(RangeText);
+        
         
       }else if (Event.reportObject.index == UnitSwitchNum1)                 //the index of the Edit Screen UnitSelect Switch
       {
@@ -291,20 +287,18 @@ void myGenieEventHandler(void)
         {
           UnitFactor = UnitIN;//Inches to steps
           Units = "Inches";
-          UnitMin = LengthMin/UnitFactor + 0.2;//steps to inches
-          UnitMax = LengthMax/UnitFactor + 0.2;//steps to inches
+          UnitMin = LengthMin/UnitFactor;//steps to inches
+          UnitMax = LengthMax/UnitFactor;//steps to inches
           
         }else
         {
           UnitFactor = UnitMM;//Millimeters to steps
           Units   = "Millimeters";
-          UnitMin = LengthMin/UnitFactor + 3;//steps to mm
-          UnitMax = LengthMax/UnitFactor + 3;//steps to mm
+          UnitMin = LengthMin/UnitFactor;//steps to mm
+          UnitMax = LengthMax/UnitFactor;//steps to mm
         }
         Serial.print(Units);
-        Serial.print(" RangeText: ");
-        sprintf(RangeText, "Enter length between %i and %i %s", UnitMin, UnitMax, Units.c_str());
-        Serial.println(RangeText);
+        
       }
     
     }
@@ -345,9 +339,8 @@ void myGenieEventHandler(void)
             
             PreviousForm = 1;                                         // Always return to the main screen
             LEDDigitToEdit = DistGenieNum;                     // The LED Digit which will take this edited value
-            DigitsToEdit = 6;                                             // The number of Digits (4 or 5)
+            DigitsToEdit = 5;                                             // The number of Digits (4 or 5)
             genie.WriteObject(GENIE_OBJ_LED_DIGITS, EditInputDigitNum, 0);               // Clear any previous data from the Edit Parameter screen //FIXME
-            genie.WriteStr(EditRangeTextNum, RangeText);
             genie.SetForm(6);                                               // Change to Form 6 - Edit Parameter
             Serial.println("Edit passed");
           }//else alert user something here
@@ -368,7 +361,7 @@ void myGenieEventHandler(void)
             Serial.print(MotorRunState);
             Serial.println(MotorLocationState);
             delay(100);
-            MoveAbsolutePosition(LoadPosition); //Move to Loading position
+            MoveAbsolutePosition((int)LoadPosition); //Move to Loading position
             Serial.println("Start passed");
             // Serial.println(NextForm);
           
@@ -407,7 +400,7 @@ void myGenieEventHandler(void)
             Serial.println(CutPosition);
             Serial.println(UserDist);
             Serial.println(UnitFactor);
-            MoveAbsolutePosition(CutPosition); 
+            MoveAbsolutePosition((int)CutPosition); 
             /*
             Needs to be scaled from user input (Inches/millimeters) to steps
             CutPosition = UserDist*UnitFactor-LengthMin
@@ -485,14 +478,8 @@ void myGenieEventHandler(void)
           sumTemp = atoi(keyvalue);                                       // Convert the array into a number
           if (DigitsToEdit == 5)                                          // If we are dealing with a parameter which takes a 5 digit number
           {
-            if(sumTemp > UnitMax)                                         // If entered value is above maximum length, default to maximum length
-            {
-              sumTemp = UnitMax;
-            }
-            if(sumTemp < UnitMin)                                         // If entered value is below minimum length, default to minimum length
-            {
-              sumTemp = UnitMin;
-            }
+            Serial.println(sumTemp);
+            
             if (sumTemp > 65535)                                          // If the number is > 16 bits (the max a Genie LED Digit can be sent)
             {
               sumTemp = 65535;                                            // Limits the max value that can be typed in on a 5 digit parameter, to be 65535 (16 bit number)
@@ -513,6 +500,18 @@ void myGenieEventHandler(void)
         }
         else if (temp == 13)                                              // Check if 'Enter' Key
         {
+          if(sumTemp > UnitMax*100)                                         // If entered value is above maximum length, default to maximum length
+            {
+              sumTemp = UnitMax*100;
+              Serial.println(sumTemp);
+              Serial.println(UnitMax);        
+            }
+            if(sumTemp < UnitMin*100)                                         // If entered value is below minimum length, default to minimum length
+            {
+              sumTemp = UnitMin*100;
+              Serial.println(sumTemp);
+              Serial.println(UnitMin);
+            }
           int newValue = sumTemp;
           //Serial.println(newValue);                                     // for debug
 
@@ -525,9 +524,6 @@ void myGenieEventHandler(void)
           counter = 0;
 
           UserDist = newValue; 
-          //Need to think of solution for decimals, could add decimal button or force (3 digits, decimal, 2 digits)
-          //Need to add conditional for metric or imperial, and conversion from those to steps. MoveDist has units of steps.
-          
           
           genie.SetForm(PreviousForm);            // Return to the Form which triggered the Keyboard
         }
