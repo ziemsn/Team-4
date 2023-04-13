@@ -90,7 +90,8 @@ int StartProcessGenieNum = 0;
 int faultLEDGenieNum = 0;
 int ClrfaultGenieNum = 1;
 int DistEditGenieNum = 2;
-int UnitSwitchNum = 0;
+int UnitSwitchNum0 = 0;
+int UnitSwitchNum1 = 1;
 
 int StopMotionGenieNum = 3;
 
@@ -253,7 +254,31 @@ void myGenieEventHandler(void)
       /***************************** Form Switch **************************/
         
       //Check for Switch Change
-      if (Event.reportObject.index == UnitSwitchNum)                         //the index of the UnitSelect Switch 
+      if (Event.reportObject.index == UnitSwitchNum0)                         //the index of the Main Screen UnitSelect Switch 
+      {
+        UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
+        //ON is Inches, Off is millimeters
+        Serial.print("Units changed. ");
+        if(UserUnits)
+        {
+          UnitFactor = UnitIN;//Inches to steps
+          Units = "Inches";
+          UnitMin = LengthMin/UnitFactor + 0.2;//steps to inches
+          UnitMax = LengthMax/UnitFactor + 0.2;//steps to inches
+          
+        }else
+        {
+          UnitFactor = UnitMM;//Millimeters to steps
+          Units   = "Millimeters";
+          UnitMin = LengthMin/UnitFactor + 3;//steps to mm
+          UnitMax = LengthMax/UnitFactor + 3;//steps to mm
+        }
+        Serial.print(Units);
+        Serial.print(" RangeText: ");
+        sprintf(RangeText, "Enter length between %i and %i %s", UnitMin, UnitMax, Units.c_str());
+        Serial.println(RangeText);
+        
+      }else if (Event.reportObject.index == UnitSwitchNum1)                 //the index of the Edit Screen UnitSelect Switch
       {
         UserUnits = genie.GetEventData(&Event); //Read the value of the UnitSelect switch
         //ON is Inches, Off is millimeters
