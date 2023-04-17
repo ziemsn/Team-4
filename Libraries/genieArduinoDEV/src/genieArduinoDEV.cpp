@@ -45,17 +45,7 @@
  *    License along with genieArduino.
  *    If not, see <http://www.gnu.org/licenses/>.
  *********************************************************************/
-#if defined (SPARK)
-   #include "application.h"
-   #define lowByte(w) ((uint8_t)((w) & 0xFF))
-   #define highByte(w) ((uint8_t)((w) >> 8))
- #else
-   #if defined(ARDUINO) && ARDUINO >= 100
-     #include "Arduino.h"
-   #else
-     #include "WProgram.h"
-   #endif
- #endif
+#include "Arduino.h"
 
 #include "genieArduinoDEV.h"
 #include "genie_buffer.h"
