@@ -5,11 +5,11 @@ Depends
 end
 Options
     Genie
-    Speed                        115200
+    Speed                        9600
     Checksum                     No
     ResponseSize                 2
     Multidrop                    No
-    Destination                  1
+    Destination                  2
     DestBank                     1
     MainForm                     0
     SndBuf                       0
@@ -63,7 +63,7 @@ Image
     OnTouchReleased              ''
 end
 Form
-    Name                         Form3
+    Name                         Form1
     Alias                        'Main Screen'
     Bgtype                       Color
     Color                        BLACK
@@ -80,8 +80,8 @@ Form
     OnTouchReleased              ''
 end
 StaticText
-    Name                         Statictext17
-    Alias                        Statictext17
+    Name                         Statictext0
+    Alias                        Statictext0
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Main Screen'
@@ -99,8 +99,8 @@ StaticText
     WordWrap                     No
 end
 LedDigits
-    Name                         Leddigits7
-    Alias                        Leddigits7
+    Name                         Leddigits0
+    Alias                        Leddigits0
     Color                        BLACK
     Decimals                     3
     Digits                       6
@@ -118,8 +118,8 @@ LedDigits
     OnTouchReleased              ''
 end
 WinButton
-    Name                         Winbutton9
-    Alias                        Winbutton9
+    Name                         Winbutton0
+    Alias                        Winbutton0
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -166,8 +166,8 @@ WinButton
     OnTouchReleased              ''
 end
 StaticText
-    Name                         Statictext20
-    Alias                        Statictext20
+    Name                         Statictext1
+    Alias                        Statictext1
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Desired Length'
@@ -185,8 +185,8 @@ StaticText
     WordWrap                     No
 end
 StaticText
-    Name                         Statictext28
-    Alias                        Statictext28
+    Name                         Statictext2
+    Alias                        Statictext2
     Alignment                    Left
     AutoSize                     Yes
     Caption                      Fault
@@ -204,9 +204,9 @@ StaticText
     WordWrap                     Yes
 end
 UserLed
-    Name                         Userled1
-    Alias                        Userled1
-    Active                       Yes
+    Name                         Userled0
+    Alias                        Userled0
+    Active                       No
     Bevel.BorderColor            clBtnFace
     Bevel.BorderWidth            0
     Bevel.InnerColor             clBtnFace
@@ -238,10 +238,10 @@ UserLed
 end
 iSwitch
     Name                         ISwitch0
-    Alias                        ISwitch0
-    BevelMainColor               PINK
-    BevelShadowColor             BLACK
-    ContainerBevel               4
+    Alias                        UnitSelect
+    BevelMainColor               GRAY
+    BevelShadowColor             SILVER
+    ContainerBevel               2
     FontSize                     1
     Font                         FONT3
     Height                       35
@@ -256,11 +256,11 @@ iSwitch
     SwitchBevel                  3
     Top                          88
     Width                        130
-    OnChanged                    ''
+    OnChanged                    'Report Message'
 end
 StaticText
-    Name                         Statictext19
-    Alias                        Statictext19
+    Name                         Statictext3
+    Alias                        Statictext3
     Alignment                    Left
     AutoSize                     Yes
     Caption                      Units
@@ -278,8 +278,8 @@ StaticText
     WordWrap                     Yes
 end
 WinButton
-    Name                         Winbutton8
-    Alias                        Winbutton8
+    Name                         Winbutton1
+    Alias                        Winbutton1
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -320,14 +320,14 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          176
     Width                        105
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
 WinButton
-    Name                         Winbutton12
-    Alias                        Winbutton12
+    Name                         Winbutton2
+    Alias                        Winbutton2
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -368,13 +368,13 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          169
     Width                        187
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
 Form
-    Name                         Form5
+    Name                         Form2
     Alias                        EditParams
     Bgtype                       Color
     Color                        BLACK
@@ -415,8 +415,8 @@ Keyboard
     OnChanged                    'Report Message'
 end
 LedDigits
-    Name                         Leddigits18
-    Alias                        Leddigits18
+    Name                         Leddigits1
+    Alias                        Leddigits1
     Color                        BLACK
     Decimals                     3
     Digits                       6
@@ -434,8 +434,8 @@ LedDigits
     OnTouchReleased              ''
 end
 WinButton
-    Name                         Winbutton18
-    Alias                        Winbutton18
+    Name                         Winbutton3
+    Alias                        Winbutton3
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -520,7 +520,7 @@ StaticText
     WordWrap                     Yes
 end
 Form
-    Name                         Form1
+    Name                         Form3
     Alias                        MotorMotion
     Bgtype                       Color
     Color                        BLACK
@@ -537,8 +537,8 @@ Form
     OnTouchReleased              ''
 end
 StaticText
-    Name                         Statictext0
-    Alias                        Statictext0
+    Name                         Statictext6
+    Alias                        Statictext6
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Stay Clear'
@@ -556,8 +556,8 @@ StaticText
     WordWrap                     Yes
 end
 StaticText
-    Name                         Statictext1
-    Alias                        Statictext1
+    Name                         Statictext7
+    Alias                        Statictext7
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Motor in Motion'
@@ -617,7 +617,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          214
     Width                        120
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
@@ -640,8 +640,8 @@ Form
     OnTouchReleased              ''
 end
 StaticText
-    Name                         Statictext2
-    Alias                        Statictext2
+    Name                         Statictext8
+    Alias                        Statictext8
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Raise Saw '
@@ -659,8 +659,8 @@ StaticText
     WordWrap                     Yes
 end
 StaticText
-    Name                         Statictext3
-    Alias                        Statictext3
+    Name                         Statictext9
+    Alias                        Statictext9
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Confirm Bolt Clamped'
@@ -678,8 +678,8 @@ StaticText
     WordWrap                     Yes
 end
 WinButton
-    Name                         Winbutton0
-    Alias                        Winbutton0
+    Name                         Winbutton5
+    Alias                        Winbutton5
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -720,13 +720,13 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          200
     Width                        176
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
 WinButton
-    Name                         Winbutton3
+    Name                         Winbutton6
     Alias                        Main/reset
     Appearance.Alignment         Center
     Appearance.Layout            Left
@@ -768,13 +768,13 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          212
     Width                        120
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
 Form
-    Name                         Form6
+    Name                         Form5
     Alias                        UserStartCutting
     Bgtype                       Color
     Color                        BLACK
@@ -791,8 +791,8 @@ Form
     OnTouchReleased              ''
 end
 StaticText
-    Name                         Statictext18
-    Alias                        Statictext18
+    Name                         Statictext10
+    Alias                        Statictext10
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Begin Cutting Process '
@@ -810,8 +810,8 @@ StaticText
     WordWrap                     Yes
 end
 StaticText
-    Name                         Statictext21
-    Alias                        Statictext21
+    Name                         Statictext11
+    Alias                        Statictext11
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Start Saw'
@@ -829,8 +829,8 @@ StaticText
     WordWrap                     Yes
 end
 WinButton
-    Name                         Winbutton1
-    Alias                        Winbutton1
+    Name                         Winbutton7
+    Alias                        Winbutton7
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -871,13 +871,13 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          168
     Width                        175
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
 Form
-    Name                         Form7
+    Name                         Form6
     Alias                        UserFinish
     Bgtype                       Color
     Color                        BLACK
@@ -894,8 +894,8 @@ Form
     OnTouchReleased              ''
 end
 StaticText
-    Name                         Statictext22
-    Alias                        Statictext22
+    Name                         Statictext12
+    Alias                        Statictext12
     Alignment                    Left
     AutoSize                     Yes
     Caption                      'Please Remove Cut Bolt'
@@ -913,8 +913,8 @@ StaticText
     WordWrap                     Yes
 end
 WinButton
-    Name                         Winbutton2
-    Alias                        Winbutton2
+    Name                         Winbutton8
+    Alias                        Winbutton8
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -955,14 +955,14 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          168
     Width                        149
-    OnChanged                    ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
 end
 WinButton
-    Name                         Winbutton10
-    Alias                        Winbutton10
+    Name                         Winbutton9
+    Alias                        Winbutton9
     Appearance.Alignment         Center
     Appearance.Layout            Left
     Appearance.PictureAlignment  Right
@@ -1003,24 +1003,7 @@ WinButton
     StatusWhenOn.Visible         Yes
     Top                          168
     Width                        149
-    OnChanged                    ''
-    OnTouchMoving                ''
-    OnTouchPressed               ''
-    OnTouchReleased              ''
-end
-Form
-    Name                         Form2
-    Alias                        'Confirm Begin Process'
-    Bgtype                       Color
-    Color                        BLACK
-    Image                        (None)
-    Source.Height                0
-    Source.Left                  0
-    Source.Top                   0
-    Source.Width                 0
-    OnActivate                   ''
-    OnCreate                     ''
-    OnRepeat                     ''
+    OnChanged                    'Report Message'
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
