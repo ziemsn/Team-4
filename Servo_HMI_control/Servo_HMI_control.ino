@@ -36,6 +36,11 @@ Setup:
 #include <genieArduinoDEV.h>
 #include <ClearCore.h>
 
+//
+// User defined parameters. Defaults shown in comment
+float OffsetMM = 116.5; //Current offset is 116.5 MM, measured from back of clamp to blade when homed.
+
+
 
 Genie genie;
 
@@ -76,7 +81,7 @@ int UserDist = 0;
 float UnitMM = 1262.5341530055;
 float UnitIN = 32068.2636347956;
 float UnitFactor = UnitMM;  //Default: Millimeters to steps
-float LengthMin = 116.5*UnitMM;         //Offset to account for clamp depth and distance from blade
+float LengthMin = OffsetMM*UnitMM;         //Offset to account for clamp depth and distance from blade
 float LengthMax = 550000;               //Length in steps from blade
 bool UserUnits = true;
 String Units = "Millimeters";         //Default Units

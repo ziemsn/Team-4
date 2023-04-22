@@ -1,6 +1,10 @@
 /* 
 * This is the header file for the servo controls
 * In short, this allows for motor setup and use based on user interactions 
+* Motor speed can be defined by changing DesiredRPM. This only affects movement towards cutting position. 
+* Homing has its own speed. Recommended maximum: 500 RPM
+* WARNING: Do not exceed the maximum as high speeds are not tested for accuracy or stability
+* Recommended value: 350 RPM or less
 */
 #include "ClearCore.h"
 
@@ -19,6 +23,7 @@ int MotorRunState;
 int MotorLocationState;
 
 int LoadPosition = 250000; //Arbitrary position away from blade, about 200 mm
+int DesiredRPM = 350;
 
 const uint8_t motorChannel = 0;
 const uint8_t encoderChannel = 0;
@@ -37,7 +42,7 @@ void InitMotorParams() {
   // Set the HFLB carrier frequency to 482 Hz
   motor.HlfbCarrier(MotorDriver::HLFB_CARRIER_482_HZ);
   // Sets the maximum velocity for each move
-  motor.VelMax(3.5*6400);//3.5 Revolutions per second
+  motor.VelMax(DesiredRPM*60*6400);//Conversion to Revolutions per second
   // Set the maximum acceleration for each move
   motor.AccelMax(80000);
 
