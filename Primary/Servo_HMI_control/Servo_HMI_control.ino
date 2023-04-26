@@ -38,7 +38,7 @@ Setup:
 
 //
 // User defined parameters. Defaults shown in comment
-float OffsetMM = 116.5; //Current offset is 116.5 MM, measured from back of clamp to blade when homed.
+float OffsetMM = 116.02; //Current offset is 116.11 MM, measured from back of clamp to blade when homed.
 
 
 
@@ -78,8 +78,8 @@ int NextForm = 0;
 int CutPosition = 0;
 int PositionTarget = 0;
 int UserDist = 0;
-float UnitMM = 1262.5341530055;
-float UnitIN = 32068.2636347956;
+float UnitMM = 1256.7739391179;//steps per mm
+float UnitIN = 31921.6922438822;
 float UnitFactor = UnitMM;  //Default: Millimeters to steps
 float LengthMin = OffsetMM*UnitMM;         //Offset to account for clamp depth and distance from blade
 float LengthMax = 550000;               //Length in steps from blade
@@ -328,6 +328,7 @@ void myGenieEventHandler(void)
           {
             if (motor.StatusReg().bit.MotorInFault)                    // Check if there also is a motor shutdown
             {
+              InitMotorParams();
               motor.EnableRequest(false);
               delay(10);
               motor.EnableRequest(true);                               // Cycle the enable to clear the motor fault
